@@ -1,6 +1,6 @@
 import ru.ifmo.se.pokemon.*;
 
-public class Shiftry extends Pokemon {
+public class Shiftry extends Nuzleaf {
     public Shiftry(String name, int level){
         super(name, level);
         super.setType(Type.GRASS, Type.DARK);

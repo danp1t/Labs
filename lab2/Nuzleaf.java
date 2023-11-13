@@ -1,6 +1,6 @@
 import ru.ifmo.se.pokemon.*;
 
-public class Nuzleaf extends Pokemon {
+public class Nuzleaf extends Seedot {
     public Nuzleaf(String name, int level){
         super(name, level);
         super.setType(Type.GRASS, Type.DARK);
