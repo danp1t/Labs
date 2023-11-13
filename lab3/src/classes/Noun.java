@@ -1,6 +1,6 @@
 package classes;
 
-public enum Nouns {
+public enum Noun {
     MALE1(""),
     MALE2("а"),
     MALE3("у"),
@@ -21,7 +21,7 @@ public enum Nouns {
     NEUTER6("е");
 
     public String name;
-    Nouns(String name) {this.name = name;}
+    Noun(String name) {this.name = name;}
 
     public String getName() {
         return name;

@@ -2,10 +2,10 @@ package classes;
 
 import interfaces.Swim;
 
-public class Plants implements Swim {
+public class Plant implements Swim {
     private String name;
 
-    public Plants(String name){
+    public Plant(String name){
         this.name = name;
     }
     public String swim(){
@@ -19,7 +19,7 @@ public class Plants implements Swim {
         if (this == otherObjects) return true;
         if (otherObjects == null) return false;
         if (getClass() != otherObjects.getClass()) return false;
-        Plants other = (Plants) otherObjects;
+        Plant other = (Plant) otherObjects;
         return name.equals(other.name);
 
     }

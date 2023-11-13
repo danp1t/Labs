@@ -1,15 +1,20 @@
 package classes;
 
+import static classes.Guest.isInHouse;
+
 public class House{
     private String owner;
 
-    public House(String owner){
-        this.owner = owner;
+    public House(Person person){
+        this.owner = person.getName();
     }
-    public boolean is_empty(Guests... guests){
+    public String getOwner(){
+        return this.owner;
+    }
+    public boolean isEmpty(House house, Guest... guests){
         boolean flag = false;
-        for (Guests i: guests){
-            if (i.is_in_house()){
+        for (Guest i: guests){
+            if (isInHouse(house, i)){
                 flag = true;
                 break;
             }
@@ -17,23 +22,19 @@ public class House{
         if (flag){return true;}
         else{return false;}
     }
-    public String status_house(Guests... guests){
-        boolean flag = is_empty(guests);
+    public String statusHouse(Guest[] guests, House house){
+        boolean flag = false;
+        for (Guest i: guests){
+            boolean flag1 = isEmpty(house, i);
+            if (flag1) {
+                flag = true;
+                break;}
+        }
+
         if (flag) {return "Дома были гости";}
         else {return  "Дом был пуст.";}
     }
 
-    public String is_furnishings(Things... things){
-        boolean flag = false;
-        int count = 0;
-        for (Things i: things){
-            count++;
-        }
-        if (count > 10){
-            return "Вещей хватит для меблировки гостинной";
-        }
-        else {return "Вещей не хватит для меблировки гостинной";}
-    }
 
     public boolean equals(Object otherObjects){
         if (this == otherObjects) return true;
