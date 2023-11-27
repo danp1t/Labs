@@ -1,5 +1,5 @@
 package interfaces;
 
 public interface Person {
-    String get_name();
+    String getName();
 }

@@ -1,18 +1,18 @@
 package classes;
 import interfaces.Swim;
-public class Thingsswim extends Things implements Swim{
+public class Thingswim extends Thing implements Swim{
     private boolean with_people;
-    public Thingsswim(String name, boolean with_people, boolean is_swimming){
+    public Thingswim(String name, boolean with_people, boolean is_swimming){
         super(name, is_swimming);
         this.with_people = with_people;
     }
-    public boolean get_Is_swimming(){
+    public boolean getIsSwimming(){
         return true;
     }
     public String swim(){
         return "плыли по воде";
     }
-    public String is_status(boolean with_people){
+    public String isStatus(boolean with_people){
         String s = "";
         if (with_people){
             s = "пустая";
@@ -30,7 +30,7 @@ public class Thingsswim extends Things implements Swim{
         if (this == otherObjects) return true;
         if (otherObjects == null) return false;
         if (getClass() != otherObjects.getClass()) return false;
-        Thingsswim other = (Thingsswim) otherObjects;
+        Thingswim other = (Thingswim) otherObjects;
         return with_people == other.with_people;
 
     }

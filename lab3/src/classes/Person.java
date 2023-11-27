@@ -1,27 +1,25 @@
 package classes;
 
-import interfaces.Person;
-
-public class Mumi_mom implements Person {
+public class Person implements interfaces.Person {
     private String name;
     private Tail tail;
     //Конструктор
-    public Mumi_mom(String name){
+    public Person(String name){
         this.name = name;
         this.tail = new Tail(name, true);
 
     }
     //Methods
     //Метод обнять
-    public String hug(Thingsroof... thingsroofs){
-        return this.name + " обнимала на крыше " + (Thingsroof.toString(thingsroofs)).replace("[", "").replace("]", "").toLowerCase();
+    public String hug(Thingroof... thingsroofs){
+        return this.name + " обнимала на крыше " + (Thingroof.toString(thingsroofs)).replace("[", "").replace("]", "").toLowerCase();
     }
     //Метод отодвинуться от моря
-    public String move_away(){
+    public String moveAway(){
         return this.name + " отодвинулась от моря";
     }
     //Метод "не нравится, еcли хвост в воде"
-    public String do_not_like(){
+    public String doNotLike(){
         String s = "";
         boolean status = tail.getStatus(tail);
         if (status){
@@ -30,10 +28,10 @@ public class Mumi_mom implements Person {
         return s;
     }
     //Метод "сидеть"
-    public String sitting_roof(){
+    public String sittingRoof(){
         return "сидеть на крыше";
     }
-    public String get_name(){
+    public String getName(){
         return this.name;
     }
 
@@ -41,7 +39,7 @@ public class Mumi_mom implements Person {
         if (this == otherObjects) return true;
         if (otherObjects == null) return false;
         if (getClass() != otherObjects.getClass()) return false;
-        Mumi_mom other = (Mumi_mom) otherObjects;
+        Person other = (Person) otherObjects;
         return name.equals(other.name) && tail.equals(other.tail);
         
     }
