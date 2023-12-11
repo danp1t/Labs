@@ -58,6 +58,15 @@ public class Main{
         catch (SizeHouseException e){
             System.out.println(e.sendMessage());
         }
+        Person father = new Person("Папа", false){
+            public String moveAway(){
+                return super.getName() + " отодвинулся от моря";
+            }
+            public String hug(Thingroof... thingsroofs){
+                return super.getName() + " обнимал на крыше " + (Thingroof.toString(thingsroofs)).replace("[", "").replace("]", "").toLowerCase();
+            }
+        };
+        System.out.println(father.moveAway());
 
     }
 }
