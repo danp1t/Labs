@@ -29,6 +29,7 @@ public class House{
     public boolean getStatusGhost(){
         return are_there_ghosts;
     }
+
     public Object moveGhost(boolean are_there_ghosts){
         if (!are_there_ghosts) {return "Ничего не потустороннего не происходит";}
         else{

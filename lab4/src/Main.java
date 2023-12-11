@@ -41,7 +41,13 @@ public class Main{
         String str = (cart.isStatus(cart.status()).substring(0, 4)+cart1.getName() + " " + cart.getName().toLowerCase() + ", " + trough.isStatus(trough.status()).substring(0, 4)+trough1.getName() + " " + trough.getName().toLowerCase() + ", " + strollers.getName().toLowerCase() + " " + strollers.isStatus(strollers.status()) + ", " + tanks.getName().toLowerCase() + " " + tanks.isStatus(tanks.status())  + ", " + berths.isStatus(berths.status()).substring(0, 4)+berths1.getName() + " " + berths.getName().toLowerCase() + ", " +  hedges.getName().toLowerCase() + " " + hedges.isStatus(hedges.status()) + " " + hedges.swim());
         System.out.println(str.substring(0, 1).toUpperCase() + str.substring(1));
         int size_things = (Thing.sizeThings(bag, shkatulka, coffeenik, family_album, cart, tanks, trough, strollers, berths, hedges));
+        Thing[] list = {bag, shkatulka, coffeenik, family_album, cart, tanks, trough, strollers, berths, hedges};
         try {
+            for (Thing th : list){
+                if (th.getSize() > Thing.MAXSIZE){
+                    throw new MaxSizeLimitException();
+                }
+            }
             if (house.getSize() < size_things){
                 throw new SizeHouseException();
             }
@@ -56,6 +62,9 @@ public class Main{
             }
         }
         catch (SizeHouseException e){
+            System.out.println(e.sendMessage());
+        }
+        catch (MaxSizeLimitException e){
             System.out.println(e.sendMessage());
         }
         Person father = new Person("Папа", false){
