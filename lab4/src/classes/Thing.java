@@ -1,23 +1,24 @@
 package classes;
 public abstract class Thing {
     private String name;
+    private int size;
     protected boolean is_swimming;
-    public Thing(String name, boolean is_swimming){
+    public Thing(String name, boolean is_swimming, int size){
         this.name = name;
         this.is_swimming = is_swimming;
+        this.size = size;
     }
     public String getName(){return this.name;};
 
     public abstract boolean getIsSwimming();
 
-    public static String isFurnishings(Thing... things){
-        boolean flag = false;
-        int count = things.length;
-        
-        if (count > 10){
-            return "Вещей хватит для меблировки гостинной";
+    public static int sizeThings(Thing... things){
+        int final_size = 0;
+        for (Thing th : things){
+            final_size = th.size + final_size;
         }
-        else {return "Вещей не хватит для меблировки гостинной";}
+        
+        return final_size;
     }
 
 

@@ -2,8 +2,8 @@ package classes;
 import interfaces.Swim;
 public class Thingswim extends Thing implements Swim{
     private boolean with_people;
-    public Thingswim(String name, boolean with_people, boolean is_swimming){
-        super(name, is_swimming);
+    public Thingswim(String name, boolean with_people, boolean is_swimming, int size){
+        super(name, is_swimming, size);
         this.with_people = with_people;
     }
     public boolean getIsSwimming(){
