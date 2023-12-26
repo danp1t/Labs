@@ -2,7 +2,6 @@ import classes.*;
 public class Main{
     public static void main(String[] args){
         Person Mumi_mom = new Person("Муми-мама", false);
-
         Noun bag1 = Noun.FEMALE4;
         Thingroof bag = new Thingroof("Cумка".substring(0, 4) + bag1.getName(), false, 3);
 
