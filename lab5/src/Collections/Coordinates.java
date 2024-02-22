@@ -1,6 +1,6 @@
-package Collection;
+package Collections;
 
 public class Coordinates {
-    private Float x; //Поле не может быть null
+    private double x;
     private Double y; //Поле не может быть null
 }
