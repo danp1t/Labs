@@ -1,5 +1,5 @@
-import Interface.Command;
 import Commands.HelpCommand;
+import Interface.Command;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,7 +16,7 @@ public class Invoker {
             String line = sc.next();
             String[] tokens = line.split(" ");
             Command command = commands.get(tokens[0]);
-            command.execute(tokens);
+            command.execute();
         }
     }
 }
