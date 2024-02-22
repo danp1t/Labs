@@ -7,4 +7,10 @@ public class AddCommand implements Command {
     public void execute() {
         System.out.println("Добавить команду...");
     }
+
+    @Override
+    public String description() {
+        return "добавляет новый элемент в коллекцию";
+    }
+
 }

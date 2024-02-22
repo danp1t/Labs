@@ -7,4 +7,9 @@ public class HistoryCommand implements Command {
     public void execute() {
         System.out.println("История...");
     }
+
+    @Override
+    public String description() {
+        return "выводит последние 13 команд (без их аргументов)";
+    }
 }

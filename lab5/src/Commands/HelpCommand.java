@@ -7,4 +7,9 @@ public class HelpCommand implements Command {
     public void execute() {
         System.out.println("Спасите...");
     }
+
+    @Override
+    public String description() {
+        return "выводит справку по доступным командам";
+    }
 }

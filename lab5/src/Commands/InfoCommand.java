@@ -7,4 +7,9 @@ public class InfoCommand implements Command {
     public void execute() {
         System.out.println("Информация о коллекции");
     }
+
+    @Override
+    public String description() {
+        return "выводит в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)";
+    }
 }

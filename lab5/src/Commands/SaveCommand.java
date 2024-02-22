@@ -7,4 +7,9 @@ public class SaveCommand implements Command {
     public void execute() {
         System.out.println("Сохранить коллекцию в файл");
     }
+
+    @Override
+    public String description() {
+        return "сохраняет коллекцию в файл";
+    }
 }

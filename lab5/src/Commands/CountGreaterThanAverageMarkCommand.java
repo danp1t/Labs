@@ -7,4 +7,9 @@ public class CountGreaterThanAverageMarkCommand implements Command {
     public void execute() {
         System.out.println("Имена что-то там");
     }
+
+    @Override
+    public String description() {
+        return "выводит количество элементов, значение поля averageMark которых больше заданного";
+    }
 }

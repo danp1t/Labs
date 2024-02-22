@@ -7,4 +7,9 @@ public class AddIfMaxCommand implements Command {
     public void execute(){
         System.out.println("Что-то с максимальным элементом");
     }
+
+    @Override
+    public String description() {
+        return "добавляет новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции";
+    }
 }

@@ -8,4 +8,9 @@ public class FilterContainsNameCommand implements Command {
     public void execute() {
         System.out.println("Фильтр...");
     }
+
+    @Override
+    public String description() {
+        return "выводит элементы, значение поля name которых содержит заданную подстроку";
+    }
 }

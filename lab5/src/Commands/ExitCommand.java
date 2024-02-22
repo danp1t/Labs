@@ -7,4 +7,9 @@ public class ExitCommand implements Command {
     public void execute() {
         System.out.println("Выход...");
     }
+
+    @Override
+    public String description() {
+        return "завершает программу (без сохранения в файл)";
+    }
 }
