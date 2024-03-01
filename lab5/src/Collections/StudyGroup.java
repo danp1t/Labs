@@ -10,4 +10,51 @@ public class StudyGroup {
     private FormOfEducation formOfEducation; //Поле может быть null
     private Semester semesterEnum; //Поле может быть null
     private Person groupAdmin; //Поле не может быть null
+
+    //Конструктор
+    public StudyGroup(String name, Coordinates coordinates, Integer studentsCount, Double averageMark, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin){
+        this.name = name;
+        this.coordinates = coordinates;
+        this.studentsCount = studentsCount;
+        this.averageMark = averageMark;
+        this.formOfEducation = formOfEducation;
+        this.semesterEnum = semesterEnum;
+        this.groupAdmin = groupAdmin;
+    }
+
+    //Генератор id
+
+    //Генератор текущей даты
+
+    //Проверка на валидность
+    public boolean validate(){
+        if (id <= 0){
+            return false;
+        }
+        if (name == "" || name == null){
+            return false;
+        }
+        if (coordinates == null){
+            return false;
+        }
+        if (creationDate == null){
+            return false;
+        }
+        if (studentsCount <= 0 || studentsCount == null){
+            return false;
+        }
+        if (averageMark <= 0 || averageMark == null){
+            return false;
+        }
+        if (formOfEducation == null){
+            return false;
+        }
+        if (semesterEnum == null){
+            return false;
+        }
+        if (groupAdmin == null){
+            return false;
+        }
+        return true;
+    }
 }
