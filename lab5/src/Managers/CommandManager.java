@@ -2,6 +2,7 @@ package Managers;
 
 import Interface.Command;
 
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ public class CommandManager {
 
     //Конструктор
     private Map<String, Command> commands;
+    private ArrayDeque<Command> history_list = new ArrayDeque<>(13);
     public CommandManager(){
         Map<String, Command> commands = new HashMap<>();
         commands.put("help", new Commands.HelpCommand());
@@ -33,5 +35,18 @@ public class CommandManager {
 
     public Map<String, Command> get_commands(){
         return commands;
+    }
+
+    public void add_command_in_history(Command command){
+        history_list.addLast(command);
+        if (history_list.size() > 13){
+            history_list.removeFirst();
+        }
+
+    };
+    public void get_history(){
+        for (Command element : history_list) {
+            System.out.println(element);
+        }
     }
 }

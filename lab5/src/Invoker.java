@@ -15,6 +15,7 @@ public class Invoker {
             String line = sc.next();
             String[] tokens = line.split(" ");
             Command command = commands.get_commands().get(tokens[0]);
+            commands.add_command_in_history(commands.get_commands().get(tokens[0]));
             command.execute();
         }
     }

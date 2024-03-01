@@ -57,4 +57,40 @@ public class StudyGroup {
         }
         return true;
     }
+
+    public int getID(){
+        return id;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public Coordinates getCoordinates(){
+        return coordinates;
+    }
+
+    public java.time.LocalDateTime getCreationDate(){
+        return creationDate;
+    }
+
+    public Integer getStudentsCount(){
+        return studentsCount;
+    }
+    public Double getAverageMark(){
+        return averageMark;
+    }
+
+    public FormOfEducation getFormOfEducation(){
+        return formOfEducation;
+    }
+
+    public Semester getSemesterEnum(){
+        return semesterEnum;
+    }
+
+    public Person getGroupAdmin(){
+        return groupAdmin;
+    }
 }
+
