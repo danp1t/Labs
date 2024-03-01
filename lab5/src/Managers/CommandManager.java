@@ -1,5 +1,6 @@
 package Managers;
 
+import Commands.HistoryCommand;
 import Interface.Command;
 
 import java.util.ArrayDeque;
@@ -10,7 +11,7 @@ public class CommandManager {
 
     //Конструктор
     private Map<String, Command> commands;
-    private ArrayDeque<Command> history_list = new ArrayDeque<>(13);
+    public static ArrayDeque<Command> history_list = new ArrayDeque<>(13);
     public CommandManager(){
         Map<String, Command> commands = new HashMap<>();
         commands.put("help", new Commands.HelpCommand());
@@ -44,9 +45,5 @@ public class CommandManager {
         }
 
     };
-    public void get_history(){
-        for (Command element : history_list) {
-            System.out.println(element);
-        }
-    }
+
 }
