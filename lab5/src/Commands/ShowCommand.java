@@ -12,4 +12,9 @@ public class ShowCommand implements Command {
     public String description() {
         return "выводит в стандартный поток вывода все элементы коллекции в строковом представлении";
     }
+
+    @Override
+    public String get_name_command() {
+        return "show";
+    }
 }

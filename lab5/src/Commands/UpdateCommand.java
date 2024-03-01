@@ -12,4 +12,10 @@ public class UpdateCommand implements Command {
     public String description() {
         return "обновляет значение элемента коллекции, id которого равен заданному";
     }
+
+    @Override
+    public String get_name_command() {
+        return "update id {element}";
+    }
 }
+

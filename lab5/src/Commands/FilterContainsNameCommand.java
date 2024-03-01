@@ -13,4 +13,10 @@ public class FilterContainsNameCommand implements Command {
     public String description() {
         return "выводит элементы, значение поля name которых содержит заданную подстроку";
     }
+
+    @Override
+    public String get_name_command() {
+        return "filter_contains_name name";
+    }
 }
+

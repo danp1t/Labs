@@ -13,4 +13,8 @@ public class AddCommand implements Command {
         return "добавляет новый элемент в коллекцию";
     }
 
+    @Override
+    public String get_name_command() {
+        return "add {element}";
+    }
 }

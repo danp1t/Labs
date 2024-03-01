@@ -12,4 +12,9 @@ public class HistoryCommand implements Command {
     public String description() {
         return "выводит последние 13 команд (без их аргументов)";
     }
+
+    @Override
+    public String get_name_command() {
+        return "history";
+    }
 }

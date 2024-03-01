@@ -12,4 +12,9 @@ public class ExecuteCommand implements Command {
     public String description() {
         return "считывает и исполняет скрипт из указанного файла";
     }
+
+    @Override
+    public String get_name_command() {
+        return "execute_script file_name";
+    }
 }

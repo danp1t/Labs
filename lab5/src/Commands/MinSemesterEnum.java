@@ -12,4 +12,9 @@ public class MinSemesterEnum implements Command {
     public String description() {
         return "выводит любой объект из коллекции, значение поля semesterEnum которого является минимальным";
     }
+
+    @Override
+    public String get_name_command() {
+        return "min_by_semester_enum";
+    }
 }

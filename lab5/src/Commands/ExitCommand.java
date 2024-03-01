@@ -13,4 +13,10 @@ public class ExitCommand implements Command {
     public String description() {
         return "завершает программу (без сохранения в файл)";
     }
+
+    @Override
+    public String get_name_command() {
+        return "exit";
+    }
 }
+
