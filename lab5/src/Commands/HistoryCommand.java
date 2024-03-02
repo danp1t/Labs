@@ -16,7 +16,6 @@ public class HistoryCommand implements Command {
 
 
     }
-
     @Override
     public String description() {
         return "выводит последние 13 команд (без их аргументов)";

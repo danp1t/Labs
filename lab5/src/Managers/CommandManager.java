@@ -1,6 +1,7 @@
 package Managers;
 
 import Commands.HistoryCommand;
+import Exceptions.CommandNotFound;
 import Interface.Command;
 
 import java.util.ArrayDeque;
@@ -38,7 +39,7 @@ public class CommandManager {
         return commands;
     }
 
-    public void add_command_in_history(Command command){
+    public void add_command_in_history(Command command) {
         history_list.addLast(command);
         if (history_list.size() > 13){
             history_list.removeFirst();
