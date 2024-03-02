@@ -1,6 +1,7 @@
 import org.example.Exceptions.CommandNotFound;
 import org.example.Exceptions.CtrlDException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 import org.example.Managers.CommandManager;
 import java.io.IOException;
 import java.util.Scanner;
@@ -9,6 +10,8 @@ public class Invoker {
     public static void main(String[] argv) throws IOException {
 
         CommandManager commands = new CommandManager();
+        CollectionManager collection = new CollectionManager("/home/danp1t/github/Labs/lab5/src/main/java/org/example/Files/Collection.json");
+
         Scanner sc = new Scanner(System.in);
 
         while (sc.hasNext()) {
