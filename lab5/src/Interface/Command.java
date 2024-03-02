@@ -1,7 +1,5 @@
 package Interface;
 
-import Exceptions.CommandNotFound;
-
 public interface Command {
     void execute();
     String description();

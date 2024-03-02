@@ -1,8 +1,7 @@
 package Collections;
 
 public enum EyeColor {
-    BLACK,
+    BLUE,
     ORANGE,
     WHITE,
-    BROWN;
 }

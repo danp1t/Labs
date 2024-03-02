@@ -2,8 +2,6 @@ package Commands;
 import Interface.Command;
 import Managers.CommandManager;
 
-import java.util.Map;
-
 public class HelpCommand implements Command {
     //Написать программу для исполнения команды help
     @Override

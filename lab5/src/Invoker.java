@@ -2,20 +2,14 @@ import Exceptions.CommandNotFound;
 import Exceptions.CtrlDException;
 import Interface.Command;
 import Managers.CommandManager;
-
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Invoker {
     public static void main(String[] argv) throws IOException {
 
-
         CommandManager commands = new CommandManager();
-
-
         Scanner sc = new Scanner(System.in);
-
-
 
         while (sc.hasNext()) {
             String line = sc.next();
@@ -32,7 +26,6 @@ public class Invoker {
             catch (CommandNotFound e){
                 System.out.println(e.send_message());
             }
-
         }
 
         try {

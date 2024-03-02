@@ -3,8 +3,6 @@ package Commands;
 import Interface.Command;
 import Managers.CommandManager;
 
-import java.lang.reflect.Field;
-
 public class HistoryCommand implements Command {
 
     @Override

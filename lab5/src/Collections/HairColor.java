@@ -1,8 +1,8 @@
 package Collections;
 
 public enum HairColor {
-    BLUE,
+    BLACK,
     ORANGE,
-    WHITE;
-
+    WHITE,
+    BROWN;
 }
