@@ -10,6 +10,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 
 public class CollectionManager {
 
@@ -25,27 +26,25 @@ public class CollectionManager {
     public JSONArray read_json_file(){
         try {
             JSONArray json_file = (JSONArray) new JSONParser().parse(new FileReader(fileName));
-            for (int i = 0; i < json_file.size(); i++){
-                JSONObject object = (JSONObject) json_file.get(i);
-                System.out.println(object);
-
-                //int id = (int) object.get("id");
-                //String name = (String) object.get("name");
-
-                //Реализовать toString для Coordinates
-                //Coordinates coordinates = (Coordinates) object.get("coordinates");
-                //System.out.println(coordinates);
-            }
-
             return json_file;
-    
         } catch (IOException | ParseException e) {
             System.out.println("Ошибка в команде show");}
         return null;
     }
+
+//    public HashSet get_HashSet(){
+//        json_file = read_json_file();
+//        for (int i = 0; i < json_file.size(); i++){
+//            JSONObject object = (JSONObject) json_file.get(i);
+//        }
+//
+//        return json_file;
+//
+//    }
     public String beatiful_output_json(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json_string = gson.toJson(read_json_file());
+//        System.out.println(json_file);
         return json_string;
     }
 }
