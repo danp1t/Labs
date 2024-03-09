@@ -37,5 +37,24 @@
       "eyeColor": "BLUE",
       "hairColor": "BROWN"
     }
+  },
+  {
+    "id": 3,
+    "name": "Loli",
+    "coordinates": {
+      "x": 1222.12,
+      "y": 1232.232
+    },
+    "creationDate": "2024-03-03",
+    "studentsCount": 8,
+    "averageMark": 4.2,
+    "formOfEducation": "EVENING_CLASSES",
+    "semesterEnum": "SIXTH",
+    "groupAdmin": {
+      "name": "Denis",
+      "birthday": "2002-05-12",
+      "eyeColor": "BLUE",
+      "hairColor": "BROWN"
+    }
   }
 ]

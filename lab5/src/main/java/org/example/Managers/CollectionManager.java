@@ -9,6 +9,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -86,7 +87,15 @@ public class CollectionManager {
         return group_array;
     }
 
-
+    public void save_hashSet_to_file() {
+        String json_string = beatiful_output_json();
+        try(FileWriter fileWriter = new FileWriter("/home/danp1t/github/Labs/lab5/src/main/java/org/example/Files/Collection.json")) {
+            fileWriter.write(json_string);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
 
     public HashSet get_HashSet(){
