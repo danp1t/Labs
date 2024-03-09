@@ -91,7 +91,9 @@ public class CollectionManager {
 
     public HashSet get_HashSet(){
         HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
-        json_file = read_json_file();
+        if (json_file == null){
+            json_file = read_json_file();
+        }
         for (int i = 0; i < json_file.size(); i++){
             JSONObject object = (JSONObject) json_file.get(i);
 
@@ -152,6 +154,10 @@ public class CollectionManager {
         return studyGroups;
     }
 
+    public void clear_hashSet(){
+        json_file = new JSONArray();
+        System.out.println(json_file);
+    }
     public Set print_HashSet(){
         HashSet<StudyGroup> studyGroups = get_HashSet();
         Set<StudyGroup> sortedGroups = new TreeSet<StudyGroup>(studyGroups);
@@ -160,8 +166,6 @@ public class CollectionManager {
 
     public String beatiful_output_json(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(parse_hashset_to_json());
-        System.out.println(read_json_file());
         String json_string = gson.toJson(parse_hashset_to_json());
         return json_string;
     }
