@@ -7,7 +7,7 @@
       "y": 1432.232
     },
     "creationDate": "2024-03-02",
-    "integerCount": 10,
+    "studentsCount": 10,
     "averageMark": 4.1,
     "formOfEducation": "FULL_TIME_EDUCATION",
     "semesterEnum": "SECOND",
@@ -27,7 +27,7 @@
       "y": 132.232
     },
     "creationDate": "2024-03-03",
-    "integerCount": 12,
+    "studentsCount": 12,
     "averageMark": 4.4,
     "formOfEducation": "EVENING_CLASSES",
     "semesterEnum": "SIXTH",

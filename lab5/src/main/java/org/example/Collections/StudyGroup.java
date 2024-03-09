@@ -21,6 +21,18 @@ public class StudyGroup {
         this.semesterEnum = semesterEnum;
         this.groupAdmin = groupAdmin;
     }
+    public StudyGroup(int id, String name, Coordinates coordinates, java.time.LocalDateTime creationDate, Integer studentsCount, Double averageMark, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin){
+        this.id = id;
+        this.name = name;
+        this.coordinates = coordinates;
+        this.creationDate = creationDate;
+        this.studentsCount = studentsCount;
+        this.averageMark = averageMark;
+        this.formOfEducation = formOfEducation;
+        this.semesterEnum = semesterEnum;
+        this.groupAdmin = groupAdmin;
+    }
+
 
     //Генератор id
 
