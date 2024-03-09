@@ -9,6 +9,7 @@ public class ShowCommand implements Command {
         System.out.println("Все элементы коллекции в строковом представлении");
         CollectionManager collectionManager = new CollectionManager();
         System.out.println(collectionManager.beatiful_output_json());
+        collectionManager.print_HashSet();
     }
 
     @Override

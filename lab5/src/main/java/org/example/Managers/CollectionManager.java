@@ -8,17 +8,18 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.management.ObjectName;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
+import java.util.*;
 
 public class CollectionManager {
 
     public String fileName;
-    public static JSONArray json_file;
+    private static JSONArray json_file;
     //Конструктор
     public CollectionManager(String fileName){
         this.fileName = fileName;
@@ -98,6 +99,14 @@ public class CollectionManager {
         }
 
         return studyGroups;
+    }
+
+    public void print_HashSet(){
+        HashSet<StudyGroup> studyGroups = get_HashSet();
+        List<StudyGroup> sortedGroups = new ArrayList<>(studyGroups);
+        Collections.sort(sortedGroups);
+        System.out.println(sortedGroups);
+
     }
 
     public String beatiful_output_json(){

@@ -1,6 +1,6 @@
 package org.example.Collections;
 
-public class StudyGroup {
+public class StudyGroup implements Comparable<StudyGroup> {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -103,6 +103,27 @@ public class StudyGroup {
 
     public Person getGroupAdmin(){
         return groupAdmin;
+    }
+
+    @Override
+    public String toString() {
+        return "StudyGroup{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates.toString() +
+                ", creationDate=" + creationDate +
+                ", studentsCount=" + studentsCount +
+                ", averageMark=" + averageMark +
+                ", formOfEducation=" + formOfEducation +
+                ", semesterEnum=" + semesterEnum +
+                ", groupAdmin=" + groupAdmin.toString() +
+                '}';
+    }
+
+
+    @Override
+    public int compareTo(StudyGroup o) {
+        return this.getStudentsCount() - o.getStudentsCount();
     }
 }
 
