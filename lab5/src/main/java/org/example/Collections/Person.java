@@ -29,6 +29,22 @@ public class Person {
         return true;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
+    public java.time.LocalDate getBirthday(){
+        return this.birthday;
+    }
+
+    public EyeColor getEyeColor(){
+        return this.eyeColor;
+    }
+
+    public HairColor getHairColor(){
+        return this.hairColor;
+    }
+
     @Override
     public String toString() {
         return "Person{" +

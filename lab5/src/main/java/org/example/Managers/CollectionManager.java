@@ -8,7 +8,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javax.management.ObjectName;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -35,6 +34,58 @@ public class CollectionManager {
             System.out.println("Ошибка в команде show");}
         return null;
     }
+
+    public JSONArray parse_hashset_to_json(){
+        Set<StudyGroup> studyGroups = print_HashSet();
+        JSONArray group_array = new JSONArray();
+        for (StudyGroup sg : studyGroups){
+            JSONObject group = new JSONObject();
+
+            //Разборка коллекции на составляющие
+            int id = sg.getID();
+            String name = sg.getName();
+            Coordinates coordinates = sg.getCoordinates();
+            double x = coordinates.get_x();
+            Double y = coordinates.get_y();
+            String creationDate = sg.getCreationDate().toString();
+            Integer studentsCount = sg.getStudentsCount();
+            Double averageMark = sg.getAverageMark();
+            FormOfEducation formOfEducation = sg.getFormOfEducation();
+            Semester semesterEnum = sg.getSemesterEnum();
+            Person groupAdmin = sg.getGroupAdmin();
+            String name_person = groupAdmin.getName();
+            String birthday = groupAdmin.getBirthday().toString();
+            EyeColor eyeColor = groupAdmin.getEyeColor();
+            HairColor hairColor = groupAdmin.getHairColor();
+
+            group.put("id", id);
+            group.put("name", name);
+
+            //Создание объекта для координат
+            JSONObject coordinates_json = new JSONObject();
+            coordinates_json.put("x", x);
+            coordinates_json.put("y", y);
+            group.put("coordinates", coordinates_json);
+
+            group.put("creationDate", creationDate);
+            group.put("studentsCount", studentsCount);
+            group.put("averageMark", averageMark);
+            group.put("formOfEducation", formOfEducation);
+            group.put("semesterEnum", semesterEnum);
+
+            //Создание объекта для старосты
+            JSONObject admin = new JSONObject();
+            admin.put("name", name_person);
+            admin.put("birthday", birthday);
+            admin.put("eyeColor", eyeColor);
+            admin.put("hairColor", hairColor);
+            group.put("groupAdmin", admin);
+
+            group_array.add(group);
+        }
+        return group_array;
+    }
+
 
 
 
@@ -101,18 +152,17 @@ public class CollectionManager {
         return studyGroups;
     }
 
-    public void print_HashSet(){
+    public Set print_HashSet(){
         HashSet<StudyGroup> studyGroups = get_HashSet();
-        List<StudyGroup> sortedGroups = new ArrayList<>(studyGroups);
-        Collections.sort(sortedGroups);
-        System.out.println(sortedGroups);
-
+        Set<StudyGroup> sortedGroups = new TreeSet<StudyGroup>(studyGroups);
+        return sortedGroups;
     }
 
     public String beatiful_output_json(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json_string = gson.toJson(read_json_file());
-//        System.out.println(json_file);
+        System.out.println(parse_hashset_to_json());
+        System.out.println(read_json_file());
+        String json_string = gson.toJson(parse_hashset_to_json());
         return json_string;
     }
 }

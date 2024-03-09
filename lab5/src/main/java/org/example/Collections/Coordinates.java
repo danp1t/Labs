@@ -17,6 +17,13 @@ public class Coordinates {
         return true;
     }
 
+    public double get_x(){
+        return this.x;
+    }
+
+    public Double get_y(){
+    return this.y;
+    }
     @Override
     public String toString() {
         return "Coordinates{" +
