@@ -19,7 +19,7 @@ import java.util.*;
 
 public class CollectionManager {
 
-    public String fileName;
+    public static String fileName;
     private static String createDateHashSet;
     private static JSONArray json_file;
     public static HashSet<StudyGroup> study_groups;
@@ -30,7 +30,7 @@ public class CollectionManager {
     public CollectionManager(){
         this.fileName = "/home/danp1t/github/Labs/lab5/src/main/java/org/example/Files/Collection.json";
     }
-    public JSONArray read_json_file(){
+    public static JSONArray read_json_file(){
         try {
             JSONArray json_file = (JSONArray) new JSONParser().parse(new FileReader(fileName));
             return json_file;
@@ -39,7 +39,7 @@ public class CollectionManager {
         return null;
     }
 
-    public JSONArray parse_hashset_to_json(){
+    public static JSONArray parse_hashset_to_json(){
         Set<StudyGroup> studyGroups = print_HashSet();
         JSONArray group_array = new JSONArray();
         for (StudyGroup sg : studyGroups){
@@ -48,7 +48,7 @@ public class CollectionManager {
         return group_array;
     }
 
-    public JSONObject parse_studyGroup_to_json(StudyGroup group){
+    public static JSONObject parse_studyGroup_to_json(StudyGroup group){
 
         JSONObject group_object = new JSONObject();
         //Разборка коллекции на составляющие
@@ -95,7 +95,7 @@ public class CollectionManager {
     }
 
 
-    public void save_hashSet_to_file() {
+    public static void save_hashSet_to_file() {
         String json_string = beatiful_output_json();
         try(FileWriter fileWriter = new FileWriter("/home/danp1t/github/Labs/lab5/src/main/java/org/example/Files/Collection.json")) {
             fileWriter.write(json_string);
@@ -105,7 +105,7 @@ public class CollectionManager {
         }
     }
 
-    public String print_min_by_semester_enum() {
+    public static String print_min_by_semester_enum() {
         if (study_groups == null){get_HashSet();}
         HashSet hashSet = study_groups;
         Semester min_semester = Semester.SIXTH;
@@ -125,17 +125,18 @@ public class CollectionManager {
                 } else if (min_semester == Semester.SIXTH && group_semester == Semester.FIFTH) {
                     min_semester = group_semester;
                     min_group = group;
-                } else if (min_semester == Semester.SIXTH && group == null) {
+                } else if (min_semester == Semester.SIXTH && min_group == null) {
                     min_group = group;
                 }
             }
+
             return beatiful_output_element_json(parse_studyGroup_to_json(min_group));
         } catch (EmptyCollectionException e) {
             return e.send_message();
         }
     }
 
-    public void get_HashSet(){
+    public static void get_HashSet(){
         HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
         if (json_file == null){
             json_file = read_json_file();
@@ -203,13 +204,13 @@ public class CollectionManager {
         createDateHashSet = formattedDateTime;
     }
 
-    public void clear_hashSet(){
+    public static void clear_hashSet(){
         //Очистка HashSet
         if (study_groups == null) {get_HashSet();}
         study_groups.clear();
         System.out.println("Коллекция очищена");
     }
-    public Set print_HashSet(){
+    public static Set print_HashSet(){
         if (study_groups == null){
             get_HashSet();
         }
@@ -219,21 +220,21 @@ public class CollectionManager {
         return sortedGroups;
     }
 
-    public String print_info_HashSet(){
+    public static String print_info_HashSet(){
         if (study_groups == null) {get_HashSet();}
         return "Тип: " + study_groups.getClass() + "\n" +
-                "Дата инициализации: " + this.createDateHashSet + "\n" +
+                "Дата инициализации: " + createDateHashSet + "\n" +
                 "Количество элементов: " + study_groups.size() + "\n" +
                 "Множество пустое: " + study_groups.isEmpty();
     }
 
-    public String beatiful_output_json(){
+    public static String beatiful_output_json(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json_string = gson.toJson(parse_hashset_to_json());
         return json_string;
     }
 
-    public String beatiful_output_element_json(JSONObject object){
+    public static String beatiful_output_element_json(JSONObject object){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json_string = gson.toJson(object);
         return json_string;

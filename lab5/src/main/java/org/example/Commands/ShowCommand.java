@@ -3,13 +3,15 @@ package org.example.Commands;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import static org.example.Managers.CollectionManager.beatiful_output_json;
+import static org.example.Managers.CollectionManager.parse_hashset_to_json;
+
 public class ShowCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Все элементы коллекции в строковом представлении");
-        CollectionManager collectionManager = new CollectionManager();
-        System.out.println(collectionManager.beatiful_output_json());
-        collectionManager.parse_hashset_to_json();
+        System.out.println(beatiful_output_json());
+        parse_hashset_to_json();
     }
 
     @Override

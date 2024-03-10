@@ -1,14 +1,14 @@
 package org.example.Commands;
 
 import org.example.Interface.Command;
-import org.example.Managers.CollectionManager;
+
+import static org.example.Managers.CollectionManager.print_info_HashSet;
 
 public class InfoCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Информация о коллекции");
-        CollectionManager collectionManager = new CollectionManager();
-        System.out.println(collectionManager.print_info_HashSet());
+        System.out.println(print_info_HashSet());
     }
 
     @Override
