@@ -3,7 +3,6 @@ package org.example.Commands;
 import org.example.Collections.Person;
 import org.example.Collections.StudyGroup;
 import org.example.Interface.Command;
-import org.example.Managers.CollectionManager;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.history_list;
