@@ -103,38 +103,33 @@ public class CollectionManager {
         }
     }
 
-    public String print_min_by_semester_enum(){
+    public String print_min_by_semester_enum() {
         HashSet hashSet = get_HashSet();
         Semester min_semester = Semester.SIXTH;
         StudyGroup min_group = null;
+
         try {
-            if (hashSet.size() == 0){
+            if (hashSet.size() == 0) {
                 throw new EmptyCollectionException();
             }
-            System.out.println(1);
-            for (Object element : hashSet){
+            for (Object element : hashSet) {
                 StudyGroup group = (StudyGroup) element;
                 Semester group_semester = group.getSemesterEnum();
 
                 if (group_semester == Semester.SECOND) {
-                    min_semester = group_semester;
                     min_group = group;
                     break;
-                }
-                else if (min_semester == Semester.SIXTH && group_semester == Semester.FIFTH) {
+                } else if (min_semester == Semester.SIXTH && group_semester == Semester.FIFTH) {
                     min_semester = group_semester;
                     min_group = group;
-                }
-                else if (min_semester == Semester.SIXTH && group == null){
+                } else if (min_semester == Semester.SIXTH && group == null) {
                     min_group = group;
                 }
             }
+            return beatiful_output_element_json(parse_studyGroup_to_json(min_group));
+        } catch (EmptyCollectionException e) {
+            return e.send_message();
         }
-
-        catch (EmptyCollectionException e){
-            e.send_message();
-        }
-        return beatiful_output_element_json(parse_studyGroup_to_json(min_group));
     }
 
     public HashSet get_HashSet(){

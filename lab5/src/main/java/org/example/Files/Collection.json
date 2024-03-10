@@ -10,7 +10,7 @@
     "studentsCount": 10,
     "averageMark": 4.1,
     "formOfEducation": "FULL_TIME_EDUCATION",
-    "semesterEnum": "SECOND",
+    "semesterEnum": "FIFTH",
     "groupAdmin": {
       "name": "Ivan",
       "birthday": "2005-05-12",
