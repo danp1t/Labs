@@ -3,6 +3,7 @@ package org.example.Managers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.example.Collections.*;
+import org.example.Exceptions.EmptyCollectionException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -40,52 +41,57 @@ public class CollectionManager {
         Set<StudyGroup> studyGroups = print_HashSet();
         JSONArray group_array = new JSONArray();
         for (StudyGroup sg : studyGroups){
-            JSONObject group = new JSONObject();
-
-            //Разборка коллекции на составляющие
-            int id = sg.getID();
-            String name = sg.getName();
-            Coordinates coordinates = sg.getCoordinates();
-            double x = coordinates.get_x();
-            Double y = coordinates.get_y();
-            String creationDate = sg.getCreationDate().toString();
-            Integer studentsCount = sg.getStudentsCount();
-            Double averageMark = sg.getAverageMark();
-            FormOfEducation formOfEducation = sg.getFormOfEducation();
-            Semester semesterEnum = sg.getSemesterEnum();
-            Person groupAdmin = sg.getGroupAdmin();
-            String name_person = groupAdmin.getName();
-            String birthday = groupAdmin.getBirthday().toString();
-            EyeColor eyeColor = groupAdmin.getEyeColor();
-            HairColor hairColor = groupAdmin.getHairColor();
-
-            group.put("id", id);
-            group.put("name", name);
-
-            //Создание объекта для координат
-            JSONObject coordinates_json = new JSONObject();
-            coordinates_json.put("x", x);
-            coordinates_json.put("y", y);
-            group.put("coordinates", coordinates_json);
-
-            group.put("creationDate", creationDate);
-            group.put("studentsCount", studentsCount);
-            group.put("averageMark", averageMark);
-            group.put("formOfEducation", formOfEducation);
-            group.put("semesterEnum", semesterEnum);
-
-            //Создание объекта для старосты
-            JSONObject admin = new JSONObject();
-            admin.put("name", name_person);
-            admin.put("birthday", birthday);
-            admin.put("eyeColor", eyeColor);
-            admin.put("hairColor", hairColor);
-            group.put("groupAdmin", admin);
-
-            group_array.add(group);
+            group_array.add(parse_studyGroup_to_json(sg));
         }
         return group_array;
     }
+
+    public JSONObject parse_studyGroup_to_json(StudyGroup group){
+
+        JSONObject group_object = new JSONObject();
+        //Разборка коллекции на составляющие
+        int id = group.getID();
+        String name = group.getName();
+        Coordinates coordinates = group.getCoordinates();
+        double x = coordinates.get_x();
+        Double y = coordinates.get_y();
+        String creationDate = group.getCreationDate().toString();
+        Integer studentsCount = group.getStudentsCount();
+        Double averageMark = group.getAverageMark();
+        FormOfEducation formOfEducation = group.getFormOfEducation();
+        Semester semesterEnum = group.getSemesterEnum();
+        Person groupAdmin = group.getGroupAdmin();
+        String name_person = groupAdmin.getName();
+        String birthday = groupAdmin.getBirthday().toString();
+        EyeColor eyeColor = groupAdmin.getEyeColor();
+        HairColor hairColor = groupAdmin.getHairColor();
+
+        group_object.put("id", id);
+        group_object.put("name", name);
+
+        //Создание объекта для координат
+        JSONObject coordinates_json = new JSONObject();
+        coordinates_json.put("x", x);
+        coordinates_json.put("y", y);
+        group_object.put("coordinates", coordinates_json);
+
+        group_object.put("creationDate", creationDate);
+        group_object.put("studentsCount", studentsCount);
+        group_object.put("averageMark", averageMark);
+        group_object.put("formOfEducation", formOfEducation);
+        group_object.put("semesterEnum", semesterEnum);
+
+        //Создание объекта для старосты
+        JSONObject admin = new JSONObject();
+        admin.put("name", name_person);
+        admin.put("birthday", birthday);
+        admin.put("eyeColor", eyeColor);
+        admin.put("hairColor", hairColor);
+        group_object.put("groupAdmin", admin);
+
+        return group_object;
+    }
+
 
     public void save_hashSet_to_file() {
         String json_string = beatiful_output_json();
@@ -97,6 +103,39 @@ public class CollectionManager {
         }
     }
 
+    public String print_min_by_semester_enum(){
+        HashSet hashSet = get_HashSet();
+        Semester min_semester = Semester.SIXTH;
+        StudyGroup min_group = null;
+        try {
+            if (hashSet.size() == 0){
+                throw new EmptyCollectionException();
+            }
+            System.out.println(1);
+            for (Object element : hashSet){
+                StudyGroup group = (StudyGroup) element;
+                Semester group_semester = group.getSemesterEnum();
+
+                if (group_semester == Semester.SECOND) {
+                    min_semester = group_semester;
+                    min_group = group;
+                    break;
+                }
+                else if (min_semester == Semester.SIXTH && group_semester == Semester.FIFTH) {
+                    min_semester = group_semester;
+                    min_group = group;
+                }
+                else if (min_semester == Semester.SIXTH && group == null){
+                    min_group = group;
+                }
+            }
+        }
+
+        catch (EmptyCollectionException e){
+            e.send_message();
+        }
+        return beatiful_output_element_json(parse_studyGroup_to_json(min_group));
+    }
 
     public HashSet get_HashSet(){
         HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
@@ -165,7 +204,7 @@ public class CollectionManager {
 
     public void clear_hashSet(){
         json_file = new JSONArray();
-        System.out.println(json_file);
+        System.out.println("Коллекция очищена");
     }
     public Set print_HashSet(){
         HashSet<StudyGroup> studyGroups = get_HashSet();
@@ -176,6 +215,12 @@ public class CollectionManager {
     public String beatiful_output_json(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json_string = gson.toJson(parse_hashset_to_json());
+        return json_string;
+    }
+
+    public String beatiful_output_element_json(JSONObject object){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json_string = gson.toJson(object);
         return json_string;
     }
 }
