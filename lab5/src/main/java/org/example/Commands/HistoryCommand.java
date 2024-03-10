@@ -8,8 +8,8 @@ public class HistoryCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Последние 13 введенных команд: ");
-        for (Command command : CommandManager.history_list) {
-            System.out.println(command.get_name_command());
+        for (String command : CommandManager.history_list) {
+            System.out.println(command);
         }
 
 

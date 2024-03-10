@@ -1,7 +1,6 @@
 package org.example.Commands;
 
 import org.example.Interface.Command;
-import org.w3c.dom.ls.LSOutput;
 
 public class FilterContainsNameCommand implements Command {
     @Override

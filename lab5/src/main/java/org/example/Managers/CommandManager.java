@@ -4,6 +4,7 @@ import org.example.Commands.*;
 import org.example.Interface.Command;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class CommandManager {
 
     //Конструктор
     private Map<String, Command> commands;
-    public static ArrayDeque<Command> history_list = new ArrayDeque<>(13);
+    public static ArrayDeque<String> history_list = new ArrayDeque<>(13);
     public CommandManager(){
         Map<String, Command> commands = new HashMap<>();
         commands.put("help", new HelpCommand());
@@ -38,12 +39,34 @@ public class CommandManager {
         return commands;
     }
 
+    public boolean is_simple_command(String command){
+        String[] simpleCommand = {"help", "info", "show", "clear", "save", "exit", "history", "min_by_semester_enum"};
+        boolean contains = Arrays.asList(simpleCommand).contains(command);
+        if (contains) {return true;}
+        else {return false;}
+    }
+
     public void add_command_in_history(Command command) {
-        history_list.addLast(command);
+        String name = command.get_name_command();
+        history_list.addLast(name);
         if (history_list.size() > 13){
             history_list.removeFirst();
         }
 
     };
+
+    public void add_command_in_history(String line) {
+        history_list.addLast(line);
+        if (history_list.size() > 13){
+            history_list.removeFirst();
+        }
+    }
+
+//    public void what_command_with_token(String line){
+//        String[] tokens = line.split(" ");
+//        Command command = commands.get(tokens[0]);
+//        command.execute();
+//
+//    }
 
 }

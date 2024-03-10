@@ -15,15 +15,24 @@ public class Invoker {
         Scanner sc = new Scanner(System.in);
 
         while (sc.hasNext()) {
-            String line = sc.next();
+            String line = sc.nextLine();
             String[] tokens = line.split(" ");
             try {
                 Command command = commands.get_commands().get(tokens[0]);
                 if (command == null){
                     throw new CommandNotFound();
                 }
-                commands.add_command_in_history(commands.get_commands().get(tokens[0]));
+                if (commands.is_simple_command(tokens[0])) {
+                    commands.add_command_in_history(commands.get_commands().get(tokens[0]));
+                }
+                else {
+                    commands.add_command_in_history(line);
+                    //commands.what_command_with_token(line);
+
+                }
                 command.execute();
+
+
 
             }
             catch (CommandNotFound e){
