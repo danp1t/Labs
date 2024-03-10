@@ -71,38 +71,38 @@ public class StudyGroup implements Comparable<StudyGroup> {
     }
 
     public int getID(){
-        return id;
+        return this.id;
     }
 
     public String getName(){
-        return name;
+        return this.name;
     }
 
     public Coordinates getCoordinates(){
-        return coordinates;
+        return this.coordinates;
     }
 
     public java.time.LocalDateTime getCreationDate(){
-        return creationDate;
+        return this.creationDate;
     }
 
     public Integer getStudentsCount(){
-        return studentsCount;
+        return this.studentsCount;
     }
     public Double getAverageMark(){
-        return averageMark;
+        return this.averageMark;
     }
 
     public FormOfEducation getFormOfEducation(){
-        return formOfEducation;
+        return this.formOfEducation;
     }
 
     public Semester getSemesterEnum(){
-        return semesterEnum;
+        return this.semesterEnum;
     }
 
     public Person getGroupAdmin(){
-        return groupAdmin;
+        return this.groupAdmin;
     }
 
     @Override

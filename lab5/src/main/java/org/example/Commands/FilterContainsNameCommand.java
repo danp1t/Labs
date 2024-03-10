@@ -12,16 +12,23 @@ public class FilterContainsNameCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Фильтр...");
-        String filter = history_list.getLast().split(" ")[1];
+        if (study_groups == null) {get_HashSet();}
+        boolean flag = false;
+        String filter_name = history_list.getLast().split(" ")[1];
 
         for (StudyGroup group : study_groups){
             String name = group.getName();
             Person admin = group.getGroupAdmin();
             String admin_name = admin.getName();
 
-            if (filter == name || filter == admin_name) {
+            if (filter_name.equals(name) || filter_name.equals(admin_name)) {
                 System.out.println(beatiful_output_element_json(parse_studyGroup_to_json(group)));
+                flag = true;
             }
+
+        }
+        if (!flag) {
+            System.out.println("Ничего с таким именем не было найдено");
         }
     }
 
