@@ -20,7 +20,9 @@ import java.util.*;
 public class CollectionManager {
 
     public String fileName;
+    private static String createDateHashSet;
     private static JSONArray json_file;
+    public static HashSet<StudyGroup> study_groups;
     //Конструктор
     public CollectionManager(String fileName){
         this.fileName = fileName;
@@ -104,7 +106,8 @@ public class CollectionManager {
     }
 
     public String print_min_by_semester_enum() {
-        HashSet hashSet = get_HashSet();
+        if (study_groups == null){get_HashSet();}
+        HashSet hashSet = study_groups;
         Semester min_semester = Semester.SIXTH;
         StudyGroup min_group = null;
 
@@ -132,7 +135,7 @@ public class CollectionManager {
         }
     }
 
-    public HashSet get_HashSet(){
+    public void get_HashSet(){
         HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
         if (json_file == null){
             json_file = read_json_file();
@@ -193,18 +196,35 @@ public class CollectionManager {
             studyGroups.add(group);
 
         }
-
-        return studyGroups;
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        study_groups = studyGroups;
+        createDateHashSet = formattedDateTime;
     }
 
     public void clear_hashSet(){
-        json_file = new JSONArray();
+        //Очистка HashSet
+        if (study_groups == null) {get_HashSet();}
+        study_groups.clear();
         System.out.println("Коллекция очищена");
     }
     public Set print_HashSet(){
-        HashSet<StudyGroup> studyGroups = get_HashSet();
+        if (study_groups == null){
+            get_HashSet();
+        }
+        HashSet<StudyGroup> studyGroups = study_groups;
+
         Set<StudyGroup> sortedGroups = new TreeSet<StudyGroup>(studyGroups);
         return sortedGroups;
+    }
+
+    public String print_info_HashSet(){
+        if (study_groups == null) {get_HashSet();}
+        return "Тип: " + study_groups.getClass() + "\n" +
+                "Дата инициализации: " + this.createDateHashSet + "\n" +
+                "Количество элементов: " + study_groups.size() + "\n" +
+                "Множество пустое: " + study_groups.isEmpty();
     }
 
     public String beatiful_output_json(){
