@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.example.Managers.CollectionManager.create_study_group;
+
 public class CommandManager {
 
     //Конструктор
@@ -46,14 +48,35 @@ public class CommandManager {
         else {return false;}
     }
 
+    public boolean is_command_with_one_arg(String command){
+        String[] commandWithOneArg = {"remove_by_id", "execute_script", "count_greater_than_average_mark", "filter_contains_name"};
+        boolean contains = Arrays.asList(commandWithOneArg).contains(command);
+        if (contains) {return true;}
+        else {return false;}
+    }
+
+    public boolean is_command_with_element(String command){
+        String[] commandWithElement = {"add", "update", "add_if_max", "add_if_min"};
+        boolean contains = Arrays.asList(commandWithElement).contains(command);
+        if (contains) {return true;}
+        else {return false;}
+    }
+
     public void add_command_in_history(Command command) {
         String name = command.get_name_command();
         history_list.addLast(name);
         if (history_list.size() > 13){
             history_list.removeFirst();
         }
-
     };
+    public void processing_element(Command command){
+        String name = command.get_name_command();
+        history_list.addLast(name);
+        if (history_list.size() > 13){
+            history_list.removeFirst();
+        }
+        create_study_group();
+    }
 
     public void add_command_in_history(String line) {
         history_list.addLast(line);

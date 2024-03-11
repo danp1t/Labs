@@ -25,9 +25,14 @@ public class Invoker {
                 if (commands.is_simple_command(tokens[0])) {
                     commands.add_command_in_history(commands.get_commands().get(tokens[0]));
                 }
-                else {
+                else if (commands.is_command_with_one_arg(tokens[0])) {
                     commands.add_command_in_history(line);
                     //commands.what_command_with_token(line);
+                }
+                else if (commands.is_command_with_element(tokens[0])) {
+                    //Можно сделать функцию для ввода коллекции
+                    commands.processing_element(commands.get_commands().get(tokens[0]));
+
 
                 }
                 command.execute();
