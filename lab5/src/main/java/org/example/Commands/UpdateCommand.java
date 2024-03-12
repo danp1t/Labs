@@ -1,12 +1,59 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
+import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
+
+import java.util.HashSet;
+
+import static org.example.Managers.CollectionManager.*;
+import static org.example.Managers.CommandManager.element;
+import static org.example.Managers.CommandManager.history_list;
 
 public class UpdateCommand implements Command {
     @Override
     public void execute() {
-        System.out.println("Обновить значение ячейки из коллекции");
+        try {
+            if (study_groups == null) {get_HashSet();}
+            String arg = history_list.getLast().split(" ")[1];
+            //Перевод из численного в строковый тип
+            int number = 1;
+            boolean flag = false;
+            number = Integer.parseInt(arg);
+            HashSet<StudyGroup> new_study_groups = new HashSet<>();
+            for (StudyGroup group : study_groups) {
+                if (number == group.getID()) {
+                    flag = true;
+                    System.out.println("Коллекция с id: " + number + " найдена.");
+                    System.out.println("Текучие значения указаны в скобках.");
+                    element = group;
+
+                    System.out.println(element);
+                    element = update_study_group();
+                }
+                else {new_study_groups.add(group);}
+            }
+            if (new_study_groups.size() == study_groups.size()) {
+                throw new NotCollectionIDFound();
+            }
+            study_groups = new_study_groups;
+            study_groups.add(element);
+            System.out.println("Коллекция обновлена");
+
+
+        }
+        catch (NumberFormatException e){
+            System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
+        }
+        catch (NotCollectionIDFound e){
+            System.out.println(e.send_message());
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Введите ID элемента");
+        }
     }
+
+
 
     @Override
     public String description() {

@@ -18,6 +18,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+import static org.example.Managers.CommandManager.element;
+
 public class CollectionManager {
 
     public static String fileName;
@@ -561,6 +563,26 @@ public class CollectionManager {
         LocalDateTime creating_data = create_date_creating();
         StudyGroup group = new StudyGroup(id, name, coordinates, creating_data, studentsCount, averageMark, formOfEducation, semester, adminGroup);
         return group;
+    }
 
+    public static StudyGroup update_study_group(){
+        int id = element.getID();
+        System.out.print("(" + element.getName() + ") ");
+        String name = input_name();
+        System.out.print("(" + element.getCoordinates() + ") ");
+        Coordinates coordinates = input_coordinates();
+        System.out.print("(" + element.getStudentsCount() + ") ");
+        Integer studentsCount = input_students_count();
+        System.out.print("(" + element.getAverageMark() + ") ");
+        Double averageMark = input_average_mark();
+        System.out.print("(" + element.getFormOfEducation() + ") ");
+        FormOfEducation formOfEducation = input_form_of_education();
+        System.out.print("(" + element.getSemesterEnum() + ") ");
+        Semester semester = input_semester_enum();
+        System.out.print("(" + element.getGroupAdmin() + ") ");
+        Person adminGroup = input_admin_group();
+        LocalDateTime creating_data = element.getCreationDate();
+        StudyGroup group = new StudyGroup(id, name, coordinates, creating_data, studentsCount, averageMark, formOfEducation, semester, adminGroup);
+        return group;
     }
 }

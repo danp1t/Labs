@@ -6,7 +6,7 @@ import org.example.Managers.CommandManager;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static org.example.Managers.CollectionManager.create_study_group;
+import static org.example.Managers.CollectionManager.*;
 
 public class Invoker {
     public static void main(String[] argv) throws IOException {
@@ -29,13 +29,15 @@ public class Invoker {
                 }
                 else if (commands.is_command_with_one_arg(tokens[0])) {
                     commands.add_command_in_history(line);
-                    //commands.what_command_with_token(line);
                 }
                 else if (commands.is_command_with_element(tokens[0])) {
-                    commands.processing_element(commands.get_commands().get(tokens[0]));
+                    commands.processing_element(commands.get_commands().get(tokens[0]));}
 
-
+                else if (commands.is_command_with_element_and_one_arg(tokens[0])) {
+                    commands.add_command_in_history(line);
                 }
+
+
                 command.execute();
 
 

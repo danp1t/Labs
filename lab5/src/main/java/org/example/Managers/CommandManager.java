@@ -23,7 +23,7 @@ public class CommandManager {
         commands.put("info", new InfoCommand());
         commands.put("show", new ShowCommand());
         commands.put("add", new AddCommand());
-        commands.put("update_id", new UpdateCommand());
+        commands.put("update", new UpdateCommand());
         commands.put("remove_by_id", new RemoveCommand());
         commands.put("clear", new ClearCommand());
         commands.put("save", new SaveCommand());
@@ -58,10 +58,18 @@ public class CommandManager {
     }
 
     public boolean is_command_with_element(String command){
-        String[] commandWithElement = {"add", "update", "add_if_max", "add_if_min"};
+        String[] commandWithElement = {"add", "add_if_max", "add_if_min"};
         boolean contains = Arrays.asList(commandWithElement).contains(command);
         if (contains) {return true;}
         else {return false;}
+    }
+
+    public boolean is_command_with_element_and_one_arg(String command){
+        String[] commandWithElement = {"update"};
+        boolean contains = Arrays.asList(commandWithElement).contains(command);
+        if (contains) {return true;}
+        else {return false;}
+
     }
 
     public void add_command_in_history(Command command) {
@@ -86,12 +94,4 @@ public class CommandManager {
             history_list.removeFirst();
         }
     }
-
-//    public void what_command_with_token(String line){
-//        String[] tokens = line.split(" ");
-//        Command command = commands.get(tokens[0]);
-//        command.execute();
-//
-//    }
-
-}
+    }
