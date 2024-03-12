@@ -1,5 +1,6 @@
 package org.example.Managers;
 
+import org.example.Collections.StudyGroup;
 import org.example.Commands.*;
 import org.example.Interface.Command;
 
@@ -14,6 +15,7 @@ public class CommandManager {
 
     //Конструктор
     private Map<String, Command> commands;
+    public static StudyGroup element;
     public static ArrayDeque<String> history_list = new ArrayDeque<>(13);
     public CommandManager(){
         Map<String, Command> commands = new HashMap<>();
@@ -75,7 +77,7 @@ public class CommandManager {
         if (history_list.size() > 13){
             history_list.removeFirst();
         }
-        create_study_group();
+        element = create_study_group();
     }
 
     public void add_command_in_history(String line) {

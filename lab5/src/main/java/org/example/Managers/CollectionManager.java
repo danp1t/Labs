@@ -246,6 +246,7 @@ public class CollectionManager {
         String name = null;
             while (!flag){
                 try {
+                    System.out.print("Введите имя: ");
                     Scanner sc = new Scanner(System.in);
                     name = sc.nextLine().split(" ")[0];
                     if (name != null && name != ""){
@@ -259,7 +260,7 @@ public class CollectionManager {
                     }
                 }
                 catch (NullFieldException e){
-                    System.out.print(e.send_message());
+                    System.out.println(e.send_message());
                 }
                 catch (EmptyStringFieldException e){
                     System.out.print(e.send_message());
@@ -403,8 +404,8 @@ public class CollectionManager {
         Semester semester = null;
         while (flag) {
             try {
-                System.out.println("Доступные форматы: SECOND, FIFTH, SIXTH");
-                System.out.print("Введите формат обучения: ");
+                System.out.println("Доступные семестры: SECOND, FIFTH, SIXTH");
+                System.out.print("Введите семестр обучения: ");
                 Scanner sc = new Scanner(System.in);
                 String str_semester = sc.nextLine().split(" ")[0];
                 if (str_semester.equals("SECOND")  ||
@@ -504,7 +505,7 @@ public class CollectionManager {
                 System.out.print("Введите цвет волос старосты: ");
                 Scanner sc = new Scanner(System.in);
                 String str_hair_color = sc.nextLine().split(" ")[0];
-                if (str_hair_color.equals("BLUE")  ||
+                if (str_hair_color.equals("BLACK")  ||
                         str_hair_color.equals("ORANGE")  ||
                         str_hair_color.equals("WHITE") ||
                         str_hair_color.equals("BROWN")){
@@ -523,25 +524,43 @@ public class CollectionManager {
         return admin_group;
     }
 
-    public static void create_study_group(){
-        //Нахождение уникального свободного ID
-        //Генерация даты создание коллекции
-        System.out.println("Создание {element}");
-        System.out.print("Введите имя: ");
+    public static int nextID(){
+        if (study_groups == null) {get_HashSet();}
+        ArrayList groups = new ArrayList<>();
+        for (StudyGroup group : study_groups){
+            groups.add(group.getID());
+        }
+        Collections.sort(groups);
+        int nextID = 1;
+        for (Object number : groups) {
+            int new_number = (int) number;
+            if (new_number == nextID) {
+                nextID = nextID + 1;
+            }
+        }
+        return nextID;
+    }
+
+    public static java.time.LocalDateTime create_date_creating(){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        LocalDateTime date_creating = LocalDateTime.parse(formattedDateTime, formatter);
+        return date_creating;
+    }
+
+    public static StudyGroup create_study_group(){
+        int id = nextID();
         String name = input_name();
-        System.out.println(name);
         Coordinates coordinates = input_coordinates();
-        System.out.println(coordinates);
         Integer studentsCount = input_students_count();
-        System.out.println(studentsCount);
         Double averageMark = input_average_mark();
-        System.out.println(averageMark);
         FormOfEducation formOfEducation = input_form_of_education();
-        System.out.println(formOfEducation.name());
         Semester semester = input_semester_enum();
-        System.out.println(semester);
         Person adminGroup = input_admin_group();
-        System.out.println(adminGroup);
+        LocalDateTime creating_data = create_date_creating();
+        StudyGroup group = new StudyGroup(id, name, coordinates, creating_data, studentsCount, averageMark, formOfEducation, semester, adminGroup);
+        return group;
 
     }
 }

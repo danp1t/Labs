@@ -6,6 +6,8 @@ import org.example.Managers.CommandManager;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static org.example.Managers.CollectionManager.create_study_group;
+
 public class Invoker {
     public static void main(String[] argv) throws IOException {
 
@@ -30,7 +32,6 @@ public class Invoker {
                     //commands.what_command_with_token(line);
                 }
                 else if (commands.is_command_with_element(tokens[0])) {
-                    //Можно сделать функцию для ввода коллекции
                     commands.processing_element(commands.get_commands().get(tokens[0]));
 
 
