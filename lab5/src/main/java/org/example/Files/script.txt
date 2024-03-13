@@ -1,5 +1,17 @@
 info
 show
+add
+Danil
+312
+31221
+12
+12.21
+FULL_TIME_EDUCATION
+SIXTH
+jnad
+21.02.2122
+WHITE
+WHITE
 clear
 info
 show
