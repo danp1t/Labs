@@ -24,4 +24,5 @@ jnad
 21.02.2122
 WHITE
 WHITE
+info
 show
