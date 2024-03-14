@@ -4,17 +4,16 @@ import org.example.Collections.StudyGroup;
 import org.example.Commands.*;
 import org.example.Interface.Command;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.example.Managers.CollectionManager.create_study_group;
+import static org.example.Managers.CollectionManager.update_study_group;
 
 public class CommandManager {
 
     //Конструктор
-    private Map<String, Command> commands;
+    public static int status_command = 0;
+    private static Map<String, Command> commands;
     public static StudyGroup element;
     public static ArrayDeque<String> history_list = new ArrayDeque<>(13);
     public CommandManager(){
@@ -79,13 +78,13 @@ public class CommandManager {
             history_list.removeFirst();
         }
     };
-    public void processing_element(Command command){
+    public void processing_element(Command command, Scanner sc, boolean is_user_input){
         String name = command.get_name_command();
         history_list.addLast(name);
         if (history_list.size() > 13){
             history_list.removeFirst();
         }
-        element = create_study_group();
+        element = create_study_group(sc, is_user_input);
     }
 
     public void add_command_in_history(String line) {
@@ -93,5 +92,9 @@ public class CommandManager {
         if (history_list.size() > 13){
             history_list.removeFirst();
         }
+    }
+    public void update_function(Scanner sc, boolean is_user_input) {
+        element = update_study_group(sc, is_user_input);
+
     }
     }

@@ -5,10 +5,10 @@ import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
+import java.util.Scanner;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.element;
-import static org.example.Managers.CommandManager.history_list;
+import static org.example.Managers.CommandManager.*;
 
 public class UpdateCommand implements Command {
     @Override
@@ -29,7 +29,6 @@ public class UpdateCommand implements Command {
                     element = group;
 
                     System.out.println(element);
-                    element = update_study_group();
                 }
                 else {new_study_groups.add(group);}
             }
@@ -44,12 +43,15 @@ public class UpdateCommand implements Command {
         }
         catch (NumberFormatException e){
             System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
+            status_command = -1;
         }
         catch (NotCollectionIDFound e){
             System.out.println(e.send_message());
+            status_command = -1;
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Введите ID элемента");
+            status_command = -1;
         }
     }
 

@@ -26,19 +26,25 @@ public class Invoker {
                 }
                 if (commands.is_simple_command(tokens[0])) {
                     commands.add_command_in_history(commands.get_commands().get(tokens[0]));
+                    command.execute();
                 }
                 else if (commands.is_command_with_one_arg(tokens[0])) {
                     commands.add_command_in_history(line);
+                    command.execute();
                 }
                 else if (commands.is_command_with_element(tokens[0])) {
-                    commands.processing_element(commands.get_commands().get(tokens[0]));}
+                    commands.processing_element(commands.get_commands().get(tokens[0]), sc, true);
+                    command.execute();}
 
                 else if (commands.is_command_with_element_and_one_arg(tokens[0])) {
                     commands.add_command_in_history(line);
+                    command.execute();
+                    commands.update_function(sc, true);
+
                 }
 
 
-                command.execute();
+
 
 
 

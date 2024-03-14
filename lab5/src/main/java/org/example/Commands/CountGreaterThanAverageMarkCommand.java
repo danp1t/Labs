@@ -6,6 +6,7 @@ import org.example.Interface.Command;
 import static org.example.Managers.CollectionManager.get_HashSet;
 import static org.example.Managers.CollectionManager.study_groups;
 import static org.example.Managers.CommandManager.history_list;
+import static org.example.Managers.CommandManager.status_command;
 
 public class CountGreaterThanAverageMarkCommand implements Command {
     @Override
@@ -27,6 +28,7 @@ public class CountGreaterThanAverageMarkCommand implements Command {
         }
         catch (NumberFormatException e){
             System.out.println("Введено некорректное число. Попробуйте еще раз!");
+            status_command = -1;
         }
 
     }
