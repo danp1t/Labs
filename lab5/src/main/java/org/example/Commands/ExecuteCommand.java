@@ -23,7 +23,8 @@ public class ExecuteCommand implements Command {
         //Найти такой файл
         if (study_groups == null) {get_HashSet();}
         String file_name = history_list.getLast().split(" ")[1];
-        String fileName = "/home/danp1t/github/Labs/lab5/src/main/java/org/example/Files/script.txt";
+        String file_dir = System.getenv("FILE_DIR_LAB5");;
+        String fileName = file_dir + file_name;
         try {
             FileReader fr = new FileReader(fileName);
             Scanner scan = new Scanner(fr);
@@ -79,7 +80,7 @@ public class ExecuteCommand implements Command {
 
         }
         catch (IOException e) {
-            System.out.println("Ошибка чтения из файла");
+            System.out.println("Ошибка чтения из файла или файл не был найден");
         }
         catch (CommandNotFound e){
             System.out.println(e.send_message());

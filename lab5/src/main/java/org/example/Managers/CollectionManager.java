@@ -29,11 +29,9 @@ public class CollectionManager {
     public static HashSet<StudyGroup> study_groups;
     public static int counter_input;
     //Конструктор
-    public CollectionManager(String fileName){
-        this.fileName = fileName;
-    }
     public CollectionManager(){
-        this.fileName = "/home/danp1t/github/Labs/lab5/src/main/java/org/example/Files/Collection.json";
+        String path_json = System.getenv("JSON_FILE_LAB5");
+        this.fileName = path_json;
     }
     public static JSONArray read_json_file(){
         try {
@@ -170,7 +168,7 @@ public class CollectionManager {
             Coordinates new_coordinates = new Coordinates(x, y);
 
             //Преобразовать creationDate в нужный тип
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             LocalDateTime new_creationDate = LocalDateTime.parse(creationDate, formatter);
 
             //Преобразовать integerCount

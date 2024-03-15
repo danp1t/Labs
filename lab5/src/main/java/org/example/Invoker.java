@@ -15,7 +15,7 @@ public class Invoker {
     public static void main(String[] argv) throws IOException {
 
         CommandManager commands = new CommandManager();
-        CollectionManager collection = new CollectionManager("/home/danp1t/github/Labs/lab5/src/main/java/org/example/Files/Collection.json");
+        CollectionManager collection = new CollectionManager();
 
         Scanner sc = new Scanner(System.in);
 
