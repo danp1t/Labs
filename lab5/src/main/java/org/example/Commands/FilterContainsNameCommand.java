@@ -4,6 +4,8 @@ import org.example.Collections.Person;
 import org.example.Collections.StudyGroup;
 import org.example.Interface.Command;
 
+import java.util.HashSet;
+
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.history_list;
 /**
@@ -20,17 +22,18 @@ public class FilterContainsNameCommand implements Command {
      */
     @Override
     public void execute() {
+        HashSet<StudyGroup> studyGroups = get_study_groups();
         System.out.println("Фильтр...");
-        if (study_groups == null) {get_HashSet();}
+        if (studyGroups == null) {get_HashSet();
+            studyGroups = get_study_groups();}
         boolean flag = false;
         String filter_name = history_list.getLast().split(" ")[1];
 
-        for (StudyGroup group : study_groups){
+        for (StudyGroup group : studyGroups){
             String name = group.getName();
             Person admin = group.getGroupAdmin();
             String admin_name = admin.getName();
-
-            if (filter_name.equals(name) || filter_name.equals(admin_name)) {
+            if (name.contains(filter_name) || admin_name.contains(filter_name)) {
                 System.out.println(beatiful_output_element_json(parse_studyGroup_to_json(group)));
                 flag = true;
             }

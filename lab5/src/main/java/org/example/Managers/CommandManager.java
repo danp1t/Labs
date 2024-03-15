@@ -63,6 +63,22 @@ public class CommandManager {
     }
 
     /**
+     * Getter для поля status_command
+     * @return значение поля status_command
+     */
+    public static int get_status_command() {
+        return status_command;
+    }
+
+    /**
+     * Setter для поля status_command
+     * @param status устанавливаемый статус команды
+     */
+    public static void set_status_command(int status) {
+        status_command = status;
+    }
+
+    /**
      * Getter для поля commands
      * @return список команд
      */

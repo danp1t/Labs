@@ -3,7 +3,9 @@ package org.example.Commands;
 import org.example.Collections.StudyGroup;
 import org.example.Interface.Command;
 
-import static org.example.Managers.CollectionManager.study_groups;
+import java.util.HashSet;
+
+import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.element;
 
 /**
@@ -20,8 +22,9 @@ public class AddIfMaxCommand implements Command {
     public void execute(){
         //Найти максимальный элемент в коллекции
         System.out.println("Добавить элемент в коллекцию, если количество студентов в новой группе превышает количество людей в любой группе");
+        HashSet<StudyGroup> studyGroups = get_study_groups();
         Integer max_students_count = 0;
-        for (StudyGroup group : study_groups) {
+        for (StudyGroup group : studyGroups) {
             if (max_students_count < group.getStudentsCount()){
                 max_students_count = group.getStudentsCount();
             }
@@ -30,7 +33,8 @@ public class AddIfMaxCommand implements Command {
         //Прочитать элемент
         StudyGroup group = element;
         if (group.getStudentsCount() > max_students_count) {
-            study_groups.add(group);
+            studyGroups.add(group);
+            set_study_groups(studyGroups);
         }
         else {
             System.out.println("Не удалось добавить элемент в коллекцию. Группа не максимальная :(");

@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
 import org.example.Exceptions.CommandNotFound;
 import org.example.Exceptions.NullFieldException;
 import org.example.Exceptions.RecursionLimitException;
@@ -8,6 +9,7 @@ import org.example.Managers.CommandManager;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import static org.example.Managers.CollectionManager.*;
@@ -22,7 +24,7 @@ public class ExecuteCommand implements Command {
     /**
      * Номер строки последней исполненной команды
      */
-    public static int counter_line;
+    private static int counter_line;
     /**
      * Так как функции может в скрипте вызывать саму себя, то нужно ограничить глубину рекурсии
      * Поле содержит максимальную глубину рекурсии
@@ -45,7 +47,9 @@ public class ExecuteCommand implements Command {
         CommandManager commands = new CommandManager();
         System.out.println("Считать и исполнить скрипт из файла");
         //Найти такой файл
-        if (study_groups == null) {get_HashSet();}
+        HashSet<StudyGroup> studyGroups = get_study_groups();
+        if (studyGroups == null) {get_HashSet();
+            studyGroups = get_study_groups();}
         String file_name = history_list.getLast().split(" ")[1];
         String file_dir = System.getenv("FILE_DIR_LAB5");;
         String fileName = file_dir + file_name;

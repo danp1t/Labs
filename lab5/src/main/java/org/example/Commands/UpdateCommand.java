@@ -25,21 +25,25 @@ public class UpdateCommand implements Command {
     @Override
     public void execute() {
         try {
-            if (study_groups == null) {get_HashSet();}
+            HashSet<StudyGroup> studyGroups = get_study_groups();
+            if (studyGroups == null) {get_HashSet();
+                studyGroups = get_study_groups();}
             String arg = history_list.getLast().split(" ")[1];
             int number = 1;
             number = Integer.parseInt(arg);
             HashSet<StudyGroup> new_study_groups = new HashSet<>();
-            for (StudyGroup group : study_groups) {
+            for (StudyGroup group : studyGroups) {
                 if (number != group.getID()) {
                     new_study_groups.add(group);
                 }
             }
-            if (new_study_groups.size() == study_groups.size()) {
+            if (new_study_groups.size() == studyGroups.size()) {
                 throw new NotCollectionIDFound();
             }
-            study_groups = new_study_groups;
-            study_groups.add(element);
+            set_study_groups(new_study_groups);
+            studyGroups = get_study_groups();
+            studyGroups.add(element);
+            set_study_groups(studyGroups);
             System.out.println("Коллекция обновлена");
 
 

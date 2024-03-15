@@ -5,8 +5,7 @@ import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
 import java.util.HashSet;
 
-import static org.example.Managers.CollectionManager.get_HashSet;
-import static org.example.Managers.CollectionManager.study_groups;
+import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.history_list;
 import static org.example.Managers.CommandManager.status_command;
 /**
@@ -23,7 +22,9 @@ public class RemoveCommand implements Command {
      */
     @Override
     public void execute() {
-        if (study_groups == null) {get_HashSet();}
+        HashSet<StudyGroup> studyGroups = get_study_groups();
+        if (studyGroups == null) {get_HashSet();
+            studyGroups = get_study_groups();}
         System.out.println("Удалить элемент из коллекции");
         String arg = history_list.getLast().split(" ")[1];
         int number = 1;
@@ -31,7 +32,7 @@ public class RemoveCommand implements Command {
             number = Integer.parseInt(arg);
             HashSet<StudyGroup> new_study_groups = new HashSet<>();
 
-            for (StudyGroup group : study_groups) {
+            for (StudyGroup group : studyGroups) {
                 if (number == group.getID()) {
                     System.out.println("Коллекция с id: " + number + " удалена.");
                 }
@@ -39,10 +40,10 @@ public class RemoveCommand implements Command {
                     new_study_groups.add(group);
                 }
             }
-            if (new_study_groups.size() == study_groups.size()) {
+            if (new_study_groups.size() == studyGroups.size()) {
                 throw new NotCollectionIDFound();
             }
-            study_groups = new_study_groups;
+            set_study_groups(new_study_groups);
 
         }
         catch (NumberFormatException e){

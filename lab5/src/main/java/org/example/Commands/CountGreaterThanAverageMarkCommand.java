@@ -3,8 +3,9 @@ package org.example.Commands;
 import org.example.Collections.StudyGroup;
 import org.example.Interface.Command;
 
-import static org.example.Managers.CollectionManager.get_HashSet;
-import static org.example.Managers.CollectionManager.study_groups;
+import java.util.HashSet;
+
+import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.history_list;
 import static org.example.Managers.CommandManager.status_command;
 
@@ -22,14 +23,16 @@ public class CountGreaterThanAverageMarkCommand implements Command {
      */
     @Override
     public void execute() {
+        HashSet<StudyGroup> studyGroups = get_study_groups();
         System.out.println("Количество элементов, значение поля averageMark которых больше заданного");
-        if (study_groups == null) {get_HashSet();}
+        if (studyGroups == null) {get_HashSet();
+            studyGroups = get_study_groups();}
         String str_average_mark = history_list.getLast().split(" ")[1];
         Double average_mark;
         try{
             average_mark = Double.parseDouble(str_average_mark);
             int counter = 0;
-            for (StudyGroup group : study_groups){
+            for (StudyGroup group : studyGroups){
                 Double group_average_mark = group.getAverageMark();
                 if (group_average_mark > average_mark) {
                     counter = counter + 1;

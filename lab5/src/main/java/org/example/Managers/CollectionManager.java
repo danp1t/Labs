@@ -39,7 +39,7 @@ public class CollectionManager {
     /**
      * Список учебных групп, которые хранятся в коллекции HashSet
      */
-    public static HashSet<StudyGroup> study_groups;
+    private static HashSet<StudyGroup> study_groups;
     /**
      * Счетчик количества вводов данных для анализа скрипта на ошибки
      */
@@ -51,6 +51,22 @@ public class CollectionManager {
     public CollectionManager(){
         String path_json = System.getenv("JSON_FILE_LAB5");
         this.fileName = path_json;
+    }
+
+    /**
+     * getter для поля study_groups
+     * @return значение поля study_groups
+     */
+    public static HashSet<StudyGroup> get_study_groups () {
+        return study_groups;
+    }
+
+    /**
+     * setter для поля study_groups
+     * @param group
+     */
+    public static void set_study_groups (HashSet<StudyGroup> group){
+        study_groups = group;
     }
 
     /**

@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "studentsCount": 2,
+    "averageMark": 2.21,
+    "groupAdmin": {
+      "birthday": "2012-02-22",
+      "eyeColor": "BLUE",
+      "name": "Olga",
+      "hairColor": "BLACK"
+    },
+    "name": "P3103",
+    "coordinates": {
+      "x": 32.0,
+      "y": 25.0
+    },
+    "id": 1,
+    "formOfEducation": "FULL_TIME_EDUCATION",
+    "creationDate": "2024-03-15T19:08:58",
+    "semesterEnum": "SIXTH"
+  }
+]

@@ -2,7 +2,9 @@ package org.example.Commands;
 
 import org.example.Interface.Command;
 
-import static org.example.Managers.CollectionManager.study_groups;
+import java.util.HashSet;
+
+import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.element;
 
 /**
@@ -16,8 +18,10 @@ public class AddCommand implements Command {
      */
     @Override
     public void execute() {
+        HashSet studyGroup = get_study_groups();
         System.out.println("Группа добавлена!");
-        study_groups.add(element);
+        studyGroup.add(element);
+        set_study_groups(studyGroup);
     }
 
     /**
