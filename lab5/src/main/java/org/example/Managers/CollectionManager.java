@@ -170,8 +170,8 @@ public class CollectionManager {
             Coordinates new_coordinates = new Coordinates(x, y);
 
             //Преобразовать creationDate в нужный тип
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDateTime new_creationDate = LocalDate.parse(creationDate, formatter).atStartOfDay();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            LocalDateTime new_creationDate = LocalDateTime.parse(creationDate, formatter);
 
             //Преобразовать integerCount
             Integer new_studentsCount = studentsCount.intValue();
@@ -188,6 +188,7 @@ public class CollectionManager {
             String hairColor = (String) groupAdmin.get("hairColor");
 
             //Преобразование типов
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate new_birthday = LocalDate.parse(birthday, formatter);
             EyeColor new_eyeColor = EyeColor.valueOf(eyeColor);
             HairColor new_hairColor = HairColor.valueOf(hairColor);
