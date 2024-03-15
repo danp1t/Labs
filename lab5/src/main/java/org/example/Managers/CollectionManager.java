@@ -786,7 +786,7 @@ public class CollectionManager {
             group = new StudyGroup(id, name, coordinates, creating_data, studentsCount, averageMark, formOfEducation, semester, adminGroup);
             }
         catch (InputFromFIleException e){
-            status_command =-1;
+            set_status_command(-1);
             System.out.println();
             System.out.println(e.send_message());
             return null;
@@ -805,22 +805,22 @@ public class CollectionManager {
      */
     public static StudyGroup update_study_group(Scanner sc, boolean is_user_input){
         StudyGroup group = null;
-        try {int id = group_element.getID();
-            if (is_user_input) {System.out.print("(" + group_element.getName() + ") ");}
+        try {int id = getting_group_element().getID();
+            if (is_user_input) {System.out.print("(" + getting_group_element().getName() + ") ");}
             String name = input_name(sc, is_user_input);
-            if (is_user_input) {System.out.print("(" + group_element.getCoordinates() + ") ");}
+            if (is_user_input) {System.out.print("(" + getting_group_element().getCoordinates() + ") ");}
             Coordinates coordinates = input_coordinates(sc, is_user_input);
-            if (is_user_input) {System.out.print("(" + group_element.getStudentsCount() + ") ");}
+            if (is_user_input) {System.out.print("(" + getting_group_element().getStudentsCount() + ") ");}
             Integer studentsCount = input_students_count(sc, is_user_input);
-            if (is_user_input) {System.out.print("(" + group_element.getAverageMark() + ") ");}
+            if (is_user_input) {System.out.print("(" + getting_group_element().getAverageMark() + ") ");}
             Double averageMark = input_average_mark(sc, is_user_input);
-            if (is_user_input) {System.out.print("(" + group_element.getFormOfEducation() + ") ");}
+            if (is_user_input) {System.out.print("(" + getting_group_element().getFormOfEducation() + ") ");}
             FormOfEducation formOfEducation = input_form_of_education(sc, is_user_input);
-            if (is_user_input) {System.out.print("(" + group_element.getSemesterEnum() + ") ");}
+            if (is_user_input) {System.out.print("(" + getting_group_element().getSemesterEnum() + ") ");}
             Semester semester = input_semester_enum(sc, is_user_input);
-            if (is_user_input) { System.out.print("(" + group_element.getGroupAdmin() + ") ");}
+            if (is_user_input) { System.out.print("(" + getting_group_element().getGroupAdmin() + ") ");}
             Person adminGroup = input_admin_group(sc, is_user_input);
-            LocalDateTime creating_data = group_element.getCreationDate();
+            LocalDateTime creating_data = getting_group_element().getCreationDate();
             group = new StudyGroup(id, name, coordinates, creating_data, studentsCount, averageMark, formOfEducation, semester, adminGroup);
         }
         catch (NullPointerException e) {
@@ -844,7 +844,7 @@ public class CollectionManager {
                 if (number == group.getID()) {
                     System.out.println("Коллекция с id: " + number + " найдена.");
                     System.out.println("Текучие значения указаны в скобках.");
-                    group_element = group;
+                    setting_group_element(group);
                 }
                 else {new_study_groups.add(group);}
             }
@@ -854,15 +854,15 @@ public class CollectionManager {
         }
         catch (NumberFormatException e){
             System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
-            status_command = -1;
+            set_status_command(-1);
         }
         catch (NotCollectionIDFound e){
             System.out.println(e.send_message());
-            status_command = -1;
+            set_status_command(-1);
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Введите ID элемента");
-            status_command = -1;
+            set_status_command(-1);
         }
     }
 }

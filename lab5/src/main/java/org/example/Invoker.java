@@ -8,15 +8,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.element;
-import static org.example.Managers.CommandManager.group_element;
+import static org.example.Managers.CommandManager.*;
 
 /**
  * Класс запуска программы
  */
 public class Invoker {
     public static void main(String[] argv) throws IOException {
-
+        System.out.println("Программа запущена!");
         CommandManager commands = new CommandManager();
         CollectionManager collection = new CollectionManager();
 
@@ -49,7 +48,7 @@ public class Invoker {
                     if (tokens.length > 2) {throw new CommandNotFound();}
                     commands.add_command_in_history(line);
                     get_group_element();
-                    if (group_element == null) {throw new NullFieldException();}
+                    if (getting_group_element() == null) {throw new NullFieldException();}
                     commands.update_function(sc, true);
                     command.execute();
 

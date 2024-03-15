@@ -1,21 +1,40 @@
 [
   {
-    "studentsCount": 2,
-    "averageMark": 2.21,
+    "studentsCount": 23,
+    "averageMark": 32.3,
     "groupAdmin": {
-      "birthday": "2012-02-22",
-      "eyeColor": "BLUE",
+      "birthday": "1112-11-12",
+      "eyeColor": "WHITE",
       "name": "Olga",
+      "hairColor": "ORANGE"
+    },
+    "name": "P3222",
+    "coordinates": {
+      "x": 21.0,
+      "y": 21.0
+    },
+    "id": 2,
+    "formOfEducation": "FULL_TIME_EDUCATION",
+    "creationDate": "2024-03-15T20:10:11",
+    "semesterEnum": "SIXTH"
+  },
+  {
+    "studentsCount": 112,
+    "averageMark": 2.2,
+    "groupAdmin": {
+      "birthday": "2020-02-23",
+      "eyeColor": "ORANGE",
+      "name": "null",
       "hairColor": "BLACK"
     },
-    "name": "P3103",
+    "name": "P3221",
     "coordinates": {
-      "x": 32.0,
-      "y": 25.0
+      "x": -22.0,
+      "y": 221.0
     },
     "id": 1,
-    "formOfEducation": "FULL_TIME_EDUCATION",
-    "creationDate": "2024-03-15T19:08:58",
-    "semesterEnum": "SIXTH"
+    "formOfEducation": "DISTANCE_EDUCATION",
+    "creationDate": "2024-03-15T20:08:27",
+    "semesterEnum": "SECOND"
   }
 ]

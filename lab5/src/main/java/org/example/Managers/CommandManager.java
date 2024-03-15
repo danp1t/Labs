@@ -20,7 +20,7 @@ public class CommandManager {
      * Если поле равно 0, то все нормально
      * Если поле равно -1, то произошло исключение и нужно прервать выполнения команды
      */
-    public static int status_command = 0;
+    private static int status_command = 0;
     /**
      * Поля для хранения команд
      */
@@ -28,11 +28,11 @@ public class CommandManager {
     /**
      * Поле для хранения element для команды update
      */
-    public static StudyGroup group_element;
+    private static StudyGroup group_element;
     /**
      * Поле для хранения element
      */
-    public static StudyGroup element;
+    private static StudyGroup element;
     /**
      * Поле истории вызова команд
      */
@@ -62,6 +62,35 @@ public class CommandManager {
         this.commands = commands;
     }
 
+    /**
+     * Getter для поля element
+     * @return значение поля element
+     */
+    public static StudyGroup get_element(){
+        return element;
+    }
+    /**
+     * Setter для поля group_element
+     * @param group значение для group_element
+     */
+    public static void set_element(StudyGroup group){
+        element = group;
+    }
+    /**
+     * Getter для поля group_element
+     * @return значение поля group_element
+     */
+    public static StudyGroup getting_group_element(){
+        return group_element;
+    }
+
+    /**
+     * Setter для поля group_element
+     * @param group значение для group_element
+     */
+    public static void setting_group_element(StudyGroup group){
+        group_element = group;
+    }
     /**
      * Getter для поля status_command
      * @return значение поля status_command

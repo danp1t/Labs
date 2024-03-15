@@ -1,11 +1,12 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.element;
+import static org.example.Managers.CommandManager.get_element;
 
 /**
  * Данный класс реализует команду add
@@ -20,7 +21,8 @@ public class AddCommand implements Command {
     public void execute() {
         HashSet studyGroup = get_study_groups();
         System.out.println("Группа добавлена!");
-        studyGroup.add(element);
+        StudyGroup group = get_element();
+        studyGroup.add(group);
         set_study_groups(studyGroup);
     }
 

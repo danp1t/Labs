@@ -6,8 +6,8 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.history_list;
-import static org.example.Managers.CommandManager.status_command;
+import static org.example.Managers.CommandManager.*;
+
 /**
  * Данный класс реализует команду remove_by_id
  * Команда remove_by_id удаляет элемент из коллекции по его id
@@ -48,11 +48,11 @@ public class RemoveCommand implements Command {
         }
         catch (NumberFormatException e){
             System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
-            status_command =-1;
+            set_status_command(-1);
         }
         catch (NotCollectionIDFound e){
             System.out.println(e.send_message());
-            status_command =-1;
+            set_status_command(-1);
         }
     }
 

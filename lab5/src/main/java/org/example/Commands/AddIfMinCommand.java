@@ -6,7 +6,7 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.element;
+import static org.example.Managers.CommandManager.get_element;
 
 /**
  * Данный класс реализует команду add_if_min
@@ -29,7 +29,7 @@ public class AddIfMinCommand implements Command {
                 min_students_count = group.getStudentsCount();
             }
         }
-        StudyGroup group = element;
+        StudyGroup group = get_element();
         if (group.getStudentsCount() < min_students_count) {
             studyGroups.add(group);
             set_study_groups(studyGroups);

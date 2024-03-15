@@ -42,21 +42,21 @@ public class UpdateCommand implements Command {
             }
             set_study_groups(new_study_groups);
             studyGroups = get_study_groups();
-            studyGroups.add(element);
+            studyGroups.add(get_element());
             set_study_groups(studyGroups);
             System.out.println("Коллекция обновлена");
 
 
         }
         catch (NumberFormatException e){
-            status_command = -1;
+            set_status_command(-1);
         }
         catch (NotCollectionIDFound e){
-            status_command = -1;
+            set_status_command(-1);
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Введите ID элемента");
-            status_command = -1;
+            set_status_command(-1);
         }
         catch (NullPointerException e) {
             System.out.println("Ошибочка вышла");

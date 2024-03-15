@@ -73,34 +73,34 @@ public class ExecuteCommand implements Command {
                 }
                 else if (commands.is_simple_command(str_command)) {
                     if (line.strip().split(" ").length > 1) {
-                        status_command =-1;
+                        set_status_command(-1);
                         }
                     commands.add_command_in_history(commands.get_commands().get(str_command));
                     }
                 else if (commands.is_command_with_one_arg(str_command)) {
                     if (line.strip().split(" ").length > 2) {
-                        status_command =-1;
+                        set_status_command(-1);
                     }
                     commands.add_command_in_history(line);
                     }
                 else if (commands.is_command_with_element(str_command)) {
                     if (line.strip().split(" ").length > 1) {
-                        status_command =-1;
+                        set_status_command(-1);
                         }
                     commands.processing_element(commands.get_commands().get(str_command), scan, false);
                     }
 
                 else if (commands.is_command_with_element_and_one_arg(str_command)) {
                     if (line.strip().split(" ").length > 2) {
-                        status_command =-1;
+                        set_status_command(-1);
                         }
                     commands.add_command_in_history(line);
                     get_group_element();
-                    if (group_element == null) {throw new NullFieldException();}
+                    if (getting_group_element() == null) {throw new NullFieldException();}
                     commands.update_function(scan, false);
                     }
 
-                if (status_command == -1){
+                if (get_status_command() == -1){
                     System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
                     System.out.println("На " + (counter_line) + " строчке находится команда, которая сгенерировала исключение:: " + str_command);
                     break;

@@ -6,8 +6,7 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.history_list;
-import static org.example.Managers.CommandManager.status_command;
+import static org.example.Managers.CommandManager.*;
 
 /**
  * Данный класс реализует команду count_greater_than_average_mark
@@ -42,7 +41,7 @@ public class CountGreaterThanAverageMarkCommand implements Command {
         }
         catch (NumberFormatException e){
             System.out.println("Введено некорректное число. Попробуйте еще раз!");
-            status_command = -1;
+            set_status_command(-1);
         }
 
     }
