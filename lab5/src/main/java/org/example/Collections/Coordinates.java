@@ -1,29 +1,42 @@
 package org.example.Collections;
 
+/**
+ * @author danp1t
+ * Класс, описывающий местоположение учебной группы
+ */
 public class Coordinates {
+    /** Поле первой координаты x*/
     private double x;
-    private Double y; //Поле не может быть null
+    /** Поле второй координаты y
+     * Данное поле не может принимать значение null*/
+    private Double y;
 
-    //Конструктор
+    /** Конструктор данного класса */
     public Coordinates(double x, Double y){
         this.x = x;
         this.y = y;
     }
 
-    public boolean validate(){
-        if (y == null){
-            return false;
-        }
-        return true;
-    }
-
+    /**
+     * Getter для поля x
+     * @return возвращает координату x
+     */
     public double get_x(){
         return this.x;
     }
 
+    /**
+     * Getter для поля y
+     * @return возвращает координату y
+     */
     public Double get_y(){
     return this.y;
     }
+
+    /**
+     * Метод для представления класса в текстовом формате
+     * @return возвращает текстовое содержание класса
+     */
     @Override
     public String toString() {
         return "Coordinates{" +
