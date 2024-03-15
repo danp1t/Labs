@@ -1,60 +1,21 @@
 [
   {
+    "studentsCount": 12,
+    "averageMark": 312.0,
+    "groupAdmin": {
+      "birthday": "2021-02-21",
+      "eyeColor": "ORANGE",
+      "name": "Ivan",
+      "hairColor": "ORANGE"
+    },
+    "name": "P3107",
+    "coordinates": {
+      "x": 12.0,
+      "y": 421.0
+    },
     "id": 1,
-    "name": "Danil",
-    "coordinates": {
-      "x": 12.12,
-      "y": 1432.232
-    },
-    "creationDate": "2024-03-02",
-    "studentsCount": 10,
-    "averageMark": 4.1,
     "formOfEducation": "FULL_TIME_EDUCATION",
-    "semesterEnum": "FIFTH",
-    "groupAdmin": {
-      "name": "Ivan",
-      "birthday": "2005-05-12",
-      "eyeColor": "BLUE",
-      "hairColor": "BROWN"
-    }
-  },
-
-  {
-    "id": 2,
-    "name": "Petr",
-    "coordinates": {
-      "x": 122.12,
-      "y": 132.232
-    },
-    "creationDate": "2024-03-03",
-    "studentsCount": 9,
-    "averageMark": 4.4,
-    "formOfEducation": "EVENING_CLASSES",
-    "semesterEnum": "SIXTH",
-    "groupAdmin": {
-      "name": "Ivan",
-      "birthday": "2005-05-12",
-      "eyeColor": "BLUE",
-      "hairColor": "BROWN"
-    }
-  },
-  {
-    "id": 3,
-    "name": "Loli",
-    "coordinates": {
-      "x": 1222.12,
-      "y": 1232.232
-    },
-    "creationDate": "2024-03-03",
-    "studentsCount": 8,
-    "averageMark": 4.2,
-    "formOfEducation": "EVENING_CLASSES",
-    "semesterEnum": "SIXTH",
-    "groupAdmin": {
-      "name": "Denis",
-      "birthday": "2002-05-12",
-      "eyeColor": "BLUE",
-      "hairColor": "BROWN"
-    }
+    "creationDate": "2024-03-15T09:48:55",
+    "semesterEnum": "FIFTH"
   }
 ]
