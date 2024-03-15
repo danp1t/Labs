@@ -1,0 +1,58 @@
+@options
+@packages
+-classpath
+'/home/danp1t/.m2/repository/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar:/home/danp1t/.m2/repository/junit/junit/4.10/junit-4.10.jar:/home/danp1t/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/home/danp1t/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'/home/danp1t/github/Labs/lab5/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/danp1t/github/Labs/lab5/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'lab5 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'lab5 1.0-SNAPSHOT API'
+org.example.Managers
+org.example
+org.example.Exceptions
+org.example.Collections
+org.example.Commands
+org.example.Interface
+/home/danp1t/.m2/repository/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar = 1332306693000
+/home/danp1t/.m2/repository/junit/junit/4.10/junit-4.10.jar = 1317323535000
+/home/danp1t/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar = 1184785886000
+/home/danp1t/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar = 1673019840000
+/home/danp1t/github/Labs/lab5/src/main/java = 1709369184893
+/home/danp1t/github/Labs/lab5/target/site/apidocs/element-list = 1710513221064
+/home/danp1t/github/Labs/lab5/target/site/apidocs/serialized-form.html = 1710513221121
+/home/danp1t/github/Labs/lab5/target/site/apidocs/overview-tree.html = 1710513221224
+/home/danp1t/github/Labs/lab5/target/site/apidocs/index.html = 1710513221227
+/home/danp1t/github/Labs/lab5/target/site/apidocs/allclasses-index.html = 1710513221254
+/home/danp1t/github/Labs/lab5/target/site/apidocs/allpackages-index.html = 1710513221257
+/home/danp1t/github/Labs/lab5/target/site/apidocs/module-search-index.js = 1710513221257
+/home/danp1t/github/Labs/lab5/target/site/apidocs/package-search-index.js = 1710513221257
+/home/danp1t/github/Labs/lab5/target/site/apidocs/type-search-index.js = 1710513221257
+/home/danp1t/github/Labs/lab5/target/site/apidocs/member-search-index.js = 1710513221257
+/home/danp1t/github/Labs/lab5/target/site/apidocs/tag-search-index.js = 1710513221257
+/home/danp1t/github/Labs/lab5/target/site/apidocs/index-all.html = 1710513221287
+/home/danp1t/github/Labs/lab5/target/site/apidocs/search.html = 1710513221291
+/home/danp1t/github/Labs/lab5/target/site/apidocs/overview-summary.html = 1710513221291
+/home/danp1t/github/Labs/lab5/target/site/apidocs/help-doc.html = 1710513221294
+/home/danp1t/github/Labs/lab5/target/site/apidocs/stylesheet.css = 1710513221297
+/home/danp1t/github/Labs/lab5/target/site/apidocs/script.js = 1710513221297
+/home/danp1t/github/Labs/lab5/target/site/apidocs/copy.svg = 1710513221297
+/home/danp1t/github/Labs/lab5/target/site/apidocs/link.svg = 1710513221297
+/home/danp1t/github/Labs/lab5/target/site/apidocs/search.js = 1710513221297
+/home/danp1t/github/Labs/lab5/target/site/apidocs/search-page.js = 1710513221301
