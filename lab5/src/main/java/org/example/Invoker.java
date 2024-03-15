@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static org.example.Managers.CollectionManager.*;
+import static org.example.Managers.CommandManager.element;
 
 public class Invoker {
     public static void main(String[] argv) throws IOException {
@@ -38,8 +39,9 @@ public class Invoker {
 
                 else if (commands.is_command_with_element_and_one_arg(tokens[0])) {
                     commands.add_command_in_history(line);
-                    command.execute();
+                    get_group_element();
                     commands.update_function(sc, true);
+                    command.execute();
 
                 }
 

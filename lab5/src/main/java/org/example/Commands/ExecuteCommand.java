@@ -10,8 +10,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.history_list;
-import static org.example.Managers.CommandManager.status_command;
+import static org.example.Managers.CommandManager.*;
 
 public class ExecuteCommand implements Command {
     public static int counter_line;
@@ -51,8 +50,9 @@ public class ExecuteCommand implements Command {
 
                 else if (commands.is_command_with_element_and_one_arg(str_command)) {
                     commands.add_command_in_history(line);
-                    command.execute();
+                    get_group_element();
                     commands.update_function(scan, false);
+                    command.execute();
                     }
 
                 if (status_command == -1){

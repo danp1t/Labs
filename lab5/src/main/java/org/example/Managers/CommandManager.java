@@ -14,6 +14,7 @@ public class CommandManager {
     //Конструктор
     public static int status_command = 0;
     private static Map<String, Command> commands;
+    public static StudyGroup group_element;
     public static StudyGroup element;
     public static ArrayDeque<String> history_list = new ArrayDeque<>(13);
     public CommandManager(){

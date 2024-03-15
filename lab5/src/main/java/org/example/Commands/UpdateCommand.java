@@ -18,19 +18,12 @@ public class UpdateCommand implements Command {
             String arg = history_list.getLast().split(" ")[1];
             //Перевод из численного в строковый тип
             int number = 1;
-            boolean flag = false;
             number = Integer.parseInt(arg);
             HashSet<StudyGroup> new_study_groups = new HashSet<>();
             for (StudyGroup group : study_groups) {
-                if (number == group.getID()) {
-                    flag = true;
-                    System.out.println("Коллекция с id: " + number + " найдена.");
-                    System.out.println("Текучие значения указаны в скобках.");
-                    element = group;
-
-                    System.out.println(element);
+                if (number != group.getID()) {
+                    new_study_groups.add(group);
                 }
-                else {new_study_groups.add(group);}
             }
             if (new_study_groups.size() == study_groups.size()) {
                 throw new NotCollectionIDFound();

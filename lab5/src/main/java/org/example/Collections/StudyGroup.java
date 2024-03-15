@@ -123,7 +123,15 @@ public class StudyGroup implements Comparable<StudyGroup> {
 
     @Override
     public int compareTo(StudyGroup o) {
-        return this.getStudentsCount() - o.getStudentsCount();
+        if ((this.getStudentsCount() - o.getStudentsCount()) == 0) {
+            return 1;
+        }
+        else if ((this.getStudentsCount() - o.getStudentsCount()) == 0) {
+            return 1;
+        }
+        else {
+            return -1;
+        }
     }
 }
 

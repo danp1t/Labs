@@ -18,9 +18,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-import static org.example.Managers.CommandManager.element;
 import static org.example.Commands.ExecuteCommand.counter_line;
-import static org.example.Managers.CommandManager.status_command;
+import static org.example.Managers.CommandManager.*;
 
 public class CollectionManager {
 
@@ -221,8 +220,7 @@ public class CollectionManager {
             get_HashSet();
         }
         HashSet<StudyGroup> studyGroups = study_groups;
-
-        Set<StudyGroup> sortedGroups = new TreeSet<StudyGroup>(studyGroups);
+        Set<StudyGroup> sortedGroups = new TreeSet<>(study_groups);
         return sortedGroups;
     }
 
@@ -667,29 +665,60 @@ public class CollectionManager {
 
     public static StudyGroup update_study_group(Scanner sc, boolean is_user_input){
         StudyGroup group = null;
-        try {int id = element.getID();
-            System.out.print("(" + element.getName() + ") ");
+        try {int id = group_element.getID();
+            if (is_user_input) {System.out.print("(" + group_element.getName() + ") ");}
             String name = input_name(sc, is_user_input);
-            System.out.print("(" + element.getCoordinates() + ") ");
+            if (is_user_input) {System.out.print("(" + group_element.getCoordinates() + ") ");}
             Coordinates coordinates = input_coordinates(sc, is_user_input);
-            System.out.print("(" + element.getStudentsCount() + ") ");
+            if (is_user_input) {System.out.print("(" + group_element.getStudentsCount() + ") ");}
             Integer studentsCount = input_students_count(sc, is_user_input);
-            System.out.print("(" + element.getAverageMark() + ") ");
+            if (is_user_input) {System.out.print("(" + group_element.getAverageMark() + ") ");}
             Double averageMark = input_average_mark(sc, is_user_input);
-            System.out.print("(" + element.getFormOfEducation() + ") ");
+            if (is_user_input) {System.out.print("(" + group_element.getFormOfEducation() + ") ");}
             FormOfEducation formOfEducation = input_form_of_education(sc, is_user_input);
-            System.out.print("(" + element.getSemesterEnum() + ") ");
+            if (is_user_input) {System.out.print("(" + group_element.getSemesterEnum() + ") ");}
             Semester semester = input_semester_enum(sc, is_user_input);
-            System.out.print("(" + element.getGroupAdmin() + ") ");
+            if (is_user_input) { System.out.print("(" + group_element.getGroupAdmin() + ") ");}
             Person adminGroup = input_admin_group(sc, is_user_input);
-            LocalDateTime creating_data = element.getCreationDate();
+            LocalDateTime creating_data = group_element.getCreationDate();
             group = new StudyGroup(id, name, coordinates, creating_data, studentsCount, averageMark, formOfEducation, semester, adminGroup);
-
         }
         catch (NullPointerException e) {
-            System.out.print("");
+            e.printStackTrace();
         }
         return group;
     }
-
+    public static void get_group_element(){
+        try {
+            if (study_groups == null) {get_HashSet();}
+            String arg = history_list.getLast().split(" ")[1];
+            //Перевод из численного в строковый тип
+            int number = 1;
+            number = Integer.parseInt(arg);
+            HashSet<StudyGroup> new_study_groups = new HashSet<>();
+            for (StudyGroup group : study_groups) {
+                if (number == group.getID()) {
+                    System.out.println("Коллекция с id: " + number + " найдена.");
+                    System.out.println("Текучие значения указаны в скобках.");
+                    group_element = group;
+                }
+                else {new_study_groups.add(group);}
+            }
+            if (new_study_groups.size() == study_groups.size()) {
+                throw new NotCollectionIDFound();
+            }
+        }
+        catch (NumberFormatException e){
+            System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
+            status_command = -1;
+        }
+        catch (NotCollectionIDFound e){
+            System.out.println(e.send_message());
+            status_command = -1;
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Введите ID элемента");
+            status_command = -1;
+        }
+    }
 }

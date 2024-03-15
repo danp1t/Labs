@@ -3,8 +3,7 @@ package org.example.Commands;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
-import static org.example.Managers.CollectionManager.beatiful_output_json;
-import static org.example.Managers.CollectionManager.parse_hashset_to_json;
+import static org.example.Managers.CollectionManager.*;
 
 public class ShowCommand implements Command {
     @Override
