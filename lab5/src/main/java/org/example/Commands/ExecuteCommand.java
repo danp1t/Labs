@@ -98,7 +98,7 @@ public class ExecuteCommand implements Command {
 
                 if (status_command == -1){
                     System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
-                    System.out.println("На " + (counter_line + counter_input) + " строчке находится команда, которая сгенерировала исключение:: " + str_command);
+                    System.out.println("На " + (counter_line) + " строчке находится команда, которая сгенерировала исключение:: " + str_command);
                     break;
                 }
                 command.execute();

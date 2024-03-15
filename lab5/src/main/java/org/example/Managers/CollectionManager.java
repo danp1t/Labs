@@ -18,21 +18,45 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-import static org.example.Commands.ExecuteCommand.counter_line;
 import static org.example.Managers.CommandManager.*;
 
+/**
+ * Класс для работы с коллекцией HashSet и другими данными
+ */
 public class CollectionManager {
-
-    public static String fileName;
+    /**
+     * Путь до json_file, где хранится сохраненная коллекция HashSet
+     */
+    private static String fileName;
+    /**
+     * Дата создания коллекции
+     */
     private static String createDateHashSet;
+    /**
+     * JSONArray, в котором хранится коллекция HashSet
+     */
     private static JSONArray json_file;
+    /**
+     * Список учебных групп, которые хранятся в коллекции HashSet
+     */
     public static HashSet<StudyGroup> study_groups;
-    public static int counter_input;
-    //Конструктор
+    /**
+     * Счетчик количества вводов данных для анализа скрипта на ошибки
+     */
+    private static int counter_input;
+
+    /**
+     * Конструктор класса
+     */
     public CollectionManager(){
         String path_json = System.getenv("JSON_FILE_LAB5");
         this.fileName = path_json;
     }
+
+    /**
+     * В данном методе мы читаем коллекцию из json файла
+     * @return JSONArray
+     */
     public static JSONArray read_json_file(){
         try {
             JSONArray json_file = (JSONArray) new JSONParser().parse(new FileReader(fileName));
@@ -42,6 +66,10 @@ public class CollectionManager {
         return null;
     }
 
+    /**
+     * В этом методе мы преобразовываем коллекцию HashSet в JSONArray для последующего сохранения в файл
+     * @return JSONArray
+     */
     public static JSONArray parse_hashset_to_json(){
         Set<StudyGroup> studyGroups = print_HashSet();
         JSONArray group_array = new JSONArray();
@@ -50,7 +78,11 @@ public class CollectionManager {
         }
         return group_array;
     }
-
+    /**
+     * В этом методе мы учебную группу преобразуем в JSONObject
+     * @param group учебная группа
+     * @return JSONObject учебной группы
+     */
     public static JSONObject parse_studyGroup_to_json(StudyGroup group){
 
         JSONObject group_object = new JSONObject();
@@ -97,10 +129,13 @@ public class CollectionManager {
         return group_object;
     }
 
-
+    /**
+     * Данный метод сохраняет нашу коллекцию в файл
+     */
     public static void save_hashSet_to_file() {
         String json_string = beatiful_output_json();
-        try(FileWriter fileWriter = new FileWriter("/home/danp1t/github/Labs/lab5/src/main/java/org/example/Files/Collection.json")) {
+        String path_json = System.getenv("JSON_FILE_LAB5");
+        try(FileWriter fileWriter = new FileWriter(path_json)) {
             fileWriter.write(json_string);
         }
         catch (IOException e){
@@ -108,6 +143,11 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным
+     * Вспомогательный метод для команды min_by_semester_enum
+     * @return объект из коллекции, значение поля semesterEnum которого является минимальным
+     */
     public static String print_min_by_semester_enum() {
         if (study_groups == null){get_HashSet();}
         HashSet hashSet = study_groups;
@@ -139,6 +179,9 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Данная функция возвращает HashSet из JSONObject
+     */
     public static void get_HashSet(){
         HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
         if (json_file == null){
@@ -147,7 +190,6 @@ public class CollectionManager {
         for (int i = 0; i < json_file.size(); i++){
             JSONObject object = (JSONObject) json_file.get(i);
 
-            //Прочитать Json-объект. Распарсить его на элементы
             Long id = (Long) object.get("id");
             String name = (String) object.get("name");
             JSONObject coordinates = (JSONObject) object.get("coordinates");
@@ -159,7 +201,6 @@ public class CollectionManager {
             JSONObject groupAdmin = (JSONObject) object.get("groupAdmin");
 
             //Преобразовать объекты в нужный тип для конструктора
-            //
             int new_id = id.intValue();
 
             //Преобразовать coordinates
@@ -208,12 +249,20 @@ public class CollectionManager {
         createDateHashSet = formattedDateTime;
     }
 
+    /**
+     * Вспомогательный метод для команды clear
+     */
     public static void clear_hashSet(){
         //Очистка HashSet
         if (study_groups == null) {get_HashSet();}
         study_groups.clear();
         System.out.println("Коллекция очищена");
     }
+
+    /**
+     * Данный метод возвращает отсортированное множество
+     * @return отсортированное множество
+     */
     public static Set print_HashSet(){
         if (study_groups == null){
             get_HashSet();
@@ -223,6 +272,10 @@ public class CollectionManager {
         return sortedGroups;
     }
 
+    /**
+     * Вспомогательный метод для команды info
+     * @return строку для команду info
+     */
     public static String print_info_HashSet(){
         if (study_groups == null) {get_HashSet();}
         return "Тип: " + study_groups.getClass() + "\n" +
@@ -231,17 +284,33 @@ public class CollectionManager {
                 "Множество пустое: " + study_groups.isEmpty();
     }
 
+    /**
+     * Метод возвращает красивый вывод JSONArray
+     * @return красивый вывод JSONArray
+     */
     public static String beatiful_output_json(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json_string = gson.toJson(parse_hashset_to_json());
         return json_string;
     }
 
+    /**
+     * Метод возвращает красивый вывод JSONObject
+     * @param object JSONObject
+     * @return красивый вывод json_object
+     */
     public static String beatiful_output_element_json(JSONObject object){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json_string = gson.toJson(object);
         return json_string;
     }
+
+    /**
+     * Метод для ввода поля name для element
+     * @param sc сканнер
+     * @param is_user_input тип ввода
+     * @return значение для поля name
+     */
 
     public static String input_name(Scanner sc, boolean is_user_input){
         boolean flag = false;
@@ -279,6 +348,12 @@ public class CollectionManager {
         return name;
     }
 
+    /**
+     * Метод для ввода поля coordinates для element
+     * @param sc сканер
+     * @param is_user_input вид ввода
+     * @return значение поля coordinates
+     */
     public static Coordinates input_coordinates(Scanner sc, boolean is_user_input){
         counter_input = 0;
         if (is_user_input) {System.out.println("Введите координаты");}
@@ -335,6 +410,12 @@ public class CollectionManager {
         return coordinates;
     }
 
+    /**
+     * Метод для ввода поля studentsCount для element
+     * @param sc сканер
+     * @param is_user_input вид ввода
+     * @return значение для поля studentsCount
+     */
     public static Integer input_students_count(Scanner sc, boolean is_user_input){
         counter_input = 0;
         boolean flag = true;
@@ -372,6 +453,12 @@ public class CollectionManager {
         return students_count;
     }
 
+    /**
+     * Метод для ввода поля averageMark для element
+     * @param sc сканер
+     * @param is_user_input вид ввода
+     * @return значение для поля averageMark
+     */
     public static Double input_average_mark(Scanner sc, boolean is_user_input){
         boolean flag = true;
         counter_input = 0;
@@ -410,6 +497,12 @@ public class CollectionManager {
         return averageMark;
     }
 
+    /**
+     * Метод для ввода поля formOfEducation для element
+     * @param sc сканер
+     * @param is_user_input вид ввода
+     * @return значение поля formOfEducation
+     */
     public static FormOfEducation input_form_of_education(Scanner sc, boolean is_user_input){
         counter_input = 0;
         boolean flag = true;
@@ -444,6 +537,12 @@ public class CollectionManager {
         return formOfEducation;
     }
 
+    /**
+     * Метод для ввода значения поля semesterEnum для element
+     * @param sc сканер
+     * @param is_user_input вид ввода
+     * @return значение поля semesterEnum
+     */
     public static Semester input_semester_enum(Scanner sc, boolean is_user_input){
         counter_input = 0;
         boolean flag = true;
@@ -477,6 +576,12 @@ public class CollectionManager {
         return semester;
     }
 
+    /**
+     * Метод для ввода поля adminGroup для element
+     * @param sc сканер
+     * @param is_user_input вид ввода
+     * @return значение поля adminGroup
+     */
     public static Person input_admin_group(Scanner sc, boolean is_user_input){
         counter_input = 0;
         if (is_user_input) {System.out.println("Заполните значение старосты группы");}
@@ -604,6 +709,10 @@ public class CollectionManager {
         return admin_group;
     }
 
+    /**
+     * Метод нахождения уникального ID
+     * @return уникальный ID
+     */
     public static int nextID(){
         if (study_groups == null) {get_HashSet();}
         ArrayList groups = new ArrayList<>();
@@ -621,6 +730,10 @@ public class CollectionManager {
         return nextID;
     }
 
+    /**
+     * Метод для генерации даты и времени создания коллекции HashSet
+     * @return дата и время создания коллекции
+     */
     public static java.time.LocalDateTime create_date_creating(){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
@@ -629,6 +742,12 @@ public class CollectionManager {
         return date_creating;
     }
 
+    /**
+     * Создание element
+     * @param sc сканер
+     * @param is_user_input вид ввода
+     * @return element для соответсвующих команд
+     */
     public static StudyGroup create_study_group(Scanner sc, boolean is_user_input){
         StudyGroup group = null;
         try{
@@ -662,6 +781,12 @@ public class CollectionManager {
         return group;
     }
 
+    /**
+     * Вспомогательный метод для изменения информации об учебной группе
+     * @param sc сканер
+     * @param is_user_input вид ввода
+     * @return измененная учебная группа
+     */
     public static StudyGroup update_study_group(Scanner sc, boolean is_user_input){
         StudyGroup group = null;
         try {int id = group_element.getID();
@@ -687,6 +812,10 @@ public class CollectionManager {
         }
         return group;
     }
+
+    /**
+     * Получение element
+     */
     public static void get_group_element(){
         try {
             if (study_groups == null) {get_HashSet();}

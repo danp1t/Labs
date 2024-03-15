@@ -11,6 +11,9 @@ import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.element;
 import static org.example.Managers.CommandManager.group_element;
 
+/**
+ * Класс запуска программы
+ */
 public class Invoker {
     public static void main(String[] argv) throws IOException {
 
