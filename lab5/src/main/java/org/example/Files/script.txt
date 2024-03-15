@@ -1,17 +1,12 @@
 add
-danil
-21
-21
-32
-32
-EVENING_CLASSES
-FIFTH
-Ivan
-23.02.2002
-WHITE
-WHITE
-count_greater_than_average_mark 1.21
-filter_contains_name danil
-execute_script script.txt
+danul
+31
+31
+31
+1.1
+ENIVM
+S:LLS
+klsjkla
+
 
 

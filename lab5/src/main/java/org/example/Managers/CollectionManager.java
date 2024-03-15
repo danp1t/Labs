@@ -337,8 +337,11 @@ public class CollectionManager {
                     if (is_user_input){
                         counter_input = 0;
                         System.out.print("Введите имя: ");}
-
-                    name = sc.nextLine().split(" ")[0];
+                    String line = sc.nextLine().strip();
+                    if (line.split(" ").length > 1) {
+                        throw new InputUserException();
+                    }
+                    name = line.split(" ")[0];
                     counter_input += 1;
                     if (name != null && name != ""){
                         flag = true;
@@ -355,10 +358,13 @@ public class CollectionManager {
                     System.out.println(e.send_message());
                 }
                 catch (EmptyStringFieldException e){
-                    System.out.print(e.send_message());
+                    System.out.println(e.send_message());
                 }
                 catch (InputFromFIleException e){
                     break;
+                }
+                catch (InputUserException e){
+                    System.out.println(e.send_message());
                 }
             }
         return name;
@@ -382,8 +388,11 @@ public class CollectionManager {
                 if (is_user_input) {
                     counter_input = 0;
                     System.out.print("x = ");}
-
-                String x = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String x = line.split(" ")[0];
                 counter_input += 1;
                 new_x = Double.parseDouble(x);
                 flag = false;
@@ -395,6 +404,9 @@ public class CollectionManager {
             catch (InputFromFIleException e){
                 break;
             }
+            catch (InputUserException e){
+                System.out.println(e.send_message());
+            }
         }
         flag = true;
         while(flag) {
@@ -402,7 +414,11 @@ public class CollectionManager {
                 if (is_user_input) {
                     counter_input = 0;
                     System.out.print("y = ");}
-                String x = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String x = line.split(" ")[0];
                 counter_input += 1;
                 y = Double.parseDouble(x);
                 if (y != null) {flag = false;}
@@ -419,6 +435,9 @@ public class CollectionManager {
             }
             catch (InputFromFIleException e) {
                 break;
+            }
+            catch (InputUserException e) {
+                System.out.println(e.send_message());
             }
         }
         //Перевод в double
@@ -441,7 +460,11 @@ public class CollectionManager {
                 if (is_user_input) {
                     counter_input = 0;
                     System.out.print("Введите количество студентов в группе: ");}
-                String str_students_count = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String str_students_count = line.split(" ")[0];
                 counter_input += 1;
                 if (counter_input > 1) {throw new InputFromFIleException();}
                 students_count = Integer.parseInt(str_students_count);
@@ -465,6 +488,9 @@ public class CollectionManager {
             catch (InputFromFIleException e){
                 break;
             }
+            catch (InputUserException e){
+                System.out.println(e.send_message());
+            }
         }
         return students_count;
     }
@@ -484,7 +510,11 @@ public class CollectionManager {
                 if (is_user_input) {
                     counter_input = 0;
                     System.out.print("Введите среднюю оценку группы: ");}
-                String str_students_count = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String str_students_count = line.split(" ")[0];
                 counter_input += 1;
                 if (counter_input > 1) {throw new InputFromFIleException();}
                 averageMark = Double.parseDouble(str_students_count);
@@ -508,6 +538,9 @@ public class CollectionManager {
             catch (InputFromFIleException e){
                 break;
             }
+            catch (InputUserException e) {
+                System.out.println(e.send_message());
+            }
 
         }
         return averageMark;
@@ -529,8 +562,11 @@ public class CollectionManager {
                     counter_input = 0;
                     System.out.println("Доступные форматы: DISTANCE_EDUCATION, FULL_TIME_EDUCATION, EVENING_CLASSES");
                     System.out.print("Введите формат обучения: ");}
-
-                String str_form_of_education = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String str_form_of_education = line.split(" ")[0];
                 counter_input += 1;
                 if (counter_input > 1) {throw new InputFromFIleException();}
                 if (str_form_of_education.equals("DISTANCE_EDUCATION")  ||
@@ -548,6 +584,9 @@ public class CollectionManager {
             }
             catch (InputFromFIleException e){
                 break;
+            }
+            catch (InputUserException e) {
+                System.out.println(e.send_message());
             }
         }
         return formOfEducation;
@@ -569,7 +608,11 @@ public class CollectionManager {
                     counter_input = 0;
                     System.out.println("Доступные семестры: SECOND, FIFTH, SIXTH");
                     System.out.print("Введите семестр обучения: ");}
-                String str_semester = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String str_semester = line.split(" ")[0];
                 counter_input += 1;
                 if (counter_input > 1) {throw new InputFromFIleException();}
                 if (str_semester.equals("SECOND")  ||
@@ -587,6 +630,9 @@ public class CollectionManager {
             }
             catch (InputFromFIleException e){
                 break;
+            }
+            catch (InputUserException e){
+                System.out.println(e.send_message());
             }
         }
         return semester;
@@ -611,7 +657,11 @@ public class CollectionManager {
                 if (is_user_input) {
                     counter_input = 0;
                     System.out.print("Введите имя старосты группы: ");}
-                admin_name = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                admin_name = line.split(" ")[0];
                 counter_input += 1;
                 if (counter_input > 4) {throw new InputFromFIleException();}
                 if (admin_name != null && admin_name != ""){
@@ -633,6 +683,9 @@ public class CollectionManager {
             catch (InputFromFIleException e){
                 break;
             }
+            catch (InputUserException e){
+                System.out.println(e.send_message());
+            }
         }
         flag = false;
         while (!flag){
@@ -641,7 +694,11 @@ public class CollectionManager {
                     counter_input = 0;
                     System.out.print("Введите дату рождения старосты группы в формате dd.MM.yyyy: ");}
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                String str_birthday = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String str_birthday = line.split(" ")[0];
                 counter_input += 1;
                 if (counter_input > 4) {throw new InputFromFIleException();}
                 birthday = LocalDate.parse(str_birthday, formatter);
@@ -662,6 +719,9 @@ public class CollectionManager {
             catch (InputFromFIleException e){
                 break;
             }
+            catch (InputUserException e) {
+                System.out.println(e.send_message());
+            }
         }
         flag = false;
         while (!flag) {
@@ -670,7 +730,11 @@ public class CollectionManager {
                     counter_input = 0;
                     System.out.println("Доступные цвета глаз: BLUE, ORANGE, WHITE");
                     System.out.print("Введите цвет глаз старосты: ");}
-                String str_eye_color = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String str_eye_color = line.split(" ")[0];
                 counter_input += 1;
                 if (counter_input > 4) {throw new InputFromFIleException();}
                 if (str_eye_color.equals("BLUE")  ||
@@ -689,6 +753,9 @@ public class CollectionManager {
             catch (InputFromFIleException e){
                 break;
             }
+            catch (InputUserException e) {
+                System.out.println(e.send_message());
+            }
         }
         flag = false;
         while (!flag) {
@@ -697,8 +764,11 @@ public class CollectionManager {
                     counter_input = 0;
                     System.out.println("Доступные цвета волос: BLACK, ORANGE, WHITE, BROWN");
                     System.out.print("Введите цвет волос старосты: ");}
-
-                String str_hair_color = sc.nextLine().split(" ")[0];
+                String line = sc.nextLine().strip();
+                if (line.split(" ").length > 1) {
+                    throw new InputUserException();
+                }
+                String str_hair_color = line.split(" ")[0];
                 counter_input += 1;
                 if (counter_input > 4){
                     throw new InputFromFIleException();
@@ -719,6 +789,9 @@ public class CollectionManager {
             }
             catch (InputFromFIleException e) {
                 break;
+            }
+            catch (InputUserException e){
+                System.out.println(e.send_message());
             }
         }
         Person admin_group = new Person(admin_name, birthday, eyeColor, hairColor);
@@ -792,7 +865,7 @@ public class CollectionManager {
             return null;
         }
         catch (NoSuchElementException e){
-            System.out.println("НЕ ПОВЕЗЛО");
+            System.out.println("Аварийный выход из программы...");
         }
         return group;
     }
