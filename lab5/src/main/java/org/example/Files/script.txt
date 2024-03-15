@@ -1,4 +1,4 @@
-update
+add_if_min
 danil
 21
 21
@@ -10,5 +10,6 @@ Ivan
 23.02.2002
 WHITE
 WHITE
-show
+count_greater_than_average_mark 1.21
+filter_contains_name danil
 info

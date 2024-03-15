@@ -1,6 +1,7 @@
 package org.example.Commands;
 
 import org.example.Exceptions.CommandNotFound;
+import org.example.Exceptions.NullFieldException;
 import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
 
@@ -29,7 +30,8 @@ public class ExecuteCommand implements Command {
             counter_line = 1;
             while (scan.hasNext()) {
                 String line = scan.nextLine();
-                String str_command = line.split(" ")[0];
+                if (line.equals("")) {line = scan.nextLine();}
+                String str_command = line.strip().split(" ")[0];
                 Command command = commands.get_commands().get(str_command);
                 if (command == null) {
                     System.out.println("Исполнение скрипта аварийно завершено!");
@@ -37,30 +39,40 @@ public class ExecuteCommand implements Command {
                     break;
                 }
                 else if (commands.is_simple_command(str_command)) {
+                    if (line.strip().split(" ").length > 1) {
+                        status_command =-1;
+                        }
                     commands.add_command_in_history(commands.get_commands().get(str_command));
-                    command.execute();
                     }
                 else if (commands.is_command_with_one_arg(str_command)) {
+                    if (line.strip().split(" ").length > 2) {
+                        status_command =-1;
+                    }
                     commands.add_command_in_history(line);
-                    command.execute();
                     }
                 else if (commands.is_command_with_element(str_command)) {
+                    if (line.strip().split(" ").length > 1) {
+                        status_command =-1;
+                        }
                     commands.processing_element(commands.get_commands().get(str_command), scan, false);
-                    command.execute();}
+                    }
 
                 else if (commands.is_command_with_element_and_one_arg(str_command)) {
+                    if (line.strip().split(" ").length > 2) {
+                        status_command =-1;
+                        }
                     commands.add_command_in_history(line);
                     get_group_element();
+                    if (group_element == null) {throw new NullFieldException();}
                     commands.update_function(scan, false);
-                    command.execute();
                     }
 
                 if (status_command == -1){
                     System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
-                    System.out.println("На " + (counter_line + counter_input) + " строчке находится команда, которая сгенерировала исключение " + str_command);
+                    System.out.println("На " + (counter_line + counter_input) + " строчке находится команда, которая сгенерировала исключение:: " + str_command);
                     break;
                 }
-
+                command.execute();
                 counter_line += 1;
             }
             fr.close();
@@ -71,6 +83,9 @@ public class ExecuteCommand implements Command {
         }
         catch (CommandNotFound e){
             System.out.println(e.send_message());
+        }
+        catch (NullFieldException e) {
+            System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
         }
 
     }
