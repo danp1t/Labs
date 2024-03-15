@@ -6,7 +6,6 @@ import org.example.Exceptions.RecursionLimitException;
 import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -14,10 +13,33 @@ import java.util.Scanner;
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
 
+/**
+ * Данный класс реализует команду execute_script
+ * Команда execute_script исполняет скрипт из указанного файла
+ * Данный класс реализует интерфейс Command
+ */
 public class ExecuteCommand implements Command {
+    /**
+     * Номер строки последней исполненной команды
+     */
     public static int counter_line;
+    /**
+     * Так как функции может в скрипте вызывать саму себя, то нужно ограничить глубину рекурсии
+     * Поле содержит максимальную глубину рекурсии
+     */
     private static final int MAX_DEPTH = 1000;
+    /**
+     * Текучая глубина рекурсии
+     */
     private static int recursionDepth = 0;
+
+    /**
+     * Метод выполнения команды
+     * 1. Находим нужный файл со скриптом
+     * 2. Считываем строку
+     * 3. Анализируем тип команды
+     * 4. Выполняем команду
+     */
     @Override
     public void execute() {
         CommandManager commands = new CommandManager();
@@ -101,11 +123,20 @@ public class ExecuteCommand implements Command {
 
     }
 
+    /**
+     * Метод описания действия команды
+     * Данное описание используется в команде help
+     * @return возвращает описание действия команды
+     */
     @Override
     public String description() {
         return "считывает и исполняет скрипт из указанного файла";
     }
-
+    /**
+     * Метод, который возвращает название и синтаксис команды
+     * Данное название используется в команде help
+     * @return возвращает название команды
+     */
     @Override
     public String get_name_command() {
         return "execute_script file_name";

@@ -10,13 +10,23 @@ import java.util.Scanner;
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
 
+/**
+ * Данный класс реализует команду update
+ * Команда update обновляет значение элемента коллекции по id
+ * Данный класс реализует интерфейс Command
+ */
 public class UpdateCommand implements Command {
+    /**
+     * Метод исполнение команды
+     * 1. Считываем id
+     * 2. Ищем по id элемент коллекции
+     * 3. Обновляем коллекцию
+     */
     @Override
     public void execute() {
         try {
             if (study_groups == null) {get_HashSet();}
             String arg = history_list.getLast().split(" ")[1];
-            //Перевод из численного в строковый тип
             int number = 1;
             number = Integer.parseInt(arg);
             HashSet<StudyGroup> new_study_groups = new HashSet<>();
@@ -50,12 +60,20 @@ public class UpdateCommand implements Command {
     }
 
 
-
+    /**
+     * Метод описания действия команды
+     * Данное описание используется в команде help
+     * @return возвращает описание действия команды
+     */
     @Override
     public String description() {
         return "обновляет значение элемента коллекции, id которого равен заданному";
     }
-
+    /**
+     * Метод, который возвращает название и синтаксис команды
+     * Данное название используется в команде help
+     * @return возвращает название команды
+     */
     @Override
     public String get_name_command() {
         return "update id {element}";
