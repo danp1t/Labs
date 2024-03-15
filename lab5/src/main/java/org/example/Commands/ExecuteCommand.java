@@ -2,6 +2,7 @@ package org.example.Commands;
 
 import org.example.Exceptions.CommandNotFound;
 import org.example.Exceptions.NullFieldException;
+import org.example.Exceptions.RecursionLimitException;
 import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
 
@@ -15,9 +16,10 @@ import static org.example.Managers.CommandManager.*;
 
 public class ExecuteCommand implements Command {
     public static int counter_line;
+    private static final int MAX_DEPTH = 1000;
+    private static int recursionDepth = 0;
     @Override
     public void execute() {
-
         CommandManager commands = new CommandManager();
         System.out.println("Считать и исполнить скрипт из файла");
         //Найти такой файл
@@ -26,6 +28,10 @@ public class ExecuteCommand implements Command {
         String file_dir = System.getenv("FILE_DIR_LAB5");;
         String fileName = file_dir + file_name;
         try {
+            recursionDepth += 1;
+            if (recursionDepth > MAX_DEPTH) {
+                throw new RecursionLimitException();
+            }
             FileReader fr = new FileReader(fileName);
             Scanner scan = new Scanner(fr);
             counter_line = 1;
@@ -79,6 +85,9 @@ public class ExecuteCommand implements Command {
             fr.close();
 
         }
+        catch (RecursionLimitException e){
+            System.out.println(e.send_message());
+        }
         catch (IOException e) {
             System.out.println("Ошибка чтения из файла или файл не был найден");
         }
@@ -88,6 +97,7 @@ public class ExecuteCommand implements Command {
         catch (NullFieldException e) {
             System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
         }
+
 
     }
 

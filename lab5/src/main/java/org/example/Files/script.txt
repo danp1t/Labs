@@ -1,4 +1,4 @@
-add_if_min
+add
 danil
 21
 21
@@ -12,4 +12,6 @@ WHITE
 WHITE
 count_greater_than_average_mark 1.21
 filter_contains_name danil
-info
+execute_script script.txt
+
+
