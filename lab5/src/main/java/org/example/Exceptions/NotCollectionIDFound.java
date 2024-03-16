@@ -8,7 +8,7 @@ public class NotCollectionIDFound extends Exception{
      * Метод отправляет сообщение об ошибке
      * @return сообщение об ошибке
      */
-    public String send_message(){
+    public String sendMessage(){
         return "ID коллекции не был найден :(";
     }
 }

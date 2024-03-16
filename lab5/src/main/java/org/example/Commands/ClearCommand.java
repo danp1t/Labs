@@ -1,9 +1,8 @@
 package org.example.Commands;
 
 import org.example.Interface.Command;
-import org.example.Managers.CollectionManager;
 
-import static org.example.Managers.CollectionManager.clear_hashSet;
+import static org.example.Managers.CollectionManager.clearHashSet;
 
 /**
  * Данный класс реализует команду clear
@@ -17,7 +16,7 @@ public class ClearCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Очистить коллекцию");
-        clear_hashSet();
+        clearHashSet();
     }
 
     /**
@@ -36,7 +35,7 @@ public class ClearCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "clear";
     }
 }

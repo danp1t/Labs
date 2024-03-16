@@ -1,9 +1,8 @@
 package org.example.Commands;
 
 import org.example.Interface.Command;
-import org.example.Managers.CollectionManager;
 
-import static org.example.Managers.CollectionManager.print_min_by_semester_enum;
+import static org.example.Managers.CollectionManager.printMinBySemesterEnum;
 /**
  * Данный класс реализует команду min_by_semester_enum
  * Команда min_by_semester_enum выводит любой объект из коллекции, значение поля semesterEnum которого является минимальным
@@ -16,7 +15,7 @@ public class MinSemesterEnum implements Command {
     @Override
     public void execute() {
         System.out.println("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным");
-        System.out.println(print_min_by_semester_enum());
+        System.out.println(printMinBySemesterEnum());
     }
 
     /**
@@ -34,7 +33,7 @@ public class MinSemesterEnum implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "min_by_semester_enum";
     }
 }

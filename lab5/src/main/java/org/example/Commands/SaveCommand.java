@@ -1,9 +1,8 @@
 package org.example.Commands;
 
 import org.example.Interface.Command;
-import org.example.Managers.CollectionManager;
 
-import static org.example.Managers.CollectionManager.save_hashSet_to_file;
+import static org.example.Managers.CollectionManager.saveHashSetToFile;
 /**
  * Данный класс реализует команду save
  * Команда save сохраняет коллекцию в файл
@@ -16,7 +15,7 @@ public class SaveCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Сохранить коллекцию в файл");
-        save_hashSet_to_file();
+        saveHashSetToFile();
     }
     /**
      * Метод описания действия команды
@@ -34,7 +33,7 @@ public class SaveCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "save";
     }
 }

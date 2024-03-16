@@ -9,7 +9,7 @@ public class InputFromFIleException extends Exception{
      * Метод отправляет сообщение об ошибке
      * @return сообщение об ошибке
      */
-    public String send_message(){
+    public String sendMessage(){
         return "Возникла ошибка при чтении строки из файла";
     }
 }

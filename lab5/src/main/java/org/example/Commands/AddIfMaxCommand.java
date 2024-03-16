@@ -6,7 +6,7 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.get_element;
+import static org.example.Managers.CommandManager.getElement;
 
 /**
  * Данный класс реализует команду add_if_max
@@ -22,19 +22,19 @@ public class AddIfMaxCommand implements Command {
     public void execute(){
         //Найти максимальный элемент в коллекции
         System.out.println("Добавить элемент в коллекцию, если количество студентов в новой группе превышает количество людей в любой группе");
-        HashSet<StudyGroup> studyGroups = get_study_groups();
-        Integer max_students_count = 0;
+        HashSet<StudyGroup> studyGroups = getStudyGroups();
+        Integer maxStudentsCount = 0;
         for (StudyGroup group : studyGroups) {
-            if (max_students_count < group.getStudentsCount()){
-                max_students_count = group.getStudentsCount();
+            if (maxStudentsCount < group.getStudentsCount()){
+                maxStudentsCount = group.getStudentsCount();
             }
         }
 
         //Прочитать элемент
-        StudyGroup group = get_element();
-        if (group.getStudentsCount() > max_students_count) {
+        StudyGroup group = getElement();
+        if (group.getStudentsCount() > maxStudentsCount) {
             studyGroups.add(group);
-            set_study_groups(studyGroups);
+            setStudyGroups(studyGroups);
         }
         else {
             System.out.println("Не удалось добавить элемент в коллекцию. Группа не максимальная :(");
@@ -58,7 +58,7 @@ public class AddIfMaxCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command(){
+    public String getNameCommand(){
         return "add_if_max {element}";
     }
 }

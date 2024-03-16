@@ -22,5 +22,5 @@ public interface Command {
      * Абстрактный метод получение названия и синтаксиса команды
      * @return название и синтаксист команды
      */
-    String get_name_command();
+    String getNameCommand();
 }

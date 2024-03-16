@@ -5,7 +5,6 @@ import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
-import java.util.Scanner;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
@@ -25,38 +24,39 @@ public class UpdateCommand implements Command {
     @Override
     public void execute() {
         try {
-            HashSet<StudyGroup> studyGroups = get_study_groups();
-            if (studyGroups == null) {get_HashSet();
-                studyGroups = get_study_groups();}
-            String arg = history_list.getLast().split(" ")[1];
+            HashSet<StudyGroup> studyGroups = getStudyGroups();
+            if (studyGroups == null) {
+                getHashSet();
+                studyGroups = getStudyGroups();}
+            String arg = historyList.getLast().split(" ")[1];
             int number = 1;
             number = Integer.parseInt(arg);
-            HashSet<StudyGroup> new_study_groups = new HashSet<>();
+            HashSet<StudyGroup> newStudyGroups = new HashSet<>();
             for (StudyGroup group : studyGroups) {
                 if (number != group.getID()) {
-                    new_study_groups.add(group);
+                    newStudyGroups.add(group);
                 }
             }
-            if (new_study_groups.size() == studyGroups.size()) {
+            if (newStudyGroups.size() == studyGroups.size()) {
                 throw new NotCollectionIDFound();
             }
-            set_study_groups(new_study_groups);
-            studyGroups = get_study_groups();
-            studyGroups.add(get_element());
-            set_study_groups(studyGroups);
+            setStudyGroups(newStudyGroups);
+            studyGroups = getStudyGroups();
+            studyGroups.add(getElement());
+            setStudyGroups(studyGroups);
             System.out.println("Коллекция обновлена");
 
 
         }
         catch (NumberFormatException e){
-            set_status_command(-1);
+            setStatusCommand(-1);
         }
         catch (NotCollectionIDFound e){
-            set_status_command(-1);
+            setStatusCommand(-1);
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Введите ID элемента");
-            set_status_command(-1);
+            setStatusCommand(-1);
         }
         catch (NullPointerException e) {
             System.out.println("Ошибочка вышла");
@@ -79,7 +79,7 @@ public class UpdateCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "update id {element}";
     }
 }

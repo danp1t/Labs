@@ -8,7 +8,7 @@ public class RecursionLimitException extends Exception{
      * Метод отправляет сообщение об ошибке
      * @return сообщение об ошибке
      */
-    public String send_message(){
+    public String sendMessage(){
         return "ПРЕРЫВАНИЕ!!! Превышен лимит рекурсии. Программа аварийно завершена";
     }
 }

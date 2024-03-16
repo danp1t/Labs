@@ -6,7 +6,7 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.get_element;
+import static org.example.Managers.CommandManager.getElement;
 
 /**
  * Данный класс реализует команду add_if_min
@@ -22,17 +22,17 @@ public class AddIfMinCommand implements Command {
     public void execute() {
         System.out.println("Добавить элемент в коллекцию, если количество студентов в введенной группе минимально");
         //Нахождение минимального количества студентов
-        HashSet<StudyGroup> studyGroups = get_study_groups();
-        Integer min_students_count = 2099999999;
+        HashSet<StudyGroup> studyGroups = getStudyGroups();
+        Integer minStudentsCount = Integer.MAX_VALUE;
         for (StudyGroup group : studyGroups) {
-            if (group.getStudentsCount() < min_students_count) {
-                min_students_count = group.getStudentsCount();
+            if (group.getStudentsCount() < minStudentsCount) {
+                minStudentsCount = group.getStudentsCount();
             }
         }
-        StudyGroup group = get_element();
-        if (group.getStudentsCount() < min_students_count) {
+        StudyGroup group = getElement();
+        if (group.getStudentsCount() < minStudentsCount) {
             studyGroups.add(group);
-            set_study_groups(studyGroups);
+            setStudyGroups(studyGroups);
         }
         else {
             System.out.println("Не удалось добавить элемент в коллекцию. Группа не минимальная :(");
@@ -55,7 +55,7 @@ public class AddIfMinCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command(){
+    public String getNameCommand(){
         return "add_if_min {element}";
     }
 }

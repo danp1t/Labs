@@ -23,21 +23,22 @@ public class CountGreaterThanAverageMarkCommand implements Command {
      */
     @Override
     public void execute() {
-        HashSet<StudyGroup> studyGroups = get_study_groups();
+        HashSet<StudyGroup> studyGroups = getStudyGroups();
         System.out.println("Количество элементов, значение поля averageMark которых больше заданного");
-        if (studyGroups == null) {get_HashSet();
-            studyGroups = get_study_groups();}
-        Double average_mark;
+        if (studyGroups == null) {
+            getHashSet();
+            studyGroups = getStudyGroups();}
+        Double averageMark;
         try{
-            if (history_list.getLast().split(" ").length < 2) {
+            if (historyList.getLast().split(" ").length < 2) {
                 throw new InputUserException();
             }
-            String str_average_mark = history_list.getLast().split(" ")[1];
-            average_mark = Double.parseDouble(str_average_mark);
+            String strAverageMark = historyList.getLast().split(" ")[1];
+            averageMark = Double.parseDouble(strAverageMark);
             int counter = 0;
             for (StudyGroup group : studyGroups){
-                Double group_average_mark = group.getAverageMark();
-                if (group_average_mark > average_mark) {
+                Double groupAverageMark = group.getAverageMark();
+                if (groupAverageMark > averageMark) {
                     counter = counter + 1;
                 }
             }
@@ -45,7 +46,7 @@ public class CountGreaterThanAverageMarkCommand implements Command {
         }
         catch (NumberFormatException e){
             System.out.println("Введено некорректное число. Попробуйте еще раз!");
-            set_status_command(-1);
+            setStatusCommand(-1);
         }
         catch (InputUserException e){
             System.out.println("Введите параметр");
@@ -69,7 +70,7 @@ public class CountGreaterThanAverageMarkCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "count_greater_than_average_mark averageMark";
     }
 }

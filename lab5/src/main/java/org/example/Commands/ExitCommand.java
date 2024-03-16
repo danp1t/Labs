@@ -33,7 +33,7 @@ public class ExitCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "exit";
     }
 }

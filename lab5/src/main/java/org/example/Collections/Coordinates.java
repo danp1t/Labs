@@ -21,7 +21,7 @@ public class Coordinates {
      * Getter для поля x
      * @return возвращает координату x
      */
-    public double get_x(){
+    public double getX(){
         return this.x;
     }
 
@@ -29,7 +29,7 @@ public class Coordinates {
      * Getter для поля y
      * @return возвращает координату y
      */
-    public Double get_y(){
+    public Double getY(){
     return this.y;
     }
 

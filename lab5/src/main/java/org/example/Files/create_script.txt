@@ -64,3 +64,10 @@ Denis
 22.04.2005
 WHITE
 ORANGE
+
+execute_script script_2.txt
+show
+execute_script script_2.txt
+
+
+

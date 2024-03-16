@@ -16,8 +16,8 @@ public class HelpCommand implements Command {
     @Override
     public void execute() {
         CommandManager commands = new CommandManager();
-        for (Command command : commands.get_commands().values()){
-            System.out.println(command.get_name_command() + " - " + command.description());
+        for (Command command : commands.getCommands().values()){
+            System.out.println(command.getNameCommand() + " - " + command.description());
         }
     }
 
@@ -37,7 +37,7 @@ public class HelpCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "help";
     }
 }

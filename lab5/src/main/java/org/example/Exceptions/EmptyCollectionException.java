@@ -9,7 +9,7 @@ public class EmptyCollectionException extends Exception{
      * Метод отправляет сообщение об ошибке
      * @return сообщение об ошибке
      */
-    public String send_message(){
+    public String sendMessage(){
         return "Действие не может быть выполнено, потому что коллекция пустая";
     }
 }

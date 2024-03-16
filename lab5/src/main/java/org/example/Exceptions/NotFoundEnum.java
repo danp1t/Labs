@@ -8,7 +8,7 @@ public class NotFoundEnum extends Exception{
      * Метод отправляет сообщение об ошибке
      * @return сообщение об ошибке
      */
-    public String send_message(){
+    public String sendMessage(){
         return "Enum не был найден. Вводите значение с заглавной буквы";
     }
 }

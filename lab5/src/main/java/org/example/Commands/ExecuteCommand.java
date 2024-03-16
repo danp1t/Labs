@@ -25,7 +25,7 @@ public class ExecuteCommand implements Command {
     /**
      * Номер строки последней исполненной команды
      */
-    private static int counter_line;
+    private static int counterLine;
     /**
      * Так как функции может в скрипте вызывать саму себя, то нужно ограничить глубину рекурсии
      * Поле содержит максимальную глубину рекурсии
@@ -48,85 +48,86 @@ public class ExecuteCommand implements Command {
         CommandManager commands = new CommandManager();
         System.out.println("Считать и исполнить скрипт из файла");
         //Найти такой файл
-        HashSet<StudyGroup> studyGroups = get_study_groups();
-        if (studyGroups == null) {get_HashSet();
-            studyGroups = get_study_groups();}
+        HashSet<StudyGroup> studyGroups = getStudyGroups();
+        if (studyGroups == null) {
+            getHashSet();
+            studyGroups = getStudyGroups();}
 
-        String file_name = null;
+        String fileName = null;
         try {
-        if (history_list.getLast().split(" ").length < 2) {
+        if (historyList.getLast().split(" ").length < 2) {
             throw new InputUserException();}
-            file_name = history_list.getLast().split(" ")[1];
+            fileName = historyList.getLast().split(" ")[1];
         }
         catch (InputUserException e) {
             System.out.println("Введите параметр");
         }
-        String file_dir = System.getenv("FILE_DIR_LAB5");;
-        String fileName = file_dir + file_name;
+        String fileDir = System.getenv("FILE_DIR_LAB5");;
+        fileName = fileDir + fileName;
         try (FileReader fr = new FileReader(fileName)){
             recursionDepth += 1;
             if (recursionDepth > MAX_DEPTH) {
                 throw new RecursionLimitException();
             }
             Scanner scan = new Scanner(fr);
-            counter_line = 1;
+            counterLine = 1;
             while (scan.hasNext()) {
                 String line = scan.nextLine();
                 if (line.equals("")) {line = scan.nextLine();}
-                String str_command = line.strip().split(" ")[0];
-                Command command = commands.get_commands().get(str_command);
+                String strCommand = line.strip().split(" ")[0];
+                Command command = commands.getCommands().get(strCommand);
                 if (command == null) {
                     System.out.println("Исполнение скрипта аварийно завершено!");
-                    System.out.println("На " + (counter_line - 1) + " строчке найдена неверная команда или строка");
+                    System.out.println("На " + (counterLine - 1) + " строчке найдена неверная команда или строка");
                     break;
                 }
-                else if (commands.is_simple_command(str_command)) {
+                else if (commands.isSimpleCommand(strCommand)) {
                     if (line.strip().split(" ").length > 1) {
-                        set_status_command(-1);
+                        setStatusCommand(-1);
                         }
-                    commands.add_command_in_history(commands.get_commands().get(str_command));
+                    commands.addCommandInHistory(commands.getCommands().get(strCommand));
                     }
-                else if (commands.is_command_with_one_arg(str_command)) {
+                else if (commands.isCommandWithOneArg(strCommand)) {
                     if (line.strip().split(" ").length > 2) {
-                        set_status_command(-1);
+                        setStatusCommand(-1);
                     }
-                    commands.add_command_in_history(line);
+                    commands.addCommandInHistory(line);
                     }
-                else if (commands.is_command_with_element(str_command)) {
+                else if (commands.isCommandWithElement(strCommand)) {
                     if (line.strip().split(" ").length > 1) {
-                        set_status_command(-1);
+                        setStatusCommand(-1);
                         }
-                    commands.processing_element(commands.get_commands().get(str_command), scan, false);
+                    commands.processingElement(commands.getCommands().get(strCommand), scan, false);
                     }
 
-                else if (commands.is_command_with_element_and_one_arg(str_command)) {
+                else if (commands.isCommandWithElementAndOneArg(strCommand)) {
                     if (line.strip().split(" ").length > 2) {
-                        set_status_command(-1);
+                        setStatusCommand(-1);
                         }
-                    commands.add_command_in_history(line);
-                    get_group_element();
-                    if (getting_group_element() == null) {throw new NullFieldException();}
-                    commands.update_function(scan, false);
+                    commands.addCommandInHistory(line);
+                    getGroupElement();
+                    if (gettingGroupElement() == null) {throw new NullFieldException();}
+                    commands.updateFunction(scan, false);
                     }
 
-                if (get_status_command() == -1){
+                if (getStatusCommand() == -1){
                     System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
-                    System.out.println("Команда, которая сгенерировала исключение:: " + str_command);
+                    System.out.println("Команда, которая сгенерировала исключение:: " + strCommand);
                     break;
                 }
                 command.execute();
-                counter_line += 1;
+                counterLine += 1;
             }
 
         }
         catch (RecursionLimitException e){
-            System.out.println(e.send_message());
+            System.out.println(e.sendMessage());
         }
         catch (IOException e) {
             System.out.println("Ошибка чтения из файла или файл не был найден");
         }
         catch (CommandNotFound e){
-            System.out.println(e.send_message());
+            System.out.println(e.sendMessage());
         }
         catch (NullFieldException e) {
             System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
@@ -151,7 +152,7 @@ public class ExecuteCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "execute_script file_name";
     }
 }

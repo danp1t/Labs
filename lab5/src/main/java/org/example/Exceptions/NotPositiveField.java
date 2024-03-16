@@ -8,7 +8,7 @@ public class NotPositiveField extends Exception{
      * Метод отправляет сообщение об ошибке
      * @return сообщение об ошибке
      */
-    public String send_message(){
+    public String sendMessage(){
         return "Значение этого поля должно быть положительным число. Попробуйте снова";
     }
 }

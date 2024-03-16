@@ -6,8 +6,8 @@ import org.example.Interface.Command;
 
 import java.util.*;
 
-import static org.example.Managers.CollectionManager.create_study_group;
-import static org.example.Managers.CollectionManager.update_study_group;
+import static org.example.Managers.CollectionManager.createStudyGroup;
+import static org.example.Managers.CollectionManager.updateStudyGroup;
 
 /**
  * Класс для работы с командами
@@ -20,7 +20,7 @@ public class CommandManager {
      * Если поле равно 0, то все нормально
      * Если поле равно -1, то произошло исключение и нужно прервать выполнения команды
      */
-    private static int status_command = 0;
+    private static int statusCommand = 0;
     /**
      * Поля для хранения команд
      */
@@ -28,7 +28,7 @@ public class CommandManager {
     /**
      * Поле для хранения element для команды update
      */
-    private static StudyGroup group_element;
+    private static StudyGroup groupElement;
     /**
      * Поле для хранения element
      */
@@ -36,7 +36,7 @@ public class CommandManager {
     /**
      * Поле истории вызова команд
      */
-    public static ArrayDeque<String> history_list = new ArrayDeque<>(13);
+    public static ArrayDeque<String> historyList = new ArrayDeque<>(13);
 
     /**
      * Конструктор класса
@@ -59,6 +59,7 @@ public class CommandManager {
         commands.put("min_by_semester_enum", new MinSemesterEnum());
         commands.put("count_greater_than_average_mark", new CountGreaterThanAverageMarkCommand());
         commands.put("filter_contains_name", new FilterContainsNameCommand());
+        commands.put("hello", new HelloWorldCommand());
         this.commands = commands;
     }
 
@@ -66,52 +67,52 @@ public class CommandManager {
      * Getter для поля element
      * @return значение поля element
      */
-    public static StudyGroup get_element(){
+    public static StudyGroup getElement(){
         return element;
     }
     /**
-     * Setter для поля group_element
-     * @param group значение для group_element
+     * Setter для поля groupElement
+     * @param group значение для groupElement
      */
-    public static void set_element(StudyGroup group){
+    public static void setElement(StudyGroup group){
         element = group;
     }
     /**
-     * Getter для поля group_element
-     * @return значение поля group_element
+     * Getter для поля groupElement
+     * @return значение поля groupElement
      */
-    public static StudyGroup getting_group_element(){
-        return group_element;
+    public static StudyGroup gettingGroupElement(){
+        return groupElement;
     }
 
     /**
-     * Setter для поля group_element
-     * @param group значение для group_element
+     * Setter для поля groupElement
+     * @param group значение для groupElement
      */
-    public static void setting_group_element(StudyGroup group){
-        group_element = group;
+    public static void settingGroupElement(StudyGroup group){
+        groupElement = group;
     }
     /**
-     * Getter для поля status_command
-     * @return значение поля status_command
+     * Getter для поля statusCommand
+     * @return значение поля statusCommand
      */
-    public static int get_status_command() {
-        return status_command;
+    public static int getStatusCommand() {
+        return statusCommand;
     }
 
     /**
-     * Setter для поля status_command
+     * Setter для поля statusCommand
      * @param status устанавливаемый статус команды
      */
-    public static void set_status_command(int status) {
-        status_command = status;
+    public static void setStatusCommand(int status) {
+        statusCommand = status;
     }
 
     /**
      * Getter для поля commands
      * @return список команд
      */
-    public Map<String, Command> get_commands(){
+    public Map<String, Command> getCommands(){
         return commands;
     }
 
@@ -120,8 +121,8 @@ public class CommandManager {
      * @param command команда
      * @return это команда без аргументов?
      */
-    public boolean is_simple_command(String command){
-        String[] simpleCommand = {"help", "info", "show", "clear", "save", "exit", "history", "min_by_semester_enum"};
+    public boolean isSimpleCommand(String command){
+        String[] simpleCommand = {"hello", "help", "info", "show", "clear", "save", "exit", "history", "min_by_semester_enum"};
         boolean contains = Arrays.asList(simpleCommand).contains(command);
         if (contains) {return true;}
         else {return false;}
@@ -132,7 +133,7 @@ public class CommandManager {
      * @param command команда
      * @return это команда с одним аргументом?
      */
-    public boolean is_command_with_one_arg(String command){
+    public boolean isCommandWithOneArg(String command){
         String[] commandWithOneArg = {"remove_by_id", "execute_script", "count_greater_than_average_mark", "filter_contains_name"};
         boolean contains = Arrays.asList(commandWithOneArg).contains(command);
         if (contains) {return true;}
@@ -144,7 +145,7 @@ public class CommandManager {
      * @param command команда
      * @return это команда с element?
      */
-    public boolean is_command_with_element(String command){
+    public boolean isCommandWithElement(String command){
         String[] commandWithElement = {"add", "add_if_max", "add_if_min"};
         boolean contains = Arrays.asList(commandWithElement).contains(command);
         if (contains) {return true;}
@@ -156,11 +157,10 @@ public class CommandManager {
      * @param command команда
      * @return это команда с element и одним аргументом?
      */
-    public boolean is_command_with_element_and_one_arg(String command){
-        String[] commandWithElement = {"update"};
-        boolean contains = Arrays.asList(commandWithElement).contains(command);
-        if (contains) {return true;}
-        else {return false;}
+    public boolean isCommandWithElementAndOneArg(String command){
+        List<String> commandWithElement = List.of("update");
+        boolean contains = commandWithElement.contains(command);
+        return contains;
 
     }
 
@@ -168,11 +168,11 @@ public class CommandManager {
      * Добавить команду в исторический список
      * @param command команда
      */
-    public void add_command_in_history(Command command) {
-        String name = command.get_name_command();
-        history_list.addLast(name);
-        if (history_list.size() > 13){
-            history_list.removeFirst();
+    public void addCommandInHistory(Command command) {
+        String name = command.getNameCommand();
+        historyList.addLast(name);
+        if (historyList.size() > 13){
+            historyList.removeFirst();
         }
     };
 
@@ -180,35 +180,35 @@ public class CommandManager {
      * Добавить команду в исторический список и создать element
      * @param command команда
      * @param sc сканер
-     * @param is_user_input пользовательский ввод?
+     * @param isUserInput пользовательский ввод?
      */
-    public void processing_element(Command command, Scanner sc, boolean is_user_input){
-        String name = command.get_name_command();
-        history_list.addLast(name);
-        if (history_list.size() > 13){
-            history_list.removeFirst();
+    public void processingElement(Command command, Scanner sc, boolean isUserInput){
+        String name = command.getNameCommand();
+        historyList.addLast(name);
+        if (historyList.size() > 13){
+            historyList.removeFirst();
         }
-        element = create_study_group(sc, is_user_input);
+        element = createStudyGroup(sc, isUserInput);
     }
 
     /**
      * Добавить команду в исторический список
      * @param line команда с параметром
      */
-    public void add_command_in_history(String line) {
-        history_list.addLast(line);
-        if (history_list.size() > 13){
-            history_list.removeFirst();
+    public void addCommandInHistory(String line) {
+        historyList.addLast(line);
+        if (historyList.size() > 13){
+            historyList.removeFirst();
         }
     }
 
     /**
      * Получение element для команды update
      * @param sc сканер
-     * @param is_user_input пользовательский ли ввод?
+     * @param isUserInput пользовательский ли ввод?
      */
-    public void update_function(Scanner sc, boolean is_user_input) {
-        element = update_study_group(sc, is_user_input);
+    public void updateFunction(Scanner sc, boolean isUserInput) {
+        element = updateStudyGroup(sc, isUserInput);
 
     }
 }

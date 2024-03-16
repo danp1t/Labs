@@ -11,7 +11,7 @@ public class CtrlDException extends IOException {
      * Метод отправляет сообщение об ошибке
      * @return сообщение об ошибке
      */
-    public String send_message(){
+    public String sendMessage(){
         return "Ай-ай-ай, как не стыдно ломать программу...";
     }
 }

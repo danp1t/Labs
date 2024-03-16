@@ -14,7 +14,7 @@ public class HistoryCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Последние 13 введенных команд: ");
-        for (String command : CommandManager.history_list) {
+        for (String command : CommandManager.historyList) {
             System.out.println(command);
         }
     }
@@ -35,7 +35,7 @@ public class HistoryCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "history";
     }
 

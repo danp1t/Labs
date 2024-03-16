@@ -2,7 +2,7 @@ package org.example.Commands;
 
 import org.example.Interface.Command;
 
-import static org.example.Managers.CollectionManager.print_info_HashSet;
+import static org.example.Managers.CollectionManager.printInfoHashSet;
 /**
  * Данный класс реализует команду info
  * Команда info выводит информацию о коллекции(тип коллекции, дата инициализации, количество элементов, является ли множество пустым)
@@ -15,7 +15,7 @@ public class InfoCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Информация о коллекции");
-        System.out.println(print_info_HashSet());
+        System.out.println(printInfoHashSet());
     }
 
     /**
@@ -34,7 +34,7 @@ public class InfoCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "info";
     }
 

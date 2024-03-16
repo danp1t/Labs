@@ -6,7 +6,7 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.get_element;
+import static org.example.Managers.CommandManager.getElement;
 
 /**
  * Данный класс реализует команду add
@@ -19,11 +19,11 @@ public class AddCommand implements Command {
      */
     @Override
     public void execute() {
-        HashSet studyGroup = get_study_groups();
+        HashSet studyGroup = getStudyGroups();
         System.out.println("Группа добавлена!");
-        StudyGroup group = get_element();
+        StudyGroup group = getElement();
         studyGroup.add(group);
-        set_study_groups(studyGroup);
+        setStudyGroups(studyGroup);
     }
 
     /**
@@ -42,7 +42,7 @@ public class AddCommand implements Command {
      * @return возвращает название команды
      */
     @Override
-    public String get_name_command() {
+    public String getNameCommand() {
         return "add {element}";
     }
 }
