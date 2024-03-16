@@ -2,6 +2,7 @@ package org.example.Commands;
 
 import org.example.Collections.StudyGroup;
 import org.example.Exceptions.CommandNotFound;
+import org.example.Exceptions.InputUserException;
 import org.example.Exceptions.NullFieldException;
 import org.example.Exceptions.RecursionLimitException;
 import org.example.Interface.Command;
@@ -50,7 +51,16 @@ public class ExecuteCommand implements Command {
         HashSet<StudyGroup> studyGroups = get_study_groups();
         if (studyGroups == null) {get_HashSet();
             studyGroups = get_study_groups();}
-        String file_name = history_list.getLast().split(" ")[1];
+
+        String file_name = null;
+        try {
+        if (history_list.getLast().split(" ").length < 2) {
+            throw new InputUserException();}
+            file_name = history_list.getLast().split(" ")[1];
+        }
+        catch (InputUserException e) {
+            System.out.println("Введите параметр");
+        }
         String file_dir = System.getenv("FILE_DIR_LAB5");;
         String fileName = file_dir + file_name;
         try (FileReader fr = new FileReader(fileName)){
@@ -121,6 +131,7 @@ public class ExecuteCommand implements Command {
         catch (NullFieldException e) {
             System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
         }
+
 
 
     }
