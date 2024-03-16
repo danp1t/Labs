@@ -331,7 +331,7 @@ public class CollectionManager {
     public static String input_name(Scanner sc, boolean is_user_input){
         boolean flag = false;
         counter_input = 0;
-        String name = null;
+        String name = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getName();
             while (!flag){
                 try {
                     if (is_user_input){
@@ -380,8 +380,8 @@ public class CollectionManager {
         counter_input = 0;
         if (is_user_input) {System.out.println("Введите координаты");}
 
-        double new_x = 0;
-        Double y = null;
+        double new_x = (Objects.isNull(getting_group_element())) ? 1 : getting_group_element().getCoordinates().get_x();
+        Double y = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getCoordinates().get_y();
         boolean flag = true;
         while(flag) {
             try{
@@ -454,7 +454,7 @@ public class CollectionManager {
     public static Integer input_students_count(Scanner sc, boolean is_user_input){
         counter_input = 0;
         boolean flag = true;
-        Integer students_count = 0;
+        Integer students_count = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getStudentsCount();
         while (flag) {
             try {
                 if (is_user_input) {
@@ -504,7 +504,7 @@ public class CollectionManager {
     public static Double input_average_mark(Scanner sc, boolean is_user_input){
         boolean flag = true;
         counter_input = 0;
-        Double averageMark = 0.0;
+        Double averageMark = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getAverageMark();
         while (flag){
             try{
                 if (is_user_input) {
@@ -555,7 +555,7 @@ public class CollectionManager {
     public static FormOfEducation input_form_of_education(Scanner sc, boolean is_user_input){
         counter_input = 0;
         boolean flag = true;
-        FormOfEducation formOfEducation = null;
+        FormOfEducation formOfEducation = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getFormOfEducation();
         while (flag) {
             try {
                 if (is_user_input) {
@@ -601,7 +601,7 @@ public class CollectionManager {
     public static Semester input_semester_enum(Scanner sc, boolean is_user_input){
         counter_input = 0;
         boolean flag = true;
-        Semester semester = null;
+        Semester semester = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getSemesterEnum();
         while (flag) {
             try {
                 if (is_user_input) {
@@ -648,10 +648,10 @@ public class CollectionManager {
         counter_input = 0;
         if (is_user_input) {System.out.println("Заполните значение старосты группы");}
         boolean flag = false;
-        String admin_name = null;
-        LocalDate birthday = null;
-        EyeColor eyeColor = null;
-        HairColor hairColor = null;
+        String admin_name = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getGroupAdmin().getName();
+        LocalDate birthday = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getGroupAdmin().getBirthday();
+        EyeColor eyeColor = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getGroupAdmin().getEyeColor();
+        HairColor hairColor = (Objects.isNull(getting_group_element())) ? null : getting_group_element().getGroupAdmin().getHairColor();
         while (!flag){
             try {
                 if (is_user_input) {

@@ -53,12 +53,11 @@ public class ExecuteCommand implements Command {
         String file_name = history_list.getLast().split(" ")[1];
         String file_dir = System.getenv("FILE_DIR_LAB5");;
         String fileName = file_dir + file_name;
-        try {
+        try (FileReader fr = new FileReader(fileName)){
             recursionDepth += 1;
             if (recursionDepth > MAX_DEPTH) {
                 throw new RecursionLimitException();
             }
-            FileReader fr = new FileReader(fileName);
             Scanner scan = new Scanner(fr);
             counter_line = 1;
             while (scan.hasNext()) {
@@ -102,13 +101,12 @@ public class ExecuteCommand implements Command {
 
                 if (get_status_command() == -1){
                     System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
-                    System.out.println("На " + (counter_line) + " строчке находится команда, которая сгенерировала исключение:: " + str_command);
+                    System.out.println("Команда, которая сгенерировала исключение:: " + str_command);
                     break;
                 }
                 command.execute();
                 counter_line += 1;
             }
-            fr.close();
 
         }
         catch (RecursionLimitException e){

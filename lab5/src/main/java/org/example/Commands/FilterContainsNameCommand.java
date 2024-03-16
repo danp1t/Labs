@@ -2,6 +2,7 @@ package org.example.Commands;
 
 import org.example.Collections.Person;
 import org.example.Collections.StudyGroup;
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
@@ -24,9 +25,13 @@ public class FilterContainsNameCommand implements Command {
     public void execute() {
         HashSet<StudyGroup> studyGroups = get_study_groups();
         System.out.println("Фильтр...");
+        try{
         if (studyGroups == null) {get_HashSet();
             studyGroups = get_study_groups();}
         boolean flag = false;
+        if (history_list.getLast().split(" ").length < 2){
+            throw new InputUserException();
+        }
         String filter_name = history_list.getLast().split(" ")[1];
 
         for (StudyGroup group : studyGroups){
@@ -42,6 +47,10 @@ public class FilterContainsNameCommand implements Command {
         if (!flag) {
             System.out.println("Ничего с таким именем не было найдено");
         }
+        }catch (InputUserException e){
+            System.out.println("Введите параметр");
+        }
+
     }
 
     /**

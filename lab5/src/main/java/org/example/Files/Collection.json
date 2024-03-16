@@ -1,40 +1,97 @@
 [
   {
-    "studentsCount": 23,
-    "averageMark": 32.3,
+    "studentsCount": 17,
+    "averageMark": 3.54,
     "groupAdmin": {
-      "birthday": "1112-11-12",
+      "birthday": "2005-08-25",
+      "eyeColor": "BLUE",
+      "name": "Marina",
+      "hairColor": "ORANGE"
+    },
+    "name": "P3108",
+    "coordinates": {
+      "x": 322.332332,
+      "y": -1224.4221
+    },
+    "id": 4,
+    "formOfEducation": "FULL_TIME_EDUCATION",
+    "creationDate": "2024-03-16T09:29:59",
+    "semesterEnum": "SECOND"
+  },
+  {
+    "studentsCount": 20,
+    "averageMark": 3.8693,
+    "groupAdmin": {
+      "birthday": "2002-02-23",
       "eyeColor": "WHITE",
       "name": "Olga",
       "hairColor": "ORANGE"
     },
-    "name": "P3222",
+    "name": "P3392",
     "coordinates": {
-      "x": 21.0,
-      "y": 21.0
+      "x": 32.332332,
+      "y": -24.4221
     },
-    "id": 2,
+    "id": 1,
+    "formOfEducation": "EVENING_CLASSES",
+    "creationDate": "2024-03-16T09:29:59",
+    "semesterEnum": "FIFTH"
+  },
+  {
+    "studentsCount": 20,
+    "averageMark": 4.01,
+    "groupAdmin": {
+      "birthday": "2005-04-22",
+      "eyeColor": "WHITE",
+      "name": "Denis",
+      "hairColor": "ORANGE"
+    },
+    "name": "P3110",
+    "coordinates": {
+      "x": 3322.332332,
+      "y": -12224.4221
+    },
+    "id": 5,
     "formOfEducation": "FULL_TIME_EDUCATION",
-    "creationDate": "2024-03-15T20:10:11",
+    "creationDate": "2024-03-16T09:29:59",
     "semesterEnum": "SIXTH"
   },
   {
-    "studentsCount": 112,
-    "averageMark": 2.2,
+    "studentsCount": 21,
+    "averageMark": 2.25,
     "groupAdmin": {
-      "birthday": "2020-02-23",
-      "eyeColor": "ORANGE",
-      "name": "null",
-      "hairColor": "BLACK"
+      "birthday": "2005-01-05",
+      "eyeColor": "BLUE",
+      "name": "Alex",
+      "hairColor": "ORANGE"
     },
-    "name": "P3221",
+    "name": "P3106",
     "coordinates": {
-      "x": -22.0,
-      "y": 221.0
+      "x": 32.332332,
+      "y": -124.4221
     },
-    "id": 1,
-    "formOfEducation": "DISTANCE_EDUCATION",
-    "creationDate": "2024-03-15T20:08:27",
+    "id": 3,
+    "formOfEducation": "FULL_TIME_EDUCATION",
+    "creationDate": "2024-03-16T09:29:59",
+    "semesterEnum": "FIFTH"
+  },
+  {
+    "studentsCount": 25,
+    "averageMark": 3.25,
+    "groupAdmin": {
+      "birthday": "2005-02-23",
+      "eyeColor": "WHITE",
+      "name": "Ivan",
+      "hairColor": "ORANGE"
+    },
+    "name": "P3107",
+    "coordinates": {
+      "x": 32.332332,
+      "y": -24.4221
+    },
+    "id": 2,
+    "formOfEducation": "EVENING_CLASSES",
+    "creationDate": "2024-03-16T09:29:59",
     "semesterEnum": "SECOND"
   }
 ]

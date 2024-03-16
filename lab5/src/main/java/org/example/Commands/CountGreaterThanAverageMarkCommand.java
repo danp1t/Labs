@@ -1,6 +1,7 @@
 package org.example.Commands;
 
 import org.example.Collections.StudyGroup;
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
@@ -26,9 +27,12 @@ public class CountGreaterThanAverageMarkCommand implements Command {
         System.out.println("Количество элементов, значение поля averageMark которых больше заданного");
         if (studyGroups == null) {get_HashSet();
             studyGroups = get_study_groups();}
-        String str_average_mark = history_list.getLast().split(" ")[1];
         Double average_mark;
         try{
+            if (history_list.getLast().split(" ").length < 2) {
+                throw new InputUserException();
+            }
+            String str_average_mark = history_list.getLast().split(" ")[1];
             average_mark = Double.parseDouble(str_average_mark);
             int counter = 0;
             for (StudyGroup group : studyGroups){
@@ -42,6 +46,9 @@ public class CountGreaterThanAverageMarkCommand implements Command {
         catch (NumberFormatException e){
             System.out.println("Введено некорректное число. Попробуйте еще раз!");
             set_status_command(-1);
+        }
+        catch (InputUserException e){
+            System.out.println("Введите параметр");
         }
 
     }

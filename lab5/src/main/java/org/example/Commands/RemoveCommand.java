@@ -1,6 +1,7 @@
 package org.example.Commands;
 
 import org.example.Collections.StudyGroup;
+import org.example.Exceptions.InputUserException;
 import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
 import java.util.HashSet;
@@ -26,9 +27,12 @@ public class RemoveCommand implements Command {
         if (studyGroups == null) {get_HashSet();
             studyGroups = get_study_groups();}
         System.out.println("Удалить элемент из коллекции");
-        String arg = history_list.getLast().split(" ")[1];
         int number = 1;
         try {
+            if (history_list.getLast().split(" ").length <= 1){
+                throw new NotCollectionIDFound();
+            }
+            String arg = history_list.getLast().split(" ")[1];
             number = Integer.parseInt(arg);
             HashSet<StudyGroup> new_study_groups = new HashSet<>();
 
