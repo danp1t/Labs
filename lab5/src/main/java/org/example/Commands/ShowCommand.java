@@ -13,7 +13,7 @@ public class ShowCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         System.out.println("Все элементы коллекции в строковом представлении");
         System.out.println(beatifulOutputJson());
         parseHashsetToJson();

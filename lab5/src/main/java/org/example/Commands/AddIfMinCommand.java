@@ -19,7 +19,7 @@ public class AddIfMinCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         System.out.println("Добавить элемент в коллекцию, если количество студентов в введенной группе минимально");
         //Нахождение минимального количества студентов
         HashSet<StudyGroup> studyGroups = getStudyGroups();

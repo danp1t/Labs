@@ -18,7 +18,7 @@ public class AddCommand implements Command {
      * Метод исполнения команды
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         HashSet studyGroup = getStudyGroups();
         System.out.println("Группа добавлена!");
         StudyGroup group = getElement();

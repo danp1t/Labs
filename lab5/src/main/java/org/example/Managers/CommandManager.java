@@ -168,7 +168,7 @@ public class CommandManager {
      * Добавить команду в исторический список
      * @param command команда
      */
-    public void addCommandInHistory(Command command) {
+    public void addCommandToHistory(Command command) {
         String name = command.getNameCommand();
         historyList.addLast(name);
         if (historyList.size() > 13){
@@ -195,7 +195,7 @@ public class CommandManager {
      * Добавить команду в исторический список
      * @param line команда с параметром
      */
-    public void addCommandInHistory(String line) {
+    public void addCommandToHistory(String line) {
         historyList.addLast(line);
         if (historyList.size() > 13){
             historyList.removeFirst();

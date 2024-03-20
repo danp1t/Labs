@@ -22,7 +22,7 @@ public class FilterContainsNameCommand implements Command {
      * 3. Выводим результат
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         HashSet<StudyGroup> studyGroups = getStudyGroups();
         System.out.println("Фильтр...");
         try{

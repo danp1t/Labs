@@ -2,6 +2,7 @@ package org.example.Commands;
 
 import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
+import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
@@ -22,38 +23,41 @@ public class CountGreaterThanAverageMarkCommand implements Command {
      * 3. Выводим значение на экран
      */
     @Override
-    public void execute() {
-        HashSet<StudyGroup> studyGroups = getStudyGroups();
-        System.out.println("Количество элементов, значение поля averageMark которых больше заданного");
-        if (studyGroups == null) {
-            getHashSet();
-            studyGroups = getStudyGroups();}
-        Double averageMark;
-        try{
-            if (historyList.getLast().split(" ").length < 2) {
-                throw new InputUserException();
+    public void execute(String[] tokens) {
+        //Чтение аргумента из tokens
+        try {
+            //Проверка на то, что у нас один элемент
+            if (tokens.length != 2) throw new InputUserException();
+            //Проверка на то, что у нас это дробное число
+            Double averageMark = Double.parseDouble(tokens[1]);
+            //Проверка на то, что у нас это отрицательное число
+            if (averageMark <= 0) throw new NotPositiveField();
+            //Получить текучую коллекцию StudyGroup
+            HashSet<StudyGroup> studyGroups = getStudyGroups();
+
+            if (studyGroups == null) {
+                getHashSet();
+                studyGroups = getStudyGroups();
             }
-            String strAverageMark = historyList.getLast().split(" ")[1];
-            averageMark = Double.parseDouble(strAverageMark);
+
             int counter = 0;
-            for (StudyGroup group : studyGroups){
+            for (StudyGroup group : studyGroups) {
                 Double groupAverageMark = group.getAverageMark();
                 if (groupAverageMark > averageMark) {
                     counter = counter + 1;
                 }
             }
-            System.out.println(counter);
-        }
-        catch (NumberFormatException e){
-            System.out.println("Введено некорректное число. Попробуйте еще раз!");
-            setStatusCommand(-1);
-        }
-        catch (InputUserException e){
-            System.out.println("Введите параметр");
-        }
+            System.out.println("Количество элементов, значение поля averageMark которых больше заданного: " + counter);
 
+
+        } catch (InputUserException e) {
+            System.out.println("Неверно введены аргументы для команды count_greater_than_average_mark");
+        } catch (NotPositiveField e) {
+            System.out.println("Значение аргумента не может быть отрицательным числом и нулем");
+        } catch (NumberFormatException e) {
+            System.out.println("Введено не число с плавающей точкой");
+        }
     }
-
     /**
      * Метод описания действия команды
      * Данное описание используется в команде help

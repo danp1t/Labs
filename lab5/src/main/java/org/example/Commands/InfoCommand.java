@@ -13,7 +13,7 @@ public class InfoCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         System.out.println("Информация о коллекции");
         System.out.println(printInfoHashSet());
     }

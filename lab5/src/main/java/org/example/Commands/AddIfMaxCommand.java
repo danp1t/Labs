@@ -19,7 +19,7 @@ public class AddIfMaxCommand implements Command {
      * Метод исполнения команды
      */
     @Override
-    public void execute(){
+    public void execute(String[] tokens){
         //Найти максимальный элемент в коллекции
         System.out.println("Добавить элемент в коллекцию, если количество студентов в новой группе превышает количество людей в любой группе");
         HashSet<StudyGroup> studyGroups = getStudyGroups();

@@ -12,7 +12,7 @@ public class HistoryCommand implements Command {
      * Метод выполнение команды
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         System.out.println("Последние 13 введенных команд: ");
         for (String command : CommandManager.historyList) {
             System.out.println(command);

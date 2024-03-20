@@ -13,7 +13,7 @@ public class MinSemesterEnum implements Command {
      * Метод выполнения команды
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         System.out.println("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным");
         System.out.println(printMinBySemesterEnum());
     }

@@ -14,7 +14,7 @@ public class HelpCommand implements Command {
      * 2. Выводим имя команды и её описание
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         CommandManager commands = new CommandManager();
         for (Command command : commands.getCommands().values()){
             System.out.println(command.getNameCommand() + " - " + command.description());

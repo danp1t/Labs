@@ -10,7 +10,7 @@ public interface Command {
      * Абстрактный метод исполнения команды
      * @throws FileNotFoundException
      */
-    void execute() throws FileNotFoundException;
+    void execute(String[] tokens) throws FileNotFoundException;
 
     /**
      * Абстрактный метод получение описания команды

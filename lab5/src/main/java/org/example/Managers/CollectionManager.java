@@ -27,7 +27,7 @@ public class CollectionManager {
     /**
      * Путь до json_file, где хранится сохраненная коллекция HashSet
      */
-    private static String fileName;
+    private static String fileName = System.getenv("JSON_FILE_LAB5");
     /**
      * Дата создания коллекции
      */
@@ -53,11 +53,16 @@ public class CollectionManager {
         this.fileName = pathJson;
     }
 
+
+
     /**
      * getter для поля studyGroups
      * @return значение поля studyGroups
      */
     public static HashSet<StudyGroup> getStudyGroups() {
+        if (studyGroups == null) {
+            getHashSet();
+        };
         return studyGroups;
     }
 
@@ -78,7 +83,7 @@ public class CollectionManager {
             JSONArray jsonFile = (JSONArray) new JSONParser().parse(new FileReader(fileName));
             return jsonFile;
         } catch (IOException | ParseException e) {
-            System.out.println("Ошибка в команде show");
+            System.out.println("Ошибка при чтении коллекции из файла");
         }
         return null;
     }

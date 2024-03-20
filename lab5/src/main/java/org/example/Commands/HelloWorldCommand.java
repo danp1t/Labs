@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 
 public class HelloWorldCommand implements Command {
     @Override
-    public void execute() throws FileNotFoundException {
+    public void execute(String[] tokens) throws FileNotFoundException {
         System.out.println("Hello, world!");
     }
 

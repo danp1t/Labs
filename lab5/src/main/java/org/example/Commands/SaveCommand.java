@@ -13,7 +13,7 @@ public class SaveCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         System.out.println("Сохранить коллекцию в файл");
         saveHashSetToFile();
     }

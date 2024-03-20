@@ -22,7 +22,7 @@ public class UpdateCommand implements Command {
      * 3. Обновляем коллекцию
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         try {
             HashSet<StudyGroup> studyGroups = getStudyGroups();
             if (studyGroups == null) {

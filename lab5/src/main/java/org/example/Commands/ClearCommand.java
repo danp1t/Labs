@@ -14,7 +14,7 @@ public class ClearCommand implements Command {
      * Метод выполнение команды
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         System.out.println("Очистить коллекцию");
         clearHashSet();
     }

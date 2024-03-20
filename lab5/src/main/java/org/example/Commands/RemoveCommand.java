@@ -21,7 +21,7 @@ public class RemoveCommand implements Command {
      * 3. Удаляем объект
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         HashSet<StudyGroup> studyGroups = getStudyGroups();
         if (studyGroups == null) {
             getHashSet();

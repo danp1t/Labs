@@ -12,7 +12,7 @@ public class ExitCommand implements Command {
      * Метод выполнения программы
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         System.out.println("Выход...");
         System.exit(0);
     }

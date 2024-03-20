@@ -44,7 +44,7 @@ public class ExecuteCommand implements Command {
      * 4. Выполняем команду
      */
     @Override
-    public void execute() {
+    public void execute(String[] tokens) {
         CommandManager commands = new CommandManager();
         System.out.println("Считать и исполнить скрипт из файла");
         //Найти такой файл
@@ -85,13 +85,13 @@ public class ExecuteCommand implements Command {
                     if (line.strip().split(" ").length > 1) {
                         setStatusCommand(-1);
                         }
-                    commands.addCommandInHistory(commands.getCommands().get(strCommand));
+                    commands.addCommandToHistory(commands.getCommands().get(strCommand));
                     }
                 else if (commands.isCommandWithOneArg(strCommand)) {
                     if (line.strip().split(" ").length > 2) {
                         setStatusCommand(-1);
                     }
-                    commands.addCommandInHistory(line);
+                    commands.addCommandToHistory(line);
                     }
                 else if (commands.isCommandWithElement(strCommand)) {
                     if (line.strip().split(" ").length > 1) {
@@ -104,7 +104,7 @@ public class ExecuteCommand implements Command {
                     if (line.strip().split(" ").length > 2) {
                         setStatusCommand(-1);
                         }
-                    commands.addCommandInHistory(line);
+                    commands.addCommandToHistory(line);
                     getGroupElement();
                     if (gettingGroupElement() == null) {throw new NullFieldException();}
                     commands.updateFunction(scan, false);
@@ -115,7 +115,7 @@ public class ExecuteCommand implements Command {
                     System.out.println("Команда, которая сгенерировала исключение:: " + strCommand);
                     break;
                 }
-                command.execute();
+                command.execute(tokens);
                 counterLine += 1;
             }
 
