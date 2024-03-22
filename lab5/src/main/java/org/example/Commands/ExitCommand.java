@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
 /**
@@ -13,8 +14,14 @@ public class ExitCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        System.out.println("Выход...");
-        System.exit(0);
+        try {
+            if (tokens.length != 1) throw new InputUserException();
+            System.out.println("Выход...");
+            System.exit(0);
+        }
+        catch (InputUserException e) {
+            System.out.println("Команда exit не должна содержать аргументов");
+        }
     }
 
     /**

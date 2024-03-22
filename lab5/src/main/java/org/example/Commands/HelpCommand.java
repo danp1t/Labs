@@ -1,4 +1,6 @@
 package org.example.Commands;
+import org.example.Exceptions.InputFromFIleException;
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
 
@@ -15,9 +17,15 @@ public class HelpCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        CommandManager commands = new CommandManager();
-        for (Command command : commands.getCommands().values()){
-            System.out.println(command.getNameCommand() + " - " + command.description());
+        try {
+            if (tokens.length != 1) throw new InputUserException();
+            CommandManager commands = new CommandManager();
+            for (Command command : commands.getCommands().values()){
+                System.out.println(command.getNameCommand() + " - " + command.description());
+            }
+        }
+        catch (InputUserException e) {
+            System.out.println("Команда help не должна содержать аргументов");
         }
     }
 

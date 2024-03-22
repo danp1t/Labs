@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
 import static org.example.Managers.CollectionManager.*;
@@ -14,9 +15,14 @@ public class ShowCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        System.out.println("Все элементы коллекции в строковом представлении");
-        System.out.println(beatifulOutputJson());
-        parseHashsetToJson();
+        try {
+            if (tokens.length != 1) throw new InputUserException();
+            System.out.println("Все элементы коллекции в строковом представлении");
+            System.out.println(beatifulOutputJson());
+        }
+        catch (InputUserException e) {
+            System.out.println("Команда info не должна содержать аргументов");
+        }
     }
     /**
      * Метод описания действия команды

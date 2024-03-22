@@ -1,8 +1,13 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
-import static org.example.Managers.CollectionManager.printInfoHashSet;
+import java.util.HashSet;
+
+import static org.example.Managers.CollectionManager.*;
+
 /**
  * Данный класс реализует команду info
  * Команда info выводит информацию о коллекции(тип коллекции, дата инициализации, количество элементов, является ли множество пустым)
@@ -14,10 +19,28 @@ public class InfoCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        System.out.println("Информация о коллекции");
-        System.out.println(printInfoHashSet());
+        try {
+            if (tokens.length != 1) throw new InputUserException();
+            System.out.println("Информация о коллекции");
+            System.out.println(printInfoHashSet());
+        }
+        catch (InputUserException e) {
+            System.out.println("Команда info не должна содержать аргументов");
+        }
     }
 
+
+    /**
+     * Вспомогательный метод для команды info
+     * @return строку для команды info
+     */
+    private static String printInfoHashSet(){
+        HashSet<StudyGroup> studyGroups = getStudyGroups();
+        return "Тип: " + studyGroups.getClass() + "\n" +
+                "Дата инициализации: " + getCreateDateHashSet() + "\n" +
+                "Количество элементов: " + studyGroups.size() + "\n" +
+                "Множество пустое: " + studyGroups.isEmpty();
+    }
     /**
      * Метод описания действия команды
      * Данное описание используется в команде help

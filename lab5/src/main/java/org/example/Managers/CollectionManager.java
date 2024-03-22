@@ -53,6 +53,10 @@ public class CollectionManager {
         this.fileName = pathJson;
     }
 
+    public static String getCreateDateHashSet(){
+        return createDateHashSet;
+    }
+
 
 
     /**
@@ -150,58 +154,6 @@ public class CollectionManager {
 
         return groupObject;
     }
-
-    /**
-     * Данный метод сохраняет нашу коллекцию в файл
-     */
-    public static void saveHashSetToFile() {
-        String jsonString = beatifulOutputJson();
-        String pathJson = System.getenv("JSON_FILE_LAB5");
-        try(FileWriter fileWriter = new FileWriter(pathJson)) {
-            fileWriter.write(jsonString);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным
-     * Вспомогательный метод для команды min_by_semester_enum
-     * @return объект из коллекции, значение поля semesterEnum которого является минимальным
-     */
-    public static String printMinBySemesterEnum() {
-        if (studyGroups == null){
-            getHashSet();}
-        HashSet hashSet = studyGroups;
-        Semester minSemester = Semester.SIXTH;
-        StudyGroup minGroup = null;
-
-        try {
-            if (hashSet.size() == 0) {
-                throw new EmptyCollectionException();
-            }
-            for (Object element : hashSet) {
-                StudyGroup group = (StudyGroup) element;
-                Semester groupSemester = group.getSemesterEnum();
-
-                if (groupSemester == Semester.SECOND) {
-                    minGroup = group;
-                    break;
-                } else if (minSemester == Semester.SIXTH && groupSemester == Semester.FIFTH) {
-                    minSemester = groupSemester;
-                    minGroup = group;
-                } else if (minSemester == Semester.SIXTH && minGroup == null) {
-                    minGroup = group;
-                }
-            }
-
-            return beatifulOutputElementJson(parseStudyGroupToJson(minGroup));
-        } catch (EmptyCollectionException e) {
-            return e.sendMessage();
-        }
-    }
-
     /**
      * Данная функция возвращает HashSet из JSONObject
      */
@@ -284,20 +236,6 @@ public class CollectionManager {
         Set<StudyGroup> sortedGroups = new TreeSet<>(CollectionManager.studyGroups);
         return sortedGroups;
     }
-
-    /**
-     * Вспомогательный метод для команды info
-     * @return строку для команды info
-     */
-    public static String printInfoHashSet(){
-        if (studyGroups == null) {
-            getHashSet();}
-        return "Тип: " + studyGroups.getClass() + "\n" +
-                "Дата инициализации: " + createDateHashSet + "\n" +
-                "Количество элементов: " + studyGroups.size() + "\n" +
-                "Множество пустое: " + studyGroups.isEmpty();
-    }
-
     /**
      * Метод возвращает красивый вывод JSONArray
      * @return красивый вывод JSONArray
@@ -907,38 +845,38 @@ public class CollectionManager {
     /**
      * Получение element
      */
-    public static void getGroupElement(){
-        try {
-            if (studyGroups == null) {
-                getHashSet();}
-            String arg = historyList.getLast().split(" ")[1];
-            //Перевод из численного в строковый тип
-            int number = 1;
-            number = Integer.parseInt(arg);
-            HashSet<StudyGroup> newStudyGroups = new HashSet<>();
-            for (StudyGroup group : studyGroups) {
-                if (number == group.getID()) {
-                    System.out.println("Коллекция с id: " + number + " найдена.");
-                    System.out.println("Текучие значения указаны в скобках.");
-                    settingGroupElement(group);
-                }
-                else {newStudyGroups.add(group);}
-            }
-            if (newStudyGroups.size() == studyGroups.size()) {
-                throw new NotCollectionIDFound();
-            }
-        }
-        catch (NumberFormatException e){
-            System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
-            setStatusCommand(-1);
-        }
-        catch (NotCollectionIDFound e){
-            System.out.println(e.sendMessage());
-            setStatusCommand(-1);
-        }
-        catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Введите ID элемента");
-            setStatusCommand(-1);
-        }
-    }
+//    public static void getGroupElement(){
+//        try {
+//            if (studyGroups == null) {
+//                getHashSet();}
+//            String arg = historyList.getLast().split(" ")[1];
+//            //Перевод из численного в строковый тип
+//            int number = 1;
+//            number = Integer.parseInt(arg);
+//            HashSet<StudyGroup> newStudyGroups = new HashSet<>();
+//            for (StudyGroup group : studyGroups) {
+//                if (number == group.getID()) {
+//                    System.out.println("Коллекция с id: " + number + " найдена.");
+//                    System.out.println("Текучие значения указаны в скобках.");
+//                    settingGroupElement(group);
+//                }
+//                else {newStudyGroups.add(group);}
+//            }
+//            if (newStudyGroups.size() == studyGroups.size()) {
+//                throw new NotCollectionIDFound();
+//            }
+//        }
+//        catch (NumberFormatException e){
+//            System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
+//            setStatusCommand(-1);
+//        }
+//        catch (NotCollectionIDFound e){
+//            System.out.println(e.sendMessage());
+//            setStatusCommand(-1);
+//        }
+//        catch (ArrayIndexOutOfBoundsException e){
+//            System.out.println("Введите ID элемента");
+//            setStatusCommand(-1);
+//        }
+//    }
 }

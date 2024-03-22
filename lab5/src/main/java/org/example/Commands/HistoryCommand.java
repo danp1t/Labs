@@ -1,7 +1,8 @@
 package org.example.Commands;
 
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
-import org.example.Managers.CommandManager;
+import static org.example.Managers.CommandManager.getHistoryList;
 /**
  * Данный класс реализует команду history
  * Команда history выводит последние 13 команд на экран
@@ -13,9 +14,15 @@ public class HistoryCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        System.out.println("Последние 13 введенных команд: ");
-        for (String command : CommandManager.historyList) {
-            System.out.println(command);
+        try {
+            if (tokens.length != 1) throw new InputUserException();
+            System.out.println("Последние 13 введенных команд: ");
+            for (String command : getHistoryList()) {
+                System.out.println(command);
+            }
+        }
+        catch (InputUserException e) {
+            System.out.println("Команда history не должна содержать аргументов");
         }
     }
 

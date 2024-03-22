@@ -36,7 +36,7 @@ public class CommandManager {
     /**
      * Поле истории вызова команд
      */
-    public static ArrayDeque<String> historyList = new ArrayDeque<>(13);
+    private static ArrayDeque<String> historyList = new ArrayDeque<>(13);
 
     /**
      * Конструктор класса
@@ -59,8 +59,11 @@ public class CommandManager {
         commands.put("min_by_semester_enum", new MinSemesterEnum());
         commands.put("count_greater_than_average_mark", new CountGreaterThanAverageMarkCommand());
         commands.put("filter_contains_name", new FilterContainsNameCommand());
-        commands.put("hello", new HelloWorldCommand());
         this.commands = commands;
+    }
+
+    public static ArrayDeque<String> getHistoryList(){
+        return historyList;
     }
 
     /**
