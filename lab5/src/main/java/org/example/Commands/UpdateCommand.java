@@ -1,6 +1,7 @@
 package org.example.Commands;
 
 import org.example.Collections.StudyGroup;
+import org.example.Exceptions.InputUserException;
 import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
 
@@ -24,13 +25,9 @@ public class UpdateCommand implements Command {
     @Override
     public void execute(String[] tokens) {
         try {
+            if (tokens.length != 2) throw new InputUserException();
             HashSet<StudyGroup> studyGroups = getStudyGroups();
-            if (studyGroups == null) {
-                getHashSet();
-                studyGroups = getStudyGroups();}
-            String arg = historyList.getLast().split(" ")[1];
-            int number = 1;
-            number = Integer.parseInt(arg);
+            int number = Integer.parseInt(tokens[1]);
             HashSet<StudyGroup> newStudyGroups = new HashSet<>();
             for (StudyGroup group : studyGroups) {
                 if (number != group.getID()) {
@@ -42,13 +39,14 @@ public class UpdateCommand implements Command {
             }
             setStudyGroups(newStudyGroups);
             studyGroups = getStudyGroups();
-            studyGroups.add(getElement());
+            studyGroups.add(createStudyGroup(true));
             setStudyGroups(studyGroups);
             System.out.println("Коллекция обновлена");
 
 
         }
         catch (NumberFormatException e){
+            System.out.println("Аргумент должен быть положительным целым числом большим 0");
             setStatusCommand(-1);
         }
         catch (NotCollectionIDFound e){
@@ -60,6 +58,9 @@ public class UpdateCommand implements Command {
         }
         catch (NullPointerException e) {
             System.out.println("Ошибочка вышла");
+        }
+        catch (InputUserException e) {
+            System.out.println("Команда update должна содержать один аргумент");
         }
     }
 

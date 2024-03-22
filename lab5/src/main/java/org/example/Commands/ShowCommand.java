@@ -21,7 +21,7 @@ public class ShowCommand implements Command {
             System.out.println(beatifulOutputJson());
         }
         catch (InputUserException e) {
-            System.out.println("Команда info не должна содержать аргументов");
+            System.out.println("Команда show не должна содержать аргументов");
         }
     }
     /**
