@@ -6,6 +6,7 @@ import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
@@ -38,9 +39,14 @@ public class UpdateCommand implements Command {
                 throw new NotCollectionIDFound();
             }
             setStudyGroups(newStudyGroups);
-            studyGroups = getStudyGroups();
-            studyGroups.add(createStudyGroup(getIsUserInput()));
-            setStudyGroups(studyGroups);
+            HashSet<StudyGroup> studyGroups1 = getStudyGroups();
+            StudyGroup element = createStudyGroup(getIsUserInput());
+            if (element != null) {studyGroups1.add(element);}
+
+            if (studyGroups.size() != studyGroups1.size()) {
+                setStudyGroups(studyGroups);
+            }
+            else {setStudyGroups(studyGroups1);}
             System.out.println("Коллекция обновлена");
 
 

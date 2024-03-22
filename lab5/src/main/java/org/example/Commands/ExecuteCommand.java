@@ -70,11 +70,11 @@ public class ExecuteCommand implements Command {
                     }
 
 
-                    if (getStatusCommand() == -1) {
-                        System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
-                        System.out.println("Команда, которая сгенерировала исключение:: " + strCommand);
-                        break;
-                    }
+//                    if (getStatusCommand() == -1) {
+//                        System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
+//                        System.out.println("Команда, которая сгенерировала исключение:: " + strCommand);
+//                        break;
+//                    }
                     tokens = line.split(" ");
                     setScanner(scan);
                     setIsUserInput(false);
