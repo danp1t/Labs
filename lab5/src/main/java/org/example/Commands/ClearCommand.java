@@ -1,8 +1,9 @@
 package org.example.Commands;
 
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
-import static org.example.Managers.CollectionManager.clearHashSet;
+import static org.example.Managers.CollectionManager.getStudyGroups;
 
 /**
  * Данный класс реализует команду clear
@@ -15,8 +16,15 @@ public class ClearCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        System.out.println("Очистить коллекцию");
-        clearHashSet();
+        try {
+            if (tokens.length != 1) throw new InputUserException();
+            System.out.println("Очистить коллекцию");
+            getStudyGroups().clear();
+            System.out.println("Коллекция очищена");
+        }
+        catch (InputUserException e) {
+            System.out.println("Команда add_if_min не должна содержать аргументов");
+        }
     }
 
     /**

@@ -25,6 +25,10 @@ public class ElementManager {
         System.out.println(nextID());
     }
 
+    /**
+     * Метод нахождения уникального ID
+     * @return уникальный ID
+     */
     private static int nextID(){
         //Получение текущей коллекции
         HashSet<StudyGroup> studyGroups = getStudyGroups();

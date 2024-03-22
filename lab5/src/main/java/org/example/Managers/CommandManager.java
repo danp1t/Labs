@@ -188,7 +188,7 @@ public class CommandManager {
         if (historyList.size() > 13){
             historyList.removeFirst();
         }
-        element = createStudyGroup(sc, isUserInput);
+        element = createStudyGroup(isUserInput);
     }
 
     /**

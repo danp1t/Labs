@@ -7,7 +7,6 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.getElement;
 
 /**
  * Данный класс реализует команду add
@@ -24,12 +23,11 @@ public class AddCommand implements Command {
         try {
             if (tokens.length != 1) throw new InputUserException();
             //Запрос на ввод данных для элемента группы
-
+            StudyGroup group = createStudyGroup(true);
 
             //Запрос нашей коллекции для добавления нового элемента в группу
-            HashSet studyGroup = getStudyGroups();
+            HashSet<StudyGroup> studyGroup = getStudyGroups();
             System.out.println("Группа добавлена!");
-            StudyGroup group = getElement();
             studyGroup.add(group);
             setStudyGroups(studyGroup);
         }

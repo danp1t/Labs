@@ -273,16 +273,6 @@ public class CollectionManager {
     }
 
     /**
-     * Вспомогательный метод для команды clear
-     */
-    public static void clearHashSet(){
-        //Очистка HashSet
-        if (studyGroups == null) {getHashSet();}
-        getStudyGroups().clear();
-        System.out.println("Коллекция очищена");
-    }
-
-    /**
      * Данный метод возвращает отсортированное множество
      * @return отсортированное множество
      */
@@ -847,8 +837,9 @@ public class CollectionManager {
      * @param isUserInput вид ввода
      * @return element для соответсвующих команд
      */
-    public static StudyGroup createStudyGroup(Scanner sc, boolean isUserInput){
+    public static StudyGroup createStudyGroup(boolean isUserInput){
         StudyGroup group = null;
+        Scanner sc = new Scanner(System.in);
         try{
             int id = nextID();
             String name = inputName(sc, isUserInput);
