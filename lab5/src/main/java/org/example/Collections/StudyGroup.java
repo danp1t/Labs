@@ -79,6 +79,9 @@ public class StudyGroup implements Comparable<StudyGroup> {
         this.semesterEnum = semesterEnum;
         this.groupAdmin = groupAdmin;
     }
+    public StudyGroup(){
+
+    }
 
     /**
      * Getter поля id

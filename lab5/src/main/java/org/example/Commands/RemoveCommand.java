@@ -1,12 +1,13 @@
 package org.example.Commands;
 
 import org.example.Collections.StudyGroup;
+import org.example.Exceptions.InputUserException;
 import org.example.Exceptions.NotCollectionIDFound;
+import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.*;
 
 /**
  * Данный класс реализует команду remove_by_id
@@ -22,41 +23,39 @@ public class RemoveCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        HashSet<StudyGroup> studyGroups = getStudyGroups();
-        if (studyGroups == null) {
-            getHashSet();
-            studyGroups = getStudyGroups();}
-        System.out.println("Удалить элемент из коллекции");
-        int number = 1;
+        //Получить id
         try {
-            if (historyList.getLast().split(" ").length <= 1){
-                throw new NotCollectionIDFound();
-            }
-            String arg = historyList.getLast().split(" ")[1];
-            number = Integer.parseInt(arg);
+            //Проверка на то, что у нас один аргумент
+            if (tokens.length != 2) throw new InputUserException();
+            int id = Integer.parseInt(tokens[1]);
+            //Проверить, что он положительный и является целочисленным числом
+            if (id <= 0) throw new NotPositiveField();
+
+            //Получение текущей коллекции
+            HashSet<StudyGroup> studyGroups = getStudyGroups();
+            System.out.println("Удалить элемент из коллекции по id: " + id);
             HashSet<StudyGroup> newStudyGroups = new HashSet<>();
 
             for (StudyGroup group : studyGroups) {
-                if (number == group.getID()) {
-                    System.out.println("Коллекция с id: " + number + " удалена.");
-                }
-                else {
+                if (id == group.getID()) {
+                    System.out.println("Коллекция с id: " + id + " удалена.");
+                } else {
                     newStudyGroups.add(group);
+                    }
                 }
-            }
-            if (newStudyGroups.size() == studyGroups.size()) {
-                throw new NotCollectionIDFound();
-            }
+            if (newStudyGroups.size() == studyGroups.size()) throw new NotCollectionIDFound();
             setStudyGroups(newStudyGroups);
 
+
         }
-        catch (NumberFormatException e){
-            System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
-            setStatusCommand(-1);
+        catch (InputUserException e) {
+            System.out.println("Неверно введены аргументы для команды remove_by_id");
         }
-        catch (NotCollectionIDFound e){
+        catch (NotPositiveField | NumberFormatException e){
+            System.out.println("Аргументом этой строки должно быть положительное целое число, которое больше 0");
+        }
+        catch (NotCollectionIDFound e) {
             System.out.println(e.sendMessage());
-            setStatusCommand(-1);
         }
     }
 

@@ -1,6 +1,7 @@
 package org.example.Commands;
 
 import org.example.Collections.StudyGroup;
+import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
@@ -19,11 +20,22 @@ public class AddCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        HashSet studyGroup = getStudyGroups();
-        System.out.println("Группа добавлена!");
-        StudyGroup group = getElement();
-        studyGroup.add(group);
-        setStudyGroups(studyGroup);
+        //Анализ команды
+        try {
+            if (tokens.length != 1) throw new InputUserException();
+            //Запрос на ввод данных для элемента группы
+
+
+            //Запрос нашей коллекции для добавления нового элемента в группу
+            HashSet studyGroup = getStudyGroups();
+            System.out.println("Группа добавлена!");
+            StudyGroup group = getElement();
+            studyGroup.add(group);
+            setStudyGroups(studyGroup);
+        }
+        catch (InputUserException e) {
+            System.out.println("Команда add не должна содержать аргументов");
+        }
     }
 
     /**

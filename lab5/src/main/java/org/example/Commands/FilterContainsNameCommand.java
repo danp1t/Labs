@@ -8,7 +8,6 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.historyList;
 /**
  * Данный класс реализует команду filter_contains_name
  * Команда filter_contains_name выводит элементы, значение поля name которых содержит заданную подстроку
@@ -23,35 +22,30 @@ public class FilterContainsNameCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-        HashSet<StudyGroup> studyGroups = getStudyGroups();
-        System.out.println("Фильтр...");
-        try{
-        if (studyGroups == null) {
-            getHashSet();
-            studyGroups = getStudyGroups();}
-        boolean flag = false;
-        if (historyList.getLast().split(" ").length < 2){
-            throw new InputUserException();
-        }
-        String filterName = historyList.getLast().split(" ")[1];
+        //Считать аргумент
+        try {
+            if (tokens.length != 2) throw new InputUserException();
+            String filterName = tokens[1];
+            HashSet<StudyGroup> studyGroups = getStudyGroups();
+            System.out.println("Поиск элементов, поля name которых содержат подстроку: " + filterName);
 
-        for (StudyGroup group : studyGroups){
-            String name = group.getName();
-            Person admin = group.getGroupAdmin();
-            String adminName = admin.getName();
-            if (name.contains(filterName) || adminName.contains(filterName)) {
-                System.out.println(beatifulOutputElementJson(parseStudyGroupToJson(group)));
-                flag = true;
+            boolean flag = false;
+            for (StudyGroup group : studyGroups){
+                String name = group.getName();
+                Person admin = group.getGroupAdmin();
+                String adminName = admin.getName();
+                if (name.contains(filterName) || adminName.contains(filterName)) {
+                    System.out.println(beatifulOutputElementJson(parseStudyGroupToJson(group)));
+                    flag = true;
+                }
             }
-
+            if (!flag) {
+                System.out.println("Не найдено ни одного поля с заданной подстрокой");
+            }
         }
-        if (!flag) {
-            System.out.println("Ничего с таким именем не было найдено");
+        catch (InputUserException e) {
+            System.out.println("Неверно введены аргументы для команды filter_contains_name");
         }
-        }catch (InputUserException e){
-            System.out.println("Введите параметр");
-        }
-
     }
 
     /**
