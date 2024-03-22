@@ -24,6 +24,8 @@ import static org.example.Managers.CommandManager.*;
  * Класс для работы с коллекцией HashSet и другими данными
  */
 public class CollectionManager {
+    private static Scanner scanner;
+    private static boolean isUserInput;
     /**
      * Путь до json_file, где хранится сохраненная коллекция HashSet
      */
@@ -57,7 +59,20 @@ public class CollectionManager {
         return createDateHashSet;
     }
 
+    public static boolean getIsUserInput(){
+        return isUserInput;
+    }
 
+    public static void setIsUserInput(boolean isUserInput1) {
+        isUserInput = isUserInput1;
+    }
+    public static Scanner getScanner(){
+        return scanner;
+    }
+
+    public static void setScanner(Scanner sc) {
+        scanner = sc;
+    }
 
     /**
      * getter для поля studyGroups
@@ -771,13 +786,15 @@ public class CollectionManager {
 
     /**
      * Создание element
-     * @param sc сканер
      * @param isUserInput вид ввода
      * @return element для соответсвующих команд
      */
     public static StudyGroup createStudyGroup(boolean isUserInput){
         StudyGroup group = null;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = null;
+        if (isUserInput) {sc = new Scanner(System.in);}
+        else {sc = scanner;}
+
         try{
             int id = nextID();
             String name = inputName(sc, isUserInput);

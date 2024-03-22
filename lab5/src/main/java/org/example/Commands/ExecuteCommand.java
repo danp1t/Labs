@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static org.example.Managers.CollectionManager.setIsUserInput;
+import static org.example.Managers.CollectionManager.setScanner;
 import static org.example.Managers.CommandManager.*;
 
 /**
@@ -73,10 +75,13 @@ public class ExecuteCommand implements Command {
                         System.out.println("Команда, которая сгенерировала исключение:: " + strCommand);
                         break;
                     }
-
+                    tokens = line.split(" ");
+                    setScanner(scan);
+                    setIsUserInput(false);
                     command.execute(tokens);
                     counterLine += 1;
                 }
+            setIsUserInput(true);
             } catch (RecursionLimitException e) {
                 System.out.println(e.sendMessage());
             } catch (IOException e) {

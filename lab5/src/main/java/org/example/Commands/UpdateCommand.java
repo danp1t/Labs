@@ -39,7 +39,7 @@ public class UpdateCommand implements Command {
             }
             setStudyGroups(newStudyGroups);
             studyGroups = getStudyGroups();
-            studyGroups.add(createStudyGroup(true));
+            studyGroups.add(createStudyGroup(getIsUserInput()));
             setStudyGroups(studyGroups);
             System.out.println("Коллекция обновлена");
 

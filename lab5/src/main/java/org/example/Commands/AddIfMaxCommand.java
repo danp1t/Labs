@@ -33,7 +33,7 @@ public class AddIfMaxCommand implements Command {
             }
 
             //Прочитать элемент
-            StudyGroup group = createStudyGroup(true);
+            StudyGroup group = createStudyGroup(getIsUserInput());
             if (group.getStudentsCount() > maxStudentsCount) {
                 studyGroups.add(group);
                 setStudyGroups(studyGroups);

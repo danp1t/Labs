@@ -65,9 +65,6 @@ Denis
 WHITE
 ORANGE
 
-execute_script script_2.txt
-show
-execute_script script_2.txt
 
 
 

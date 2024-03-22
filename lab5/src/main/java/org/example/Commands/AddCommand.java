@@ -23,7 +23,7 @@ public class AddCommand implements Command {
         try {
             if (tokens.length != 1) throw new InputUserException();
             //Запрос на ввод данных для элемента группы
-            StudyGroup group = createStudyGroup(true);
+            StudyGroup group = createStudyGroup(getIsUserInput());
 
             //Запрос нашей коллекции для добавления нового элемента в группу
             HashSet<StudyGroup> studyGroup = getStudyGroups();

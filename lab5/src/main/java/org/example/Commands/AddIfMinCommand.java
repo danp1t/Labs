@@ -32,7 +32,7 @@ public class AddIfMinCommand implements Command {
                     minStudentsCount = group.getStudentsCount();
                 }
             }
-            StudyGroup group = createStudyGroup(true);
+            StudyGroup group = createStudyGroup(getIsUserInput());
             if (group.getStudentsCount() < minStudentsCount) {
                 studyGroups.add(group);
                 setStudyGroups(studyGroups);
