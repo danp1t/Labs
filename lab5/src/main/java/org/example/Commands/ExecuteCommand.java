@@ -8,9 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static org.example.Managers.CollectionManager.setIsUserInput;
-import static org.example.Managers.CollectionManager.setScanner;
-import static org.example.Managers.CommandManager.*;
+import static org.example.Managers.ElementManager.setIsUserInput;
+import static org.example.Managers.ElementManager.setScanner;
 
 /**
  * Данный класс реализует команду execute_script

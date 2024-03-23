@@ -5,9 +5,7 @@ import org.example.Commands.*;
 import org.example.Interface.Command;
 
 import java.util.*;
-
-import static org.example.Managers.CollectionManager.createStudyGroup;
-import static org.example.Managers.CollectionManager.updateStudyGroup;
+import static org.example.Managers.ElementManager.*;
 
 /**
  * Класс для работы с командами

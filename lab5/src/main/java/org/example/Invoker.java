@@ -6,6 +6,8 @@ import org.example.Managers.ElementManager;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static org.example.Managers.ElementManager.setIsUserInput;
+
 /**
  * Класс запуска программы
  */

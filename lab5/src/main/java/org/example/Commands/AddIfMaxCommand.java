@@ -7,7 +7,7 @@ import org.example.Interface.Command;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
-import static org.example.Managers.CommandManager.getElement;
+import static org.example.Managers.ElementManager.*;
 
 /**
  * Данный класс реализует команду add_if_max

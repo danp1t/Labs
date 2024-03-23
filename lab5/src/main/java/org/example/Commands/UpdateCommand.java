@@ -6,8 +6,8 @@ import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
 
 import java.util.HashSet;
-import java.util.Objects;
 
+import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
 
