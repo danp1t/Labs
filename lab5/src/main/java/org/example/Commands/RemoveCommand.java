@@ -5,9 +5,12 @@ import org.example.Exceptions.InputUserException;
 import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
+
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 /**
  * Данный класс реализует команду remove_by_id
@@ -25,6 +28,7 @@ public class RemoveCommand implements Command {
     public void execute(String[] tokens) {
         //Получить id
         try {
+            CollectionManager collectionManager = getCollectionManager();
             //Проверка на то, что у нас один аргумент
             if (tokens.length != 2) throw new InputUserException();
             int id = Integer.parseInt(tokens[1]);
@@ -32,7 +36,7 @@ public class RemoveCommand implements Command {
             if (id <= 0) throw new NotPositiveField();
 
             //Получение текущей коллекции
-            HashSet<StudyGroup> studyGroups = getStudyGroups();
+            HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
             System.out.println("Удалить элемент из коллекции по id: " + id);
             HashSet<StudyGroup> newStudyGroups = new HashSet<>();
 
@@ -44,7 +48,7 @@ public class RemoveCommand implements Command {
                     }
                 }
             if (newStudyGroups.size() == studyGroups.size()) throw new NotCollectionIDFound();
-            setStudyGroups(newStudyGroups);
+            collectionManager.setStudyGroups(newStudyGroups);
 
 
         }

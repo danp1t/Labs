@@ -2,11 +2,12 @@ package org.example.Commands;
 
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static org.example.Managers.CollectionManager.beatifulOutputJson;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 /**
  * Данный класс реализует команду save
@@ -32,8 +33,9 @@ public class SaveCommand implements Command {
     /**
      * Данный метод сохраняет нашу коллекцию в файл
      */
-    public static void saveHashSetToFile() {
-        String jsonString = beatifulOutputJson();
+    public void saveHashSetToFile() {
+        CollectionManager collectionManager = getCollectionManager();
+        String jsonString = collectionManager.beatifulOutputJson();
         String pathJson = System.getenv("JSON_FILE_LAB5");
         try(FileWriter fileWriter = new FileWriter(pathJson)) {
             fileWriter.write(jsonString);

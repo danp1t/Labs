@@ -2,8 +2,11 @@ package org.example.Commands;
 
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 
 import static org.example.Managers.CollectionManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
+
 /**
  * Данный класс реализует команду show
  * Команда show выводит все элементы коллекции на экран в строковом представлении
@@ -16,9 +19,10 @@ public class ShowCommand implements Command {
     @Override
     public void execute(String[] tokens) {
         try {
+            CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 1) throw new InputUserException();
             System.out.println("Все элементы коллекции в строковом представлении");
-            System.out.println(beatifulOutputJson());
+            System.out.println(collectionManager.beatifulOutputJson());
         }
         catch (InputUserException e) {
             System.out.println("Команда show не должна содержать аргументов");

@@ -3,11 +3,14 @@ package org.example.Commands;
 import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
+import org.example.Managers.ElementManager;
 
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.ElementManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 /**
  * Данный класс реализует команду add_if_min
@@ -22,20 +25,22 @@ public class AddIfMinCommand implements Command {
     @Override
     public void execute(String[] tokens) {
         try {
+            CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 1) throw new InputUserException();
             System.out.println("Добавить элемент в коллекцию, если количество студентов в введенной группе минимально");
             //Нахождение минимального количества студентов
-            HashSet<StudyGroup> studyGroups = getStudyGroups();
+            HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
             Integer minStudentsCount = Integer.MAX_VALUE;
             for (StudyGroup group : studyGroups) {
                 if (group.getStudentsCount() < minStudentsCount) {
                     minStudentsCount = group.getStudentsCount();
                 }
             }
-            StudyGroup group = createStudyGroup(getIsUserInput());
+            ElementManager elementManager = new ElementManager();
+            StudyGroup group = elementManager.createStudyGroup(getIsUserInput());
             if (group.getStudentsCount() < minStudentsCount) {
                 studyGroups.add(group);
-                setStudyGroups(studyGroups);
+                collectionManager.setStudyGroups(studyGroups);
                 System.out.println("Учебная группа добавлена в коллекцию");
             }
             else {

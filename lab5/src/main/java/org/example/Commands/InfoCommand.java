@@ -8,6 +8,7 @@ import org.example.Managers.CollectionManager;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 /**
  * Данный класс реализует команду info
@@ -35,8 +36,8 @@ public class InfoCommand implements Command {
      * Вспомогательный метод для команды info
      * @return строку для команды info
      */
-    private static String printInfoHashSet(){
-        CollectionManager collectionManager = new CollectionManager();
+    private String printInfoHashSet(){
+        CollectionManager collectionManager = getCollectionManager();
         HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
         return "Тип: " + studyGroups.getClass() + "\n" +
                 "Дата инициализации: " + collectionManager.getCreateDateHashSet() + "\n" +

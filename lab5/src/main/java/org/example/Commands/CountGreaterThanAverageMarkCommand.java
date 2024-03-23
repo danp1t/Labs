@@ -4,11 +4,13 @@ import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 /**
  * Данный класс реализует команду count_greater_than_average_mark
@@ -26,6 +28,7 @@ public class CountGreaterThanAverageMarkCommand implements Command {
     public void execute(String[] tokens) {
         //Чтение аргумента из tokens
         try {
+            CollectionManager collectionManager = getCollectionManager();
             //Проверка на то, что у нас один элемент
             if (tokens.length != 2) throw new InputUserException();
             //Проверка на то, что у нас это дробное число
@@ -33,11 +36,11 @@ public class CountGreaterThanAverageMarkCommand implements Command {
             //Проверка на то, что у нас это отрицательное число
             if (averageMark <= 0) throw new NotPositiveField();
             //Получить текучую коллекцию StudyGroup
-            HashSet<StudyGroup> studyGroups = getStudyGroups();
+            HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
 
             if (studyGroups == null) {
-                getHashSet();
-                studyGroups = getStudyGroups();
+                collectionManager.getHashSet();
+                studyGroups = collectionManager.getStudyGroups();
             }
 
             int counter = 0;

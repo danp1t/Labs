@@ -4,10 +4,12 @@ import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
+import org.example.Managers.ElementManager;
 
 import java.util.HashSet;
 
 import static org.example.Managers.ElementManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 /**
  * Данный класс реализует команду add
@@ -22,10 +24,11 @@ public class AddCommand implements Command {
     public void execute(String[] tokens) {
         //Анализ команды
         try {
-            CollectionManager collectionManager = new CollectionManager();
+            CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 1) throw new InputUserException();
             //Запрос на ввод данных для элемента группы
-            StudyGroup group = createStudyGroup(getIsUserInput());
+            ElementManager elementManager = new ElementManager();
+            StudyGroup group = elementManager.createStudyGroup(getIsUserInput());
             //Запрос нашей коллекции для добавления нового элемента в группу
             HashSet<StudyGroup> studyGroup = collectionManager.getStudyGroups();
             System.out.println("Группа добавлена!");
@@ -36,7 +39,6 @@ public class AddCommand implements Command {
             System.out.println("Команда add не должна содержать аргументов");
         }
     }
-
     /**
      * Метод описания действия команды
      * Данное описание используется в команде help

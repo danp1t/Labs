@@ -27,19 +27,19 @@ public class CollectionManager {
     /**
      * Путь до json_file, где хранится сохраненная коллекция HashSet
      */
-    private static String fileName;
+    private String fileName;
     /**
      * Дата создания коллекции
      */
-    private static String createDateHashSet;
+    private String createDateHashSet;
     /**
      * JSONArray, в котором хранится коллекция HashSet
      */
-    private static JSONArray jsonFile;
+    private JSONArray jsonFile;
     /**
      * Список учебных групп, которые хранятся в коллекции HashSet
      */
-    private static HashSet<StudyGroup> studyGroups;
+    private HashSet<StudyGroup> studyGroups;
 
     /**
      * Конструктор класса
@@ -49,34 +49,34 @@ public class CollectionManager {
         this.fileName = pathJson;
     }
 
-    public static String getCreateDateHashSet(){
-        return createDateHashSet;
+    public String getCreateDateHashSet(){
+        return this.createDateHashSet;
     }
 
     /**
      * getter для поля studyGroups
      * @return значение поля studyGroups
      */
-    public static HashSet<StudyGroup> getStudyGroups() {
-        if (Objects.isNull(studyGroups)) {
+    public HashSet<StudyGroup> getStudyGroups() {
+        if (Objects.isNull(this.studyGroups)) {
             getHashSet();
         };
-        return studyGroups;
+        return this.studyGroups;
     }
 
     /**
      * setter для поля studyGroups
      * @param group
      */
-    public static void setStudyGroups(HashSet<StudyGroup> group){
-        studyGroups = group;
+    public void setStudyGroups(HashSet<StudyGroup> group){
+        this.studyGroups = group;
     }
 
     /**
      * В данном методе мы читаем коллекцию из json файла
      * @return JSONArray
      */
-    public static JSONArray readJsonFile(){
+    public JSONArray readJsonFile(){
         try {
             return (JSONArray) new JSONParser().parse(new FileReader(System.getenv("JSON_FILE_LAB5")));
         } catch (IOException | ParseException e) {
@@ -89,7 +89,7 @@ public class CollectionManager {
      * В этом методе мы преобразовываем коллекцию HashSet в JSONArray для последующего сохранения в файл
      * @return JSONArray
      */
-    public static JSONArray parseHashsetToJson(){
+    public JSONArray parseHashsetToJson(){
         Set<StudyGroup> studyGroups = printHashSet();
         JSONArray groupArray = new JSONArray();
         for (StudyGroup sg : studyGroups){
@@ -102,7 +102,7 @@ public class CollectionManager {
      * @param group учебная группа
      * @return JSONObject учебной группы
      */
-    public static JSONObject parseStudyGroupToJson(StudyGroup group){
+    public JSONObject parseStudyGroupToJson(StudyGroup group){
 
         JSONObject groupObject = new JSONObject();
         //Разборка коллекции на составляющие
@@ -150,7 +150,7 @@ public class CollectionManager {
     /**
      * Данная функция возвращает HashSet из JSONObject
      */
-    public static void getHashSet(){
+    public void getHashSet(){
         HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
         if (jsonFile == null){
             jsonFile = readJsonFile();
@@ -213,7 +213,7 @@ public class CollectionManager {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         String formattedDateTime = now.format(formatter);
-        CollectionManager.studyGroups = studyGroups;
+        this.studyGroups = studyGroups;
         createDateHashSet = formattedDateTime;
     }
 
@@ -221,16 +221,16 @@ public class CollectionManager {
      * Данный метод возвращает отсортированное множество
      * @return отсортированное множество
      */
-    public static Set printHashSet(){
+    public Set printHashSet(){
         getStudyGroups();
-        Set<StudyGroup> sortedGroups = new TreeSet<>(CollectionManager.studyGroups);
+        Set<StudyGroup> sortedGroups = new TreeSet<>(this.studyGroups);
         return sortedGroups;
     }
     /**
      * Метод возвращает красивый вывод JSONArray
      * @return красивый вывод JSONArray
      */
-    public static String beatifulOutputJson(){
+    public String beatifulOutputJson(){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(parseHashsetToJson());
         return jsonString;
@@ -241,7 +241,7 @@ public class CollectionManager {
      * @param object JSONObject
      * @return красивый вывод jsonObject
      */
-    public static String beatifulOutputElementJson(JSONObject object){
+    public String beatifulOutputElementJson(JSONObject object){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(object);
         return jsonString;

@@ -4,6 +4,8 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
 
+import static org.example.Managers.StartManager.getCommandManager;
+
 /**
  * Данный класс реализует команду help
  * Команда help выводит справку по доступным командам
@@ -18,9 +20,9 @@ public class HelpCommand implements Command {
     @Override
     public void execute(String[] tokens) {
         try {
+            CommandManager commandManager = getCommandManager();
             if (tokens.length != 1) throw new InputUserException();
-            CommandManager commands = new CommandManager();
-            for (Command command : commands.getCommands().values()){
+            for (Command command : commandManager.getCommands().values()){
                 System.out.println(command.getNameCommand() + " - " + command.description());
             }
         }

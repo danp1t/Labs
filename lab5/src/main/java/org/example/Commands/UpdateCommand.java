@@ -4,12 +4,15 @@ import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
+import org.example.Managers.ElementManager;
 
 import java.util.HashSet;
 
 import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 /**
  * Данный класс реализует команду update
@@ -26,8 +29,9 @@ public class UpdateCommand implements Command {
     @Override
     public void execute(String[] tokens) {
         try {
+            CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 2) throw new InputUserException();
-            HashSet<StudyGroup> studyGroups = getStudyGroups();
+            HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
             int number = Integer.parseInt(tokens[1]);
             HashSet<StudyGroup> newStudyGroups = new HashSet<>();
             for (StudyGroup group : studyGroups) {
@@ -38,26 +42,25 @@ public class UpdateCommand implements Command {
             if (newStudyGroups.size() == studyGroups.size()) {
                 throw new NotCollectionIDFound();
             }
-            setStudyGroups(newStudyGroups);
-            HashSet<StudyGroup> studyGroups1 = getStudyGroups();
-            StudyGroup element = createStudyGroup(getIsUserInput());
+            collectionManager.setStudyGroups(newStudyGroups);
+            ElementManager elementManager = new ElementManager();
+            HashSet<StudyGroup> studyGroups1 = collectionManager.getStudyGroups();
+            StudyGroup element = elementManager.createStudyGroup(getIsUserInput());
             if (element != null) {studyGroups1.add(element);}
 
             if (studyGroups.size() != studyGroups1.size()) {
-                setStudyGroups(studyGroups);
+                collectionManager.setStudyGroups(studyGroups);
             }
-            else {setStudyGroups(studyGroups1);}
+            else {collectionManager.setStudyGroups(studyGroups1);}
             System.out.println("Коллекция обновлена");
 
 
         }
         catch (NumberFormatException e){
             System.out.println("Аргумент должен быть положительным целым числом большим 0");
-            setStatusCommand(-1);
         }
         catch (NotCollectionIDFound e){
             System.out.println("ID коллекции не найден");
-            setStatusCommand(-1);
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Введите ID элемента");

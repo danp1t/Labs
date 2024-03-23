@@ -4,10 +4,12 @@ import org.example.Collections.Person;
 import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 
 import java.util.HashSet;
 
-import static org.example.Managers.CollectionManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
+
 /**
  * Данный класс реализует команду filter_contains_name
  * Команда filter_contains_name выводит элементы, значение поля name которых содержит заданную подстроку
@@ -24,9 +26,10 @@ public class FilterContainsNameCommand implements Command {
     public void execute(String[] tokens) {
         //Считать аргумент
         try {
+            CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 2) throw new InputUserException();
             String filterName = tokens[1];
-            HashSet<StudyGroup> studyGroups = getStudyGroups();
+            HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
             System.out.println("Поиск элементов, поля name которых содержат подстроку: " + filterName);
 
             boolean flag = false;
@@ -35,7 +38,7 @@ public class FilterContainsNameCommand implements Command {
                 Person admin = group.getGroupAdmin();
                 String adminName = admin.getName();
                 if (name.contains(filterName) || adminName.contains(filterName)) {
-                    System.out.println(beatifulOutputElementJson(parseStudyGroupToJson(group)));
+                    System.out.println(collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(group)));
                     flag = true;
                 }
             }

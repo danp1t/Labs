@@ -2,8 +2,9 @@ package org.example.Commands;
 
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 
-import static org.example.Managers.CollectionManager.getStudyGroups;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 
 /**
@@ -18,9 +19,10 @@ public class ClearCommand implements Command {
     @Override
     public void execute(String[] tokens) {
         try {
+            CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 1) throw new InputUserException();
             System.out.println("Очистить коллекцию");
-            getStudyGroups().clear();
+            collectionManager.getStudyGroups().clear();
             System.out.println("Коллекция очищена");
         }
         catch (InputUserException e) {

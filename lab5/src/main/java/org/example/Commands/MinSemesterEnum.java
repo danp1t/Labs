@@ -5,10 +5,12 @@ import org.example.Collections.StudyGroup;
 import org.example.Exceptions.EmptyCollectionException;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
+import static org.example.Managers.StartManager.getCollectionManager;
 
 /**
  * Данный класс реализует команду min_by_semester_enum
@@ -35,8 +37,9 @@ public class MinSemesterEnum implements Command {
      * Вспомогательный метод для команды min_by_semester_enum
      * @return объект из коллекции, значение поля semesterEnum которого является минимальным
      */
-    private static String printMinBySemesterEnum() {
-        HashSet<StudyGroup> hashSet = getStudyGroups();
+    private String printMinBySemesterEnum() {
+        CollectionManager collectionManager = getCollectionManager();
+        HashSet<StudyGroup> hashSet = collectionManager.getStudyGroups();
         Semester minSemester = Semester.SIXTH;
         StudyGroup minGroup = null;
 
@@ -57,7 +60,7 @@ public class MinSemesterEnum implements Command {
                     minGroup = group;
                 }
             }
-            return beatifulOutputElementJson(parseStudyGroupToJson(minGroup));
+            return collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(minGroup));
 
         } catch (EmptyCollectionException e) {
             return e.sendMessage();

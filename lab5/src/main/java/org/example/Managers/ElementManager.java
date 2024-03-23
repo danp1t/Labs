@@ -9,10 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-import static org.example.Managers.CollectionManager.getStudyGroups;
-import static org.example.Managers.CommandManager.setStatusCommand;
+import static org.example.Managers.StartManager.getCollectionManager;
+
 
 public class ElementManager {
+     private  CollectionManager collectionManager = getCollectionManager();
     private static Scanner scanner;
     /**
      * Счетчик количества вводов данных для анализа скрипта на ошибки
@@ -39,9 +40,9 @@ public class ElementManager {
      * Метод нахождения уникального ID
      * @return уникальный ID
      */
-    private static int nextID(){
+    private int nextID(){
         //Получение текущей коллекции
-        HashSet<StudyGroup> studyGroups = getStudyGroups();
+        HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
         ArrayList<Integer> groups = new ArrayList<>();
         //Положить все ID из коллекции в массив
         for (StudyGroup group : studyGroups){
@@ -65,7 +66,7 @@ public class ElementManager {
      * @return значение для поля name
      */
 
-    public static String inputName(Scanner sc, boolean isUserInput){
+    public String inputName(Scanner sc, boolean isUserInput){
         boolean flag = false;
         counterInput = 0;
         String name = null;
@@ -98,7 +99,7 @@ public class ElementManager {
      * @param isUserInput вид ввода
      * @return значение поля coordinates
      */
-    public static Coordinates inputCoordinates(Scanner sc, boolean isUserInput){
+    public Coordinates inputCoordinates(Scanner sc, boolean isUserInput){
         counterInput = 0;
         if (isUserInput) {System.out.println("Введите координаты");}
         boolean flag = true;
@@ -144,7 +145,7 @@ public class ElementManager {
      * @param isUserInput вид ввода
      * @return значение для поля studentsCount
      */
-    public static Integer inputStudentsCount(Scanner sc, boolean isUserInput){
+    public Integer inputStudentsCount(Scanner sc, boolean isUserInput){
         counterInput = 0;
         boolean flag = true;
         Integer studentsCount = null;
@@ -194,7 +195,7 @@ public class ElementManager {
      * @param isUserInput вид ввода
      * @return значение для поля averageMark
      */
-    public static Double inputAverageMark(Scanner sc, boolean isUserInput){
+    public Double inputAverageMark(Scanner sc, boolean isUserInput){
         boolean flag = true;
         counterInput = 0;
         Double averageMark = null;
@@ -245,7 +246,7 @@ public class ElementManager {
      * @param isUserInput вид ввода
      * @return значение поля formOfEducation
      */
-    public static FormOfEducation inputFormOfEducation(Scanner sc, boolean isUserInput){
+    public FormOfEducation inputFormOfEducation(Scanner sc, boolean isUserInput){
         counterInput = 0;
         boolean flag = true;
         FormOfEducation formOfEducation = null;
@@ -291,7 +292,7 @@ public class ElementManager {
      * @param isUserInput вид ввода
      * @return значение поля semesterEnum
      */
-    public static Semester inputSemesterEnum(Scanner sc, boolean isUserInput){
+    public Semester inputSemesterEnum(Scanner sc, boolean isUserInput){
         counterInput = 0;
         boolean flag = true;
         Semester semester = null;
@@ -337,7 +338,7 @@ public class ElementManager {
      * @param isUserInput вид ввода
      * @return значение поля adminGroup
      */
-    public static Person inputAdminGroup(Scanner sc, boolean isUserInput){
+    public Person inputAdminGroup(Scanner sc, boolean isUserInput){
         counterInput = 0;
         if (isUserInput) {System.out.println("Заполните значение старосты группы");}
         boolean flag = false;
@@ -495,7 +496,7 @@ public class ElementManager {
      * Метод для генерации даты и времени создания коллекции HashSet
      * @return дата и время создания коллекции
      */
-    public static LocalDateTime createDateCreating(){
+    public LocalDateTime createDateCreating(){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         String formattedDateTime = now.format(formatter);
@@ -507,7 +508,7 @@ public class ElementManager {
      * @param isUserInput вид ввода
      * @return element для соответсвующих команд
      */
-    public static StudyGroup createStudyGroup(boolean isUserInput){
+    public StudyGroup createStudyGroup(boolean isUserInput){
         StudyGroup group = null;
         Scanner sc;
         if (isUserInput) {sc = new Scanner(System.in);}
@@ -535,7 +536,6 @@ public class ElementManager {
             group = new StudyGroup(id, name, coordinates, creatingData, studentsCount, averageMark, formOfEducation, semester, adminGroup);
         }
         catch (InputFromFIleException e){
-            setStatusCommand(-1);
             System.out.println();
             System.out.println(e.sendMessage());
             return null;

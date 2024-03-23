@@ -8,23 +8,15 @@ import java.util.*;
  * Класс для работы с командами
  */
 public class CommandManager {
-
-    //Конструктор
-    /**
-     * Поле для хранения статуса команд
-     * Если поле равно 0, то все нормально
-     * Если поле равно -1, то произошло исключение и нужно прервать выполнения команды
-     */
-    private static int statusCommand = 0;
     /**
      * Поля для хранения команд
      */
-    private static Map<String, Command> commands;
+    private Map<String, Command> commands;
 
     /**
      * Поле истории вызова команд
      */
-    private static ArrayDeque<String> historyList = new ArrayDeque<>(13);
+    private ArrayDeque<String> historyList = new ArrayDeque<>(13);
 
     /**
      * Конструктор класса
@@ -50,23 +42,10 @@ public class CommandManager {
         this.commands = commands;
     }
 
-    public static ArrayDeque<String> getHistoryList(){
-        return historyList;
-    }
-    /**
-     * Getter для поля statusCommand
-     * @return значение поля statusCommand
-     */
-    public static int getStatusCommand() {
-        return statusCommand;
-    }
 
-    /**
-     * Setter для поля statusCommand
-     * @param status устанавливаемый статус команды
-     */
-    public static void setStatusCommand(int status) {
-        statusCommand = status;
+
+    public ArrayDeque<String> getHistoryList(){
+        return this.historyList;
     }
 
     /**
@@ -87,5 +66,5 @@ public class CommandManager {
         if (historyList.size() > 13){
             historyList.removeFirst();
         }
-    };
+    }
 }
