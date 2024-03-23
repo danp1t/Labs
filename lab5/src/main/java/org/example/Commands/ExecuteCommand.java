@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import static org.example.Managers.ElementManager.setIsUserInput;
 import static org.example.Managers.ElementManager.setScanner;
+import static org.example.Managers.StartManager.getCommandManager;
 
 /**
  * Данный класс реализует команду execute_script
@@ -43,7 +44,7 @@ public class ExecuteCommand implements Command {
             //Получение аргумента
             String fileName = tokens[1];
 
-            CommandManager commands = new CommandManager();
+            CommandManager commands = getCommandManager();
             System.out.println("Считать и исполнить скрипт из файла: " + fileName);
             //Найти такой файл
             fileName = System.getenv("FILE_DIR_LAB5") + fileName;
@@ -54,7 +55,6 @@ public class ExecuteCommand implements Command {
                     throw new RecursionLimitException();
                 }
                 Scanner scan = new Scanner(fr);
-                int counterLine = 1;
                 while (scan.hasNext()) {
                     String line = scan.nextLine();
                     if (line.isEmpty()) {
@@ -64,14 +64,13 @@ public class ExecuteCommand implements Command {
                     Command command = commands.getCommands().get(strCommand);
                     if (command == null) {
                         System.out.println("Исполнение скрипта аварийно завершено!");
-                        System.out.println("На " + (counterLine - 1) + " строчке найдена неверная команда или строка:: " + strCommand);
                         break;
                     }
                     tokens = line.split(" ");
                     setScanner(scan);
                     setIsUserInput(false);
+                    commands.addCommandToHistory(command);
                     command.execute(tokens);
-                    counterLine += 1;
                 }
             setIsUserInput(true);
             } catch (RecursionLimitException e) {

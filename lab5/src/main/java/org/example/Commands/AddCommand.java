@@ -7,6 +7,7 @@ import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
@@ -31,9 +32,14 @@ public class AddCommand implements Command {
             StudyGroup group = elementManager.createStudyGroup(getIsUserInput());
             //Запрос нашей коллекции для добавления нового элемента в группу
             HashSet<StudyGroup> studyGroup = collectionManager.getStudyGroups();
-            System.out.println("Группа добавлена!");
-            studyGroup.add(group);
-            collectionManager.setStudyGroups(studyGroup);
+            if (Objects.isNull(group)) {
+                System.out.println("Произошла ошибка при выполнении команды add");
+            }
+            else {
+                studyGroup.add(group);
+                System.out.println("Группа добавлена!");
+                collectionManager.setStudyGroups(studyGroup);
+            }
         }
         catch (InputUserException e) {
             System.out.println("Команда add не должна содержать аргументов");

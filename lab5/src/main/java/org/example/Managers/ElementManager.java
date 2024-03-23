@@ -13,7 +13,6 @@ import static org.example.Managers.StartManager.getCollectionManager;
 
 
 public class ElementManager {
-     private  CollectionManager collectionManager = getCollectionManager();
     private static Scanner scanner;
     /**
      * Счетчик количества вводов данных для анализа скрипта на ошибки
@@ -41,6 +40,7 @@ public class ElementManager {
      * @return уникальный ID
      */
     private int nextID(){
+        CollectionManager collectionManager = getCollectionManager();
         //Получение текущей коллекции
         HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
         ArrayList<Integer> groups = new ArrayList<>();

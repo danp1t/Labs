@@ -1,39 +1,14 @@
-update 1
-P3392
-32.332332
--24.4221
-20
-3.8693
-EVENING_CLASSES
+add
+P4021
+123.323
+213.333
+1
+214.1
+FULL_TIME_EDUCATION
 FIFTH
-Olga
-23.02.2002
-WHITE
-
-update 1
-P3392
-32.332332
--24.4221
-20
-3.8693
-EVENING_CLASSES
-FIFTH
-Olga
-23.02.2002
-WHITE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Ivan
+21.12.1212
+ORANGE
+ORANGE
+execute_script create_script.txt
+execute_script script.txt
