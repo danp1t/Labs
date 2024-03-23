@@ -10,7 +10,6 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static org.example.Managers.CollectionManager.getStudyGroups;
-import static org.example.Managers.CommandManager.gettingGroupElement;
 import static org.example.Managers.CommandManager.setStatusCommand;
 
 public class ElementManager {
@@ -69,41 +68,25 @@ public class ElementManager {
     public static String inputName(Scanner sc, boolean isUserInput){
         boolean flag = false;
         counterInput = 0;
-        String name = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getName();
+        String name = null;
         while (!flag){
             try {
                 if (isUserInput){
                     counterInput = 0;
                     System.out.print("Введите имя: ");
                 }
-                String line = sc.nextLine().strip();
-                if (line.split(" ").length > 1) {
-                    throw new InputUserException();
-                }
-                name = line.split(" ")[0];
+                name = sc.nextLine().strip();
                 counterInput += 1;
-                if (name != null && name != ""){
-                    flag = true;
-                }
-                else if (name == null) {
-                    throw new NullFieldException();
-                }
-                else if (name == "") {
-                    throw new EmptyStringFieldException();
-                }
+                if (!name.isEmpty()) flag = true;
+                else if (name.isEmpty()) throw new EmptyStringFieldException();
+
                 if (counterInput > 1) throw new InputFromFIleException();
-            }
-            catch (NullFieldException e){
-                System.out.println(e.sendMessage());
             }
             catch (EmptyStringFieldException e){
                 System.out.println(e.sendMessage());
             }
             catch (InputFromFIleException e){
                 break;
-            }
-            catch (InputUserException e){
-                System.out.println(e.sendMessage());
             }
         }
         return name;
@@ -118,70 +101,41 @@ public class ElementManager {
     public static Coordinates inputCoordinates(Scanner sc, boolean isUserInput){
         counterInput = 0;
         if (isUserInput) {System.out.println("Введите координаты");}
-
-        double newX = (Objects.isNull(gettingGroupElement())) ? 1 : gettingGroupElement().getCoordinates().getX();
-        Double y = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getCoordinates().getY();
         boolean flag = true;
-        while(flag) {
-            try{
-                if (isUserInput) {
-                    counterInput = 0;
-                    System.out.print("x = ");}
-                String line = sc.nextLine().strip();
-                if (line.split(" ").length > 1) {
-                    throw new InputUserException();
+        String[] string = {"x", "y"};
+        Double[] coordinates = new Double[2];
+        int id = 0;
+        for (String str : string) {
+            while(flag) {
+                try{
+                    if (isUserInput) {
+                        counterInput = 0;
+                        System.out.print(str + " = ");}
+                    String line = sc.nextLine().strip();
+                    if (line.split(" ").length > 1) {
+                        throw new InputUserException();
+                    }
+                    String x = line.split(" ")[0];
+                    counterInput += 1;
+                    Double newX = Double.parseDouble(x);
+                    flag = false;
+                    coordinates[id] = newX;
+                    id += 1;
+                    if (counterInput > 2) {throw new InputFromFIleException();}
                 }
-                String x = line.split(" ")[0];
-                counterInput += 1;
-                newX = Double.parseDouble(x);
-                flag = false;
-                if (counterInput > 2) {throw new InputFromFIleException();}
+                catch (NumberFormatException e){
+                    System.out.println("Ошибка при вводе поля " + str + ". Оно должно быть числом с плавающей точкой. Повторите попытку");
+                }
+                catch (InputFromFIleException e){
+                    break;
+                }
+                catch (InputUserException e){
+                    System.out.println(e.sendMessage());
+                }
             }
-            catch (NumberFormatException e){
-                System.out.println("Ошибка при вводе поля x. Оно должно быть числом с плавующей точкой. Повторите попытку");
-            }
-            catch (InputFromFIleException e){
-                break;
-            }
-            catch (InputUserException e){
-                System.out.println(e.sendMessage());
-            }
+            flag = true;
         }
-        flag = true;
-        while(flag) {
-            try{
-                if (isUserInput) {
-                    counterInput = 0;
-                    System.out.print("y = ");}
-                String line = sc.nextLine().strip();
-                if (line.split(" ").length > 1) {
-                    throw new InputUserException();
-                }
-                String x = line.split(" ")[0];
-                counterInput += 1;
-                y = Double.parseDouble(x);
-                if (y != null) {flag = false;}
-                else {
-                    throw new NullFieldException();
-                }
-                if (counterInput > 2) {throw new InputFromFIleException();}
-            }
-            catch (NumberFormatException e){
-                System.out.println("Ошибка при вводе поля x. Оно должно быть числом с плавующей точкой. Повторите попытку");
-            }
-            catch (NullFieldException e){
-                System.out.println(e.sendMessage());
-            }
-            catch (InputFromFIleException e) {
-                break;
-            }
-            catch (InputUserException e) {
-                System.out.println(e.sendMessage());
-            }
-        }
-        //Перевод в double
-        Coordinates coordinates = new Coordinates(newX, y);
-        return coordinates;
+        return new Coordinates(coordinates[0], coordinates[1]);
     }
 
     /**
@@ -193,7 +147,7 @@ public class ElementManager {
     public static Integer inputStudentsCount(Scanner sc, boolean isUserInput){
         counterInput = 0;
         boolean flag = true;
-        Integer studentsCount = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getStudentsCount();
+        Integer studentsCount = null;
         while (flag) {
             try {
                 if (isUserInput) {
@@ -210,7 +164,7 @@ public class ElementManager {
                 if (studentsCount <= 0) {
                     throw new NotPositiveField();
                 }
-                else if (studentsCount == null) {
+                else if (Objects.isNull(studentsCount)) {
                     throw new NullFieldException();
                 }
                 else {flag = false;}
@@ -243,7 +197,7 @@ public class ElementManager {
     public static Double inputAverageMark(Scanner sc, boolean isUserInput){
         boolean flag = true;
         counterInput = 0;
-        Double averageMark = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getAverageMark();
+        Double averageMark = null;
         while (flag){
             try{
                 if (isUserInput) {
@@ -260,7 +214,7 @@ public class ElementManager {
                 if (averageMark <= 0.0) {
                     throw new NotPositiveField();
                 }
-                else if (averageMark == null) {
+                else if (Objects.isNull(averageMark)) {
                     throw new NullFieldException();
                 }
                 else {flag = false;}
@@ -294,7 +248,7 @@ public class ElementManager {
     public static FormOfEducation inputFormOfEducation(Scanner sc, boolean isUserInput){
         counterInput = 0;
         boolean flag = true;
-        FormOfEducation formOfEducation = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getFormOfEducation();
+        FormOfEducation formOfEducation = null;
         while (flag) {
             try {
                 if (isUserInput) {
@@ -340,7 +294,7 @@ public class ElementManager {
     public static Semester inputSemesterEnum(Scanner sc, boolean isUserInput){
         counterInput = 0;
         boolean flag = true;
-        Semester semester = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getSemesterEnum();
+        Semester semester = null;
         while (flag) {
             try {
                 if (isUserInput) {
@@ -387,10 +341,10 @@ public class ElementManager {
         counterInput = 0;
         if (isUserInput) {System.out.println("Заполните значение старосты группы");}
         boolean flag = false;
-        String adminName = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getGroupAdmin().getName();
-        LocalDate birthday = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getGroupAdmin().getBirthday();
-        EyeColor eyeColor = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getGroupAdmin().getEyeColor();
-        HairColor hairColor = (Objects.isNull(gettingGroupElement())) ? null : gettingGroupElement().getGroupAdmin().getHairColor();
+        String adminName = null;
+        LocalDate birthday = null;
+        EyeColor eyeColor = null;
+        HairColor hairColor = null;
         while (!flag){
             try {
                 if (isUserInput) {
@@ -403,13 +357,13 @@ public class ElementManager {
                 adminName = line.split(" ")[0];
                 counterInput += 1;
                 if (counterInput > 4) {throw new InputFromFIleException();}
-                if (adminName != null && adminName != ""){
+                if (!Objects.isNull(adminName) && !adminName.isEmpty()){
                     flag = true;
                 }
-                else if (adminName == null) {
+                else if (Objects.isNull(adminName)) {
                     throw new NullFieldException();
                 }
-                else if (adminName == "") {
+                else if (adminName.isEmpty()) {
                     throw new EmptyStringFieldException();
                 }
             }
@@ -442,10 +396,10 @@ public class ElementManager {
                 if (counterInput > 4) {throw new InputFromFIleException();}
                 birthday = LocalDate.parse(strBirthday, formatter);
 
-                if (birthday != null){
+                if (!Objects.isNull(birthday)){
                     flag = true;
                 }
-                else if (birthday == null) {
+                else if (Objects.isNull(birthday)) {
                     throw new NullFieldException();
                 }
             }
@@ -541,12 +495,11 @@ public class ElementManager {
      * Метод для генерации даты и времени создания коллекции HashSet
      * @return дата и время создания коллекции
      */
-    public static java.time.LocalDateTime createDateCreating(){
+    public static LocalDateTime createDateCreating(){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         String formattedDateTime = now.format(formatter);
-        LocalDateTime dateCreating = LocalDateTime.parse(formattedDateTime, formatter);
-        return dateCreating;
+        return LocalDateTime.parse(formattedDateTime, formatter);
     }
 
     /**
@@ -556,7 +509,7 @@ public class ElementManager {
      */
     public static StudyGroup createStudyGroup(boolean isUserInput){
         StudyGroup group = null;
-        Scanner sc = null;
+        Scanner sc;
         if (isUserInput) {sc = new Scanner(System.in);}
         else {sc = scanner;};
 
@@ -589,39 +542,6 @@ public class ElementManager {
         }
         catch (NoSuchElementException e){
             System.out.println("Аварийный выход из программы...");
-        }
-        return group;
-    }
-
-    /**
-     * Вспомогательный метод для изменения информации об учебной группе
-     * @param sc сканер
-     * @param isUserInput вид ввода
-     * @return измененная учебная группа
-     */
-    public static StudyGroup updateStudyGroup(Scanner sc, boolean isUserInput){
-        StudyGroup group = null;
-        try {
-            int id = gettingGroupElement().getID();
-            if (isUserInput) {System.out.print("(" + gettingGroupElement().getName() + ") ");}
-            String name = inputName(sc, isUserInput);
-            if (isUserInput) {System.out.print("(" + gettingGroupElement().getCoordinates() + ") ");}
-            Coordinates coordinates = inputCoordinates(sc, isUserInput);
-            if (isUserInput) {System.out.print("(" + gettingGroupElement().getStudentsCount() + ") ");}
-            Integer studentsCount = inputStudentsCount(sc, isUserInput);
-            if (isUserInput) {System.out.print("(" + gettingGroupElement().getAverageMark() + ") ");}
-            Double averageMark = inputAverageMark(sc, isUserInput);
-            if (isUserInput) {System.out.print("(" + gettingGroupElement().getFormOfEducation() + ") ");}
-            FormOfEducation formOfEducation = inputFormOfEducation(sc, isUserInput);
-            if (isUserInput) {System.out.print("(" + gettingGroupElement().getSemesterEnum() + ") ");}
-            Semester semester = inputSemesterEnum(sc, isUserInput);
-            if (isUserInput) { System.out.print("(" + gettingGroupElement().getGroupAdmin() + ") ");}
-            Person adminGroup = inputAdminGroup(sc, isUserInput);
-            LocalDateTime creationDate = gettingGroupElement().getCreationDate();
-            group = new StudyGroup(id, name, coordinates, creationDate, studentsCount, averageMark, formOfEducation, semester, adminGroup);
-        }
-        catch (NullPointerException e) {
-            e.printStackTrace();
         }
         return group;
     }

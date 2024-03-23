@@ -1,11 +1,8 @@
 package org.example.Managers;
 
-import org.example.Collections.StudyGroup;
 import org.example.Commands.*;
 import org.example.Interface.Command;
-
 import java.util.*;
-import static org.example.Managers.ElementManager.*;
 
 /**
  * Класс для работы с командами
@@ -23,14 +20,7 @@ public class CommandManager {
      * Поля для хранения команд
      */
     private static Map<String, Command> commands;
-    /**
-     * Поле для хранения element для команды update
-     */
-    private static StudyGroup groupElement;
-    /**
-     * Поле для хранения element
-     */
-    private static StudyGroup element;
+
     /**
      * Поле истории вызова команд
      */
@@ -63,36 +53,6 @@ public class CommandManager {
     public static ArrayDeque<String> getHistoryList(){
         return historyList;
     }
-
-    /**
-     * Getter для поля element
-     * @return значение поля element
-     */
-    public static StudyGroup getElement(){
-        return element;
-    }
-    /**
-     * Setter для поля groupElement
-     * @param group значение для groupElement
-     */
-    public static void setElement(StudyGroup group){
-        element = group;
-    }
-    /**
-     * Getter для поля groupElement
-     * @return значение поля groupElement
-     */
-    public static StudyGroup gettingGroupElement(){
-        return groupElement;
-    }
-
-    /**
-     * Setter для поля groupElement
-     * @param group значение для groupElement
-     */
-    public static void settingGroupElement(StudyGroup group){
-        groupElement = group;
-    }
     /**
      * Getter для поля statusCommand
      * @return значение поля statusCommand
@@ -118,54 +78,6 @@ public class CommandManager {
     }
 
     /**
-     * Вспомогательный метод для определения вида команд
-     * @param command команда
-     * @return это команда без аргументов?
-     */
-    public boolean isSimpleCommand(String command){
-        String[] simpleCommand = {"hello", "help", "info", "show", "clear", "save", "exit", "history", "min_by_semester_enum"};
-        boolean contains = Arrays.asList(simpleCommand).contains(command);
-        if (contains) {return true;}
-        else {return false;}
-    }
-
-    /**
-     * Вспомогательный метод для определения вида команд
-     * @param command команда
-     * @return это команда с одним аргументом?
-     */
-    public boolean isCommandWithOneArg(String command){
-        String[] commandWithOneArg = {"remove_by_id", "execute_script", "count_greater_than_average_mark", "filter_contains_name"};
-        boolean contains = Arrays.asList(commandWithOneArg).contains(command);
-        if (contains) {return true;}
-        else {return false;}
-    }
-
-    /**
-     * Вспомогательный метод для определения вида команд
-     * @param command команда
-     * @return это команда с element?
-     */
-    public boolean isCommandWithElement(String command){
-        String[] commandWithElement = {"add", "add_if_max", "add_if_min"};
-        boolean contains = Arrays.asList(commandWithElement).contains(command);
-        if (contains) {return true;}
-        else {return false;}
-    }
-
-    /**
-     * Вспомогательный метод для определения вида команд
-     * @param command команда
-     * @return это команда с element и одним аргументом?
-     */
-    public boolean isCommandWithElementAndOneArg(String command){
-        List<String> commandWithElement = List.of("update");
-        boolean contains = commandWithElement.contains(command);
-        return contains;
-
-    }
-
-    /**
      * Добавить команду в исторический список
      * @param command команда
      */
@@ -176,40 +88,4 @@ public class CommandManager {
             historyList.removeFirst();
         }
     };
-
-    /**
-     * Добавить команду в исторический список и создать element
-     * @param command команда
-     * @param sc сканер
-     * @param isUserInput пользовательский ввод?
-     */
-    public void processingElement(Command command, Scanner sc, boolean isUserInput){
-        String name = command.getNameCommand();
-        historyList.addLast(name);
-        if (historyList.size() > 13){
-            historyList.removeFirst();
-        }
-        element = createStudyGroup(isUserInput);
-    }
-
-    /**
-     * Добавить команду в исторический список
-     * @param line команда с параметром
-     */
-    public void addCommandToHistory(String line) {
-        historyList.addLast(line);
-        if (historyList.size() > 13){
-            historyList.removeFirst();
-        }
-    }
-
-    /**
-     * Получение element для команды update
-     * @param sc сканер
-     * @param isUserInput пользовательский ли ввод?
-     */
-    public void updateFunction(Scanner sc, boolean isUserInput) {
-        element = updateStudyGroup(sc, isUserInput);
-
-    }
 }

@@ -67,13 +67,6 @@ public class ExecuteCommand implements Command {
                         System.out.println("На " + (counterLine - 1) + " строчке найдена неверная команда или строка:: " + strCommand);
                         break;
                     }
-
-
-//                    if (getStatusCommand() == -1) {
-//                        System.out.println("ПРЕРЫВАНИЕ! Последняя команда сгенерировала ошибку");
-//                        System.out.println("Команда, которая сгенерировала исключение:: " + strCommand);
-//                        break;
-//                    }
                     tokens = line.split(" ");
                     setScanner(scan);
                     setIsUserInput(false);

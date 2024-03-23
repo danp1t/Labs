@@ -56,11 +56,11 @@ public class UpdateCommand implements Command {
             setStatusCommand(-1);
         }
         catch (NotCollectionIDFound e){
+            System.out.println("ID коллекции не найден");
             setStatusCommand(-1);
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Введите ID элемента");
-            setStatusCommand(-1);
         }
         catch (NullPointerException e) {
             System.out.println("Ошибочка вышла");

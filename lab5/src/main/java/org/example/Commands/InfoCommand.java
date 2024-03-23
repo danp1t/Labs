@@ -3,6 +3,7 @@ package org.example.Commands;
 import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 
 import java.util.HashSet;
 
@@ -35,9 +36,10 @@ public class InfoCommand implements Command {
      * @return строку для команды info
      */
     private static String printInfoHashSet(){
-        HashSet<StudyGroup> studyGroups = getStudyGroups();
+        CollectionManager collectionManager = new CollectionManager();
+        HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
         return "Тип: " + studyGroups.getClass() + "\n" +
-                "Дата инициализации: " + getCreateDateHashSet() + "\n" +
+                "Дата инициализации: " + collectionManager.getCreateDateHashSet() + "\n" +
                 "Количество элементов: " + studyGroups.size() + "\n" +
                 "Множество пустое: " + studyGroups.isEmpty();
     }

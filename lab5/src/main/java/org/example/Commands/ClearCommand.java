@@ -5,6 +5,7 @@ import org.example.Interface.Command;
 
 import static org.example.Managers.CollectionManager.getStudyGroups;
 
+
 /**
  * Данный класс реализует команду clear
  * Команда clear очищает коллекцию HashSet

@@ -24,12 +24,10 @@ import static org.example.Managers.CommandManager.*;
  * Класс для работы с коллекцией HashSet и другими данными
  */
 public class CollectionManager {
-
-
     /**
      * Путь до json_file, где хранится сохраненная коллекция HashSet
      */
-    private static String fileName = System.getenv("JSON_FILE_LAB5");
+    private static String fileName;
     /**
      * Дата создания коллекции
      */
@@ -42,8 +40,6 @@ public class CollectionManager {
      * Список учебных групп, которые хранятся в коллекции HashSet
      */
     private static HashSet<StudyGroup> studyGroups;
-
-
 
     /**
      * Конструктор класса
@@ -62,7 +58,7 @@ public class CollectionManager {
      * @return значение поля studyGroups
      */
     public static HashSet<StudyGroup> getStudyGroups() {
-        if (studyGroups == null) {
+        if (Objects.isNull(studyGroups)) {
             getHashSet();
         };
         return studyGroups;
@@ -82,8 +78,7 @@ public class CollectionManager {
      */
     public static JSONArray readJsonFile(){
         try {
-            JSONArray jsonFile = (JSONArray) new JSONParser().parse(new FileReader(fileName));
-            return jsonFile;
+            return (JSONArray) new JSONParser().parse(new FileReader(System.getenv("JSON_FILE_LAB5")));
         } catch (IOException | ParseException e) {
             System.out.println("Ошибка при чтении коллекции из файла");
         }
@@ -227,10 +222,7 @@ public class CollectionManager {
      * @return отсортированное множество
      */
     public static Set printHashSet(){
-        if (studyGroups == null){
-            getHashSet();
-        }
-        HashSet<StudyGroup> studyGroups = CollectionManager.studyGroups;
+        getStudyGroups();
         Set<StudyGroup> sortedGroups = new TreeSet<>(CollectionManager.studyGroups);
         return sortedGroups;
     }
@@ -254,43 +246,4 @@ public class CollectionManager {
         String jsonString = gson.toJson(object);
         return jsonString;
     }
-
-
-    /**
-     * Получение element
-     */
-//    public static void getGroupElement(){
-//        try {
-//            if (studyGroups == null) {
-//                getHashSet();}
-//            String arg = historyList.getLast().split(" ")[1];
-//            //Перевод из численного в строковый тип
-//            int number = 1;
-//            number = Integer.parseInt(arg);
-//            HashSet<StudyGroup> newStudyGroups = new HashSet<>();
-//            for (StudyGroup group : studyGroups) {
-//                if (number == group.getID()) {
-//                    System.out.println("Коллекция с id: " + number + " найдена.");
-//                    System.out.println("Текучие значения указаны в скобках.");
-//                    settingGroupElement(group);
-//                }
-//                else {newStudyGroups.add(group);}
-//            }
-//            if (newStudyGroups.size() == studyGroups.size()) {
-//                throw new NotCollectionIDFound();
-//            }
-//        }
-//        catch (NumberFormatException e){
-//            System.out.println("Для коллекции введен не целочисленный id. Введите команду еще раз");
-//            setStatusCommand(-1);
-//        }
-//        catch (NotCollectionIDFound e){
-//            System.out.println(e.sendMessage());
-//            setStatusCommand(-1);
-//        }
-//        catch (ArrayIndexOutOfBoundsException e){
-//            System.out.println("Введите ID элемента");
-//            setStatusCommand(-1);
-//        }
-//    }
 }

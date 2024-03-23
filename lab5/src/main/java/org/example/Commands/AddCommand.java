@@ -3,10 +3,10 @@ package org.example.Commands;
 import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
+import org.example.Managers.CollectionManager;
 
 import java.util.HashSet;
 
-import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.ElementManager.*;
 
 /**
@@ -22,14 +22,15 @@ public class AddCommand implements Command {
     public void execute(String[] tokens) {
         //Анализ команды
         try {
+            CollectionManager collectionManager = new CollectionManager();
             if (tokens.length != 1) throw new InputUserException();
             //Запрос на ввод данных для элемента группы
             StudyGroup group = createStudyGroup(getIsUserInput());
             //Запрос нашей коллекции для добавления нового элемента в группу
-            HashSet<StudyGroup> studyGroup = getStudyGroups();
+            HashSet<StudyGroup> studyGroup = collectionManager.getStudyGroups();
             System.out.println("Группа добавлена!");
             studyGroup.add(group);
-            setStudyGroups(studyGroup);
+            collectionManager.setStudyGroups(studyGroup);
         }
         catch (InputUserException e) {
             System.out.println("Команда add не должна содержать аргументов");
