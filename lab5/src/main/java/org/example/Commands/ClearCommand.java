@@ -26,7 +26,7 @@ public class ClearCommand implements Command {
             System.out.println("Коллекция очищена");
         }
         catch (InputUserException e) {
-            System.out.println("Команда add_if_min не должна содержать аргументов");
+            System.out.println("Команда clear не должна содержать аргументов");
         }
     }
 

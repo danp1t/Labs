@@ -366,11 +366,7 @@ public class ElementManager {
                 if (isUserInput) {
                     counterInput = 0;
                     System.out.print("Введите имя старосты группы: ");}
-                String line = sc.nextLine().strip();
-                if (line.split(" ").length > 1) {
-                    throw new InputUserException();
-                }
-                adminName = line.split(" ")[0];
+                adminName = sc.nextLine().strip();
                 counterInput += 1;
                 if (counterInput > 4) {throw new InputFromFIleException();}
                 if (!Objects.isNull(adminName) && !adminName.isEmpty()){
@@ -391,9 +387,6 @@ public class ElementManager {
             }
             catch (InputFromFIleException e){
                 break;
-            }
-            catch (InputUserException e){
-                System.out.println(e.sendMessage());
             }
         }
         flag = false;

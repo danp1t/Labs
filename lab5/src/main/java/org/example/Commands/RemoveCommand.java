@@ -53,7 +53,7 @@ public class RemoveCommand implements Command {
 
         }
         catch (InputUserException e) {
-            System.out.println("Неверно введены аргументы для команды remove_by_id");
+            System.out.println("Неверно введен аргумент для команды remove_by_id");
         }
         catch (NotPositiveField | NumberFormatException e){
             System.out.println("Аргументом этой строки должно быть положительное целое число, которое больше 0");
