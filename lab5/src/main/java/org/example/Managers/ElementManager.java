@@ -18,18 +18,33 @@ public class ElementManager {
      * Счетчик количества вводов данных для анализа скрипта на ошибки
      */
     private static int counterInput;
+    /**
+     * Поле для определения вида ввода команд
+     * Если значение true, то значит, что команды вводит человек
+     * Если значение false, то это значит, что команды выполняются из скрипта
+     */
     private static boolean isUserInput = true;
 
+    /**
+     * Getter для получения вида ввода команд
+     * @return
+     */
     public static boolean getIsUserInput(){
         return isUserInput;
     }
 
+    /**
+     * Setter для установления вида ввода команд
+     * @param isUserInput1
+     */
     public static void setIsUserInput(boolean isUserInput1) {
         isUserInput = isUserInput1;
     }
-    public static Scanner getScanner(){
-        return scanner;
-    }
+
+    /**
+     * Setter для смены сканера пользователя на чтения скрипта из файла и наоборот
+     * @return меняет сканер
+     */
 
     public static void setScanner(Scanner sc) {
         scanner = sc;
