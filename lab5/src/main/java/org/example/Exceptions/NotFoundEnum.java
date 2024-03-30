@@ -9,6 +9,6 @@ public class NotFoundEnum extends Exception{
      * @return сообщение об ошибке
      */
     public String sendMessage(){
-        return "Enum не был найден. Просто скопируйте значение из сообщения выше";
+        return "Enum не был найден. Просто скопируйте значение из сообщения ниже";
     }
 }

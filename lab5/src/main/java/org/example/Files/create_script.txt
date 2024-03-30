@@ -64,7 +64,6 @@ Denis
 WHITE
 ORANGE
 
-execute_script script.txt
-
+execute_script create_script.txt
 
 

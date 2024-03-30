@@ -1,14 +1,1 @@
-add
-P4021
-123.323
-213.333
-1
-214.1
-FULL_TIME_EDUCATION
-FIFTH
-Ivan
-21.12.1212
-ORANGE
-ORANGE
 execute_script create_script.txt
-execute_script script.txt

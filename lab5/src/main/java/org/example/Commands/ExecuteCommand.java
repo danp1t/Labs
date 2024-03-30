@@ -8,8 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static org.example.Managers.ElementManager.setIsUserInput;
-import static org.example.Managers.ElementManager.setScanner;
+import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.StartManager.getCommandManager;
 
 /**
@@ -39,6 +38,9 @@ public class ExecuteCommand implements Command {
     public void execute(String[] tokens) {
 
         try {
+            if (getIsUserInput()) {
+                recursionDepth = 0;
+            }
             //Проверка на то, что у нас один аргумент у команды
             if (tokens.length != 2) throw new InputUserException();
             //Получение аргумента
