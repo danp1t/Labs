@@ -22,13 +22,14 @@ public class Server {
     public static void main(String[] args) throws SocketException {
         DatagramSocket serverSocket = connection();
         try {
-                //Получение запроса от Клиента
-            DatagramPacket receivePacket = ServerReadRequest.getDatagramPacket(serverSocket);
-            String receivedMessage = readRequest(receivePacket);
-            System.out.println("Received from client: " + receivedMessage);
-            String[] tokens = receivedMessage.split(" ");
-            handlerCommand(tokens);
-            sendResponds(serverSocket, receivePacket);
+            while (true) {
+                DatagramPacket receivePacket = ServerReadRequest.getDatagramPacket(serverSocket);
+                String receivedMessage = readRequest(receivePacket);
+                System.out.println("Received from client: " + receivedMessage);
+                String[] tokens = receivedMessage.split(" ");
+                handlerCommand(tokens);
+                sendResponds(serverSocket, receivePacket);
+            }
 
 
         } catch (Exception e) {

@@ -22,31 +22,32 @@ public class Client  {
 
             //Отправить команду на сервер
             System.out.println("Клиент запущена!");
-            CommandManager commands = new CommandManager();
-            System.out.println("Введите команду: ");
-            Scanner sc = new Scanner(System.in);
-            String line = " ";
-            line = sc.nextLine();
-            // Создаем буфер для отправки данных
-            ByteBuffer buffer = ByteBuffer.allocate(line.getBytes().length);
+            while (true) {
+                System.out.println("Введите команду: ");
+                Scanner sc = new Scanner(System.in);
+                String line = " ";
+                line = sc.nextLine();
+                // Создаем буфер для отправки данных
+                ByteBuffer buffer = ByteBuffer.allocate(line.getBytes().length);
 
 
-            buffer.put(line.getBytes());
-            buffer.flip();
+                buffer.put(line.getBytes());
+                buffer.flip();
 
-            // Отправляем данные на сервер
-            channel.send(buffer, serverAddress);
-            System.out.println("Данные отправлены");
+                // Отправляем данные на сервер
+                channel.send(buffer, serverAddress);
+                System.out.println("Данные отправлены");
 
-            // Получаем ответ от сервера
-            buffer.clear();
-            channel.receive(buffer);
-            buffer.flip();
+                // Получаем ответ от сервера
+                buffer.clear();
+                channel.receive(buffer);
+                buffer.flip();
 
-            // Читаем данные из буфера
-            byte[] data = new byte[buffer.remaining()];
-            buffer.get(data);
-            System.out.println("Received from server: " + new String(data));
+                // Читаем данные из буфера
+                byte[] data = new byte[buffer.remaining()];
+                buffer.get(data);
+                System.out.println("Received from server: " + new String(data));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
