@@ -9,52 +9,28 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
-import static org.example.Managers.StartManager.setCollectionManager;
 import static org.example.Managers.StartManager.setCommandManager;
+import static org.example.Server.ServerCommandHandler.handlerCommand;
+import static org.example.Server.ServerConnection.connection;
+import static org.example.Server.ServerReadRequest.readRequest;
+import static org.example.Server.ServerResponds.sendResponds;;
 
 public class Server {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SocketException {
+        DatagramSocket serverSocket = connection();
         try {
-            System.out.println("Сервер запущен!");
-            DatagramSocket serverSocket = new DatagramSocket(1234);
-            byte[] receiveData = new byte[1024];
-
-            while (true) {
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                serverSocket.receive(receivePacket);
-
-                String receivedMessage = new String(receivePacket.getData(), StandardCharsets.UTF_8)
-                        .chars()
-                        .filter(c -> c >= 32 && c < 127) // Фильтруем только печатные ASCII символы
-                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                        .toString();
+                //Получение запроса от Клиента
+            DatagramPacket receivePacket = ServerReadRequest.getDatagramPacket(serverSocket);
+            String receivedMessage = readRequest(receivePacket);
+            System.out.println("Received from client: " + receivedMessage);
+            String[] tokens = receivedMessage.split(" ");
+            handlerCommand(tokens);
+            sendResponds(serverSocket, receivePacket);
 
 
-                System.out.println("Received from client: " + receivedMessage);
-                String[] tokens = receivedMessage.split(" ");
-                CommandManager commands = new CommandManager();
-                CollectionManager collectionManager = new CollectionManager();
-                setCollectionManager(collectionManager);
-                setCommandManager(commands);
-                try {
-                    Command command = commands.getCommands().get(tokens[0]);
-                    commands.addCommandToHistory(command);
-                    command.execute(tokens);
-                }
-                catch (NullPointerException e) {
-                    System.out.println("Команда не найдена");
-                }
-                // Обработка данных и отправка ответа
-                // ...
-
-                InetAddress clientAddress = receivePacket.getAddress();
-                int clientPort = receivePacket.getPort();
-                byte[] sendData = "Response from server".getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
-                serverSocket.send(sendPacket);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

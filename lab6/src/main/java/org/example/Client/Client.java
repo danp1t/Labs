@@ -35,8 +35,8 @@ public class Client  {
             buffer.flip();
 
             // Отправляем данные на сервер
-            System.out.println("Данные отправлены");
             channel.send(buffer, serverAddress);
+            System.out.println("Данные отправлены");
 
             // Получаем ответ от сервера
             buffer.clear();
