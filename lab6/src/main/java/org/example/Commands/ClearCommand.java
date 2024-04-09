@@ -4,7 +4,10 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.nio.ByteBuffer;
+
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 
 /**
@@ -18,16 +21,19 @@ public class ClearCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
+
             CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 1) throw new InputUserException();
-            System.out.println("Очистить коллекцию");
+            buffer.put("Очистить коллекцию\n".getBytes());
             collectionManager.getStudyGroups().clear();
-            System.out.println("Коллекция очищена");
+            buffer.put("Коллекция очищена".getBytes());
         }
         catch (InputUserException e) {
-            System.out.println("Команда clear не должна содержать аргументов");
+            buffer.put("Команда clear не должна содержать аргументов".getBytes());
         }
+        setByteBuffer(buffer);
     }
 
     /**

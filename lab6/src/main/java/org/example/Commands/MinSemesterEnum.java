@@ -7,10 +7,12 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду min_by_semester_enum
@@ -23,14 +25,16 @@ public class MinSemesterEnum implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(4098);
         try {
             if (tokens.length != 1) throw new InputUserException();
-            System.out.println("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным");
-            System.out.println(printMinBySemesterEnum());
+            buffer.put("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным\n".getBytes());
+            buffer.put(printMinBySemesterEnum().getBytes());
         }
         catch (InputUserException e) {
-            System.out.println("Команда min_by_semester_enum не должна содержать аргументов");
+            buffer.put("Команда min_by_semester_enum не должна содержать аргументов".getBytes());
         }
+        setByteBuffer(buffer);
     }
     /**
      * Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным

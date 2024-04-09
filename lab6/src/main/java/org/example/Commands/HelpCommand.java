@@ -4,7 +4,10 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
 
+import java.nio.ByteBuffer;
+
 import static org.example.Managers.StartManager.getCommandManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду help
@@ -19,16 +22,18 @@ public class HelpCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(4096);
         try {
             CommandManager commandManager = getCommandManager();
             if (tokens.length != 1) throw new InputUserException();
             for (Command command : commandManager.getCommands().values()){
-                System.out.println(command.getNameCommand() + " - " + command.description());
+                buffer.put((command.getNameCommand() + " - " + command.description() + "\n").getBytes());
             }
         }
         catch (InputUserException e) {
-            System.out.println("Команда help не должна содержать аргументов");
+            buffer.put("Команда help не должна содержать аргументов".getBytes());
         }
+        setByteBuffer(buffer);
     }
 
     /**

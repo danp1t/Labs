@@ -3,6 +3,10 @@ package org.example.Commands;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
+import java.nio.ByteBuffer;
+
+import static org.example.Server.ServerResponds.setByteBuffer;
+
 /**
  * Данный класс реализует команду exit
  * Команда exit завершает программу без сохранения в файл
@@ -14,14 +18,16 @@ public class ExitCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
             if (tokens.length != 1) throw new InputUserException();
-            System.out.println("Выход...");
+            buffer.put("Выход...".getBytes());
             System.exit(0);
         }
         catch (InputUserException e) {
-            System.out.println("Команда exit не должна содержать аргументов");
+            buffer.put("Команда exit не должна содержать аргументов".getBytes());
         }
+        setByteBuffer(buffer);
     }
 
     /**

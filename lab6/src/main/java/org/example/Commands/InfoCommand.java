@@ -4,11 +4,15 @@ import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
+import org.example.Server.Server;
 
+import java.io.PrintWriter;
+import java.net.DatagramSocket;
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 
-import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду info
@@ -21,14 +25,17 @@ public class InfoCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
+            buffer.put("Информация о коллекции\n".getBytes());
             if (tokens.length != 1) throw new InputUserException();
-            System.out.println("Информация о коллекции");
-            System.out.println(printInfoHashSet());
+            buffer.put(printInfoHashSet().getBytes());
+
         }
         catch (InputUserException e) {
-            System.out.println("Команда info не должна содержать аргументов");
+            buffer.put("Команда info не должна содержать аргументов".getBytes());
         }
+        setByteBuffer(buffer);
     }
 
 

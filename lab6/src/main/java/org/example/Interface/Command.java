@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 /**
  * Интерфейс Command
  */
-public interface Command {
+public interface Command  {
     /**
      * Абстрактный метод исполнения команды
      * @throws FileNotFoundException

@@ -7,6 +7,7 @@ import org.example.Managers.CommandManager;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import static org.example.Managers.StartManager.setCollectionManager;
@@ -28,16 +29,15 @@ public class Client  {
                 String line = " ";
                 line = sc.nextLine();
                 // Создаем буфер для отправки данных
-                ByteBuffer buffer = ByteBuffer.allocate(line.getBytes().length);
-
+                ByteBuffer buffer = ByteBuffer.allocate(1024);
 
                 buffer.put(line.getBytes());
                 buffer.flip();
 
                 // Отправляем данные на сервер
                 channel.send(buffer, serverAddress);
-                System.out.println("Данные отправлены");
-
+                System.out.println("Данные отправлены на сервер");
+                System.out.println();
                 // Получаем ответ от сервера
                 buffer.clear();
                 channel.receive(buffer);
@@ -46,7 +46,13 @@ public class Client  {
                 // Читаем данные из буфера
                 byte[] data = new byte[buffer.remaining()];
                 buffer.get(data);
-                System.out.println("Received from server: " + new String(data));
+                String receivedMessage = new String(data, StandardCharsets.UTF_8)
+                        .chars()
+                        .filter(c -> c != 0)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+                System.out.println(receivedMessage);
+                System.out.println();
             }
         } catch (Exception e) {
             e.printStackTrace();

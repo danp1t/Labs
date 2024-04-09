@@ -19,8 +19,10 @@ import static org.example.Server.ServerReadRequest.readRequest;
 import static org.example.Server.ServerResponds.sendResponds;;
 
 public class Server {
+    private static DatagramSocket serverSocket;
+
     public static void main(String[] args) throws SocketException {
-        DatagramSocket serverSocket = connection();
+        serverSocket = connection();
         try {
             while (true) {
                 DatagramPacket receivePacket = ServerReadRequest.getDatagramPacket(serverSocket);
@@ -35,5 +37,8 @@ public class Server {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static DatagramSocket getServerSocket() {
+        return serverSocket;
     }
 }
