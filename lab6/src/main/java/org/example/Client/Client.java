@@ -80,6 +80,7 @@ public class Client  {
                 buffer.clear();
                 Thread.sleep(200);
 
+
                 SocketAddress server = channel.receive(buffer);
                 buffer.flip();
                 if (server == null){
@@ -88,13 +89,23 @@ public class Client  {
                 else {
                     data = new byte[buffer.remaining()];
                     buffer.get(data);
-                    String receivedMessage = new String(data, StandardCharsets.UTF_8)
-                            .chars()
-                            .filter(c -> c != 0)
-                            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                            .toString();
-                    System.out.println(receivedMessage);
-                    System.out.println();
+                    int n = ByteBuffer.wrap(data).getInt();
+                    for (int i = 0; i < n; i++) {
+                        buffer.clear();
+                        server = channel.receive(buffer);
+                        buffer.flip();
+                        data = new byte[buffer.remaining()];
+                        buffer.get(data);
+                        String receivedMessage = new String(data, StandardCharsets.UTF_8)
+                                .chars()
+                                .filter(c -> c != 0)
+                                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                                .toString();
+                        System.out.println(receivedMessage);
+                        System.out.println();
+                    }
+                    buffer.clear();
+
                 }
 
                 // Читаем данные из буфера

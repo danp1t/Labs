@@ -27,7 +27,6 @@ public class ShowCommand implements Command {
         CollectionManager collectionManager = getCollectionManager();
         buffer.put("Все элементы коллекции в строковом представлении\n".getBytes());
         buffer.put((collectionManager.beatifulOutputJson()).getBytes());
-
         byteBufferArrayList.add(buffer);
         buffer.clear();
     }

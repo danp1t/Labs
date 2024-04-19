@@ -82,7 +82,8 @@ public class ExecuteCommand implements Command {
                     }
                     command.execute(line.strip().split(" ")[0], args, null);
                 }
-            setIsUserInput(true);
+                byteBufferArrayList.add(buffer);
+                buffer.clear();
             } catch (RecursionLimitException e) {
                 buffer.put(e.sendMessage().getBytes());
             } catch (IOException e) {
@@ -93,8 +94,7 @@ public class ExecuteCommand implements Command {
 
 
 
-        byteBufferArrayList.add(buffer);
-        buffer.clear();
+
 
     }
 
