@@ -6,8 +6,10 @@ import org.example.Managers.ElementManager;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,6 +17,8 @@ import java.util.Scanner;
 public class Client  {
     public static void main(String[] args) {
         try (DatagramChannel channel = DatagramChannel.open()) {
+            channel.socket().setSoTimeout(5000);
+            channel.configureBlocking(false);
 
             InetSocketAddress serverAddress = new InetSocketAddress("localhost", 1234);
 
@@ -30,11 +34,12 @@ public class Client  {
             String line;
             Commands command = null;
             while (true) {
+                channel.configureBlocking(true);
                 System.out.println("Введите команду: ");
 
                 line = sc.nextLine();
                 Integer type = commands.get(line.split(" ")[0]);
-
+                channel.configureBlocking(false);
                 if (type == null) {
                     System.out.println("Команда не найдена");
                     continue;
@@ -69,25 +74,31 @@ public class Client  {
                 // Отправка сериализованного объекта по DatagramChannel
                 byte[] data = byteStream.toByteArray();
                 channel.send(ByteBuffer.wrap(data), serverAddress);
-
                 System.out.println("Данные отправлены на сервер");
                 System.out.println();
                 // Получаем ответ от сервера
                 buffer.clear();
+                Thread.sleep(200);
 
-                channel.receive(buffer);
+                SocketAddress server = channel.receive(buffer);
                 buffer.flip();
+                if (server == null){
+                    System.out.println("Сервер не отвечает. Попробуйте еще раз.");
+                }
+                else {
+                    data = new byte[buffer.remaining()];
+                    buffer.get(data);
+                    String receivedMessage = new String(data, StandardCharsets.UTF_8)
+                            .chars()
+                            .filter(c -> c != 0)
+                            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                            .toString();
+                    System.out.println(receivedMessage);
+                    System.out.println();
+                }
 
                 // Читаем данные из буфера
-                data = new byte[buffer.remaining()];
-                buffer.get(data);
-                String receivedMessage = new String(data, StandardCharsets.UTF_8)
-                        .chars()
-                        .filter(c -> c != 0)
-                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                        .toString();
-                System.out.println(receivedMessage);
-                System.out.println();
+
             }
         } catch (Exception e) {
             e.printStackTrace();
