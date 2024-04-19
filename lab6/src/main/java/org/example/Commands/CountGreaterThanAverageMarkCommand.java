@@ -6,11 +6,13 @@ import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду count_greater_than_average_mark
@@ -26,6 +28,7 @@ public class CountGreaterThanAverageMarkCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Чтение аргумента из tokens
         try {
             CollectionManager collectionManager = getCollectionManager();
@@ -50,16 +53,17 @@ public class CountGreaterThanAverageMarkCommand implements Command {
                     counter = counter + 1;
                 }
             }
-            System.out.println("Количество элементов, значение поля averageMark которых больше заданного: " + counter);
+            buffer.put(("Количество элементов, значение поля averageMark которых больше заданного: " + counter).getBytes());
 
 
         } catch (InputUserException e) {
-            System.out.println("Неверно введены аргументы для команды count_greater_than_average_mark");
+            buffer.put("Неверно введены аргументы для команды count_greater_than_average_mark".getBytes());
         } catch (NotPositiveField e) {
-            System.out.println("Значение аргумента не может быть отрицательным числом и нулем");
+            buffer.put("Значение аргумента не может быть отрицательным числом и нулем".getBytes());
         } catch (NumberFormatException e) {
-            System.out.println("Введено не число с плавающей точкой");
+            buffer.put("Введено не число с плавающей точкой".getBytes());
         }
+        setByteBuffer(buffer);
     }
     /**
      * Метод описания действия команды

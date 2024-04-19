@@ -554,4 +554,39 @@ public class ElementManager {
         return group;
     }
 
+    public StudyGroup createElement(){
+        StudyGroup group = null;
+        Scanner sc = new Scanner(System.in);
+
+        try{
+            String name = inputName(sc, isUserInput);
+
+            if (counterInput > 1) {throw new InputFromFIleException();}
+            Coordinates coordinates = inputCoordinates(sc, isUserInput);
+            if (counterInput > 2) {throw new InputFromFIleException();}
+            Integer studentsCount = inputStudentsCount(sc, isUserInput);
+            if (counterInput > 1) {throw new InputFromFIleException();}
+            Double averageMark = inputAverageMark(sc, isUserInput);
+            if (counterInput > 1) {throw new InputFromFIleException();}
+            FormOfEducation formOfEducation = inputFormOfEducation(sc, isUserInput);
+            if (counterInput > 1) {throw new InputFromFIleException();}
+            Semester semester = inputSemesterEnum(sc, isUserInput);
+            if (counterInput > 1) {throw new InputFromFIleException();}
+            Person adminGroup = inputAdminGroup(sc, isUserInput);
+            if (counterInput > 4) {throw new InputFromFIleException();}
+            LocalDateTime creatingData = createDateCreating();
+
+            group = new StudyGroup(name, coordinates, creatingData, studentsCount, averageMark, formOfEducation, semester, adminGroup);
+        }
+        catch (InputFromFIleException e){
+            System.out.println();
+            System.out.println(e.sendMessage());
+            return null;
+        }
+        catch (NoSuchElementException e){
+            System.out.println("Аварийный выход из программы...");
+        }
+        return group;
+    }
+
 }

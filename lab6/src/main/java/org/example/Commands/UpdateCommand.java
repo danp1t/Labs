@@ -7,12 +7,14 @@ import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
 
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 
 import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду update
@@ -28,6 +30,7 @@ public class UpdateCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
             CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 2) throw new InputUserException();
@@ -52,25 +55,24 @@ public class UpdateCommand implements Command {
                 collectionManager.setStudyGroups(studyGroups);
             }
             else {collectionManager.setStudyGroups(studyGroups1);}
-            System.out.println("Коллекция обновлена");
-
-
+            buffer.put("Коллекция обновлена\n".getBytes());
         }
         catch (NumberFormatException e){
-            System.out.println("Аргумент должен быть положительным целым числом большим 0");
+            buffer.put("Аргумент должен быть положительным целым числом большим 0".getBytes());
         }
         catch (NotCollectionIDFound e){
-            System.out.println("ID коллекции не найден");
+            buffer.put("ID коллекции не найден".getBytes());
         }
         catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Введите ID элемента");
+            buffer.put("Введите ID элемента\n".getBytes());
         }
         catch (NullPointerException e) {
-            System.out.println("Ошибочка вышла");
+            buffer.put("Ошибочка вышла".getBytes());
         }
         catch (InputUserException e) {
-            System.out.println("Команда update должна содержать один аргумент");
+            buffer.put("Команда update должна содержать один аргумент".getBytes());
         }
+        setByteBuffer(buffer);
     }
 
 

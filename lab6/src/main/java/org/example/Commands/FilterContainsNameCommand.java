@@ -6,9 +6,11 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду filter_contains_name
@@ -24,13 +26,14 @@ public class FilterContainsNameCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(18000);
         //Считать аргумент
         try {
             CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 2) throw new InputUserException();
             String filterName = tokens[1];
             HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
-            System.out.println("Поиск элементов, поля name которых содержат подстроку: " + filterName);
+            buffer.put(("Поиск элементов, поля name которых содержат подстроку: " + filterName + "\n").getBytes());
 
             boolean flag = false;
             for (StudyGroup group : studyGroups){
@@ -38,17 +41,19 @@ public class FilterContainsNameCommand implements Command {
                 Person admin = group.getGroupAdmin();
                 String adminName = admin.getName();
                 if (name.contains(filterName) || adminName.contains(filterName)) {
-                    System.out.println(collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(group)));
+                    buffer.put((collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(group)) + "\n").getBytes());
+                    System.out.println();
                     flag = true;
                 }
             }
             if (!flag) {
-                System.out.println("Не найдено ни одного поля с заданной подстрокой");
+                buffer.put("Не найдено ни одного поля с заданной подстрокой".getBytes());
             }
         }
         catch (InputUserException e) {
-            System.out.println("Неверно введены аргументы для команды filter_contains_name");
+            buffer.put("Неверно введены аргументы для команды filter_contains_name".getBytes());
         }
+        setByteBuffer(buffer);
     }
 
     /**

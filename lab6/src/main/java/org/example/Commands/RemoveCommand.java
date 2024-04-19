@@ -7,10 +7,12 @@ import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду remove_by_id
@@ -26,6 +28,7 @@ public class RemoveCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Получить id
         try {
             CollectionManager collectionManager = getCollectionManager();
@@ -37,12 +40,12 @@ public class RemoveCommand implements Command {
 
             //Получение текущей коллекции
             HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
-            System.out.println("Удалить элемент из коллекции по id: " + id);
+            buffer.put(("Удалить элемент из коллекции по id: " + id + "\n").getBytes());
             HashSet<StudyGroup> newStudyGroups = new HashSet<>();
 
             for (StudyGroup group : studyGroups) {
                 if (id == group.getID()) {
-                    System.out.println("Коллекция с id: " + id + " удалена.");
+                    buffer.put(("Коллекция с id: " + id + " удалена.").getBytes());
                 } else {
                     newStudyGroups.add(group);
                     }
@@ -53,14 +56,15 @@ public class RemoveCommand implements Command {
 
         }
         catch (InputUserException e) {
-            System.out.println("Неверно введен аргумент для команды remove_by_id");
+            buffer.put("Неверно введен аргумент для команды remove_by_id".getBytes());
         }
         catch (NotPositiveField | NumberFormatException e){
-            System.out.println("Аргументом этой строки должно быть положительное целое число, которое больше 0");
+            buffer.put("Аргументом этой строки должно быть положительное целое число, которое больше 0".getBytes());
         }
         catch (NotCollectionIDFound e) {
-            System.out.println(e.sendMessage());
+            buffer.put(e.sendMessage().getBytes());
         }
+        setByteBuffer(buffer);
     }
 
     /**

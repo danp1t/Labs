@@ -1,9 +1,12 @@
 package org.example.Collections;
 
+import java.io.Serializable;
+
 /**
  * Данный класс описывает учебные группы
  */
-public class StudyGroup implements Comparable<StudyGroup> {
+public class StudyGroup implements Comparable<StudyGroup>, Serializable {
+    private static final long serialVersionUID = 1;
     /**
      * Поле id группы
      * Значение данного поля должно быть больше 0
@@ -79,6 +82,18 @@ public class StudyGroup implements Comparable<StudyGroup> {
         this.semesterEnum = semesterEnum;
         this.groupAdmin = groupAdmin;
     }
+
+    public StudyGroup(String name, Coordinates coordinates, java.time.LocalDateTime creationDate, Integer studentsCount, Double averageMark, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin){
+        this.name = name;
+        this.coordinates = coordinates;
+        this.creationDate = creationDate;
+        this.studentsCount = studentsCount;
+        this.averageMark = averageMark;
+        this.formOfEducation = formOfEducation;
+        this.semesterEnum = semesterEnum;
+        this.groupAdmin = groupAdmin;
+    }
+
     public StudyGroup(){
 
     }

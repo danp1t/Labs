@@ -6,10 +6,12 @@ import org.example.Managers.CommandManager;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Scanner;
 
 import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.StartManager.getCommandManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду execute_script
@@ -36,7 +38,7 @@ public class ExecuteCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
-
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
             if (getIsUserInput()) {
                 recursionDepth = 0;
@@ -47,7 +49,7 @@ public class ExecuteCommand implements Command {
             String fileName = tokens[1];
 
             CommandManager commands = getCommandManager();
-            System.out.println("Считать и исполнить скрипт из файла: " + fileName);
+            buffer.put(("Считать и исполнить скрипт из файла: " + fileName + "\n").getBytes());
             //Найти такой файл
             fileName = System.getenv("FILE_DIR_LAB5") + fileName;
 
@@ -65,7 +67,7 @@ public class ExecuteCommand implements Command {
                     String strCommand = line.strip().split(" ")[0];
                     Command command = commands.getCommands().get(strCommand);
                     if (command == null) {
-                        System.out.println("Исполнение скрипта аварийно завершено!");
+                        buffer.put("Исполнение скрипта аварийно завершено!".getBytes());
                         break;
                     }
                     tokens = line.split(" ");
@@ -76,17 +78,18 @@ public class ExecuteCommand implements Command {
                 }
             setIsUserInput(true);
             } catch (RecursionLimitException e) {
-                System.out.println(e.sendMessage());
+                buffer.put(e.sendMessage().getBytes());
             } catch (IOException e) {
-                System.out.println("Ошибка чтения из файла или файл не был найден");
+                buffer.put("Ошибка чтения из файла или файл не был найден".getBytes());
             } catch (CommandNotFound e) {
-                System.out.println(e.sendMessage());
+                buffer.put(e.sendMessage().getBytes());
             }
 
         }
         catch (InputUserException e) {
-            System.out.println("Неверно введены аргументы для команды execute_script");
+            buffer.put("Неверно введены аргументы для команды execute_script".getBytes());
         }
+        setByteBuffer(buffer);
 
     }
 

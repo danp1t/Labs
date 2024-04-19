@@ -4,8 +4,11 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.nio.ByteBuffer;
+
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду show
@@ -18,15 +21,17 @@ public class ShowCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(64000);
         try {
             CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 1) throw new InputUserException();
-            System.out.println("Все элементы коллекции в строковом представлении");
-            System.out.println(collectionManager.beatifulOutputJson());
+            buffer.put("Все элементы коллекции в строковом представлении\n".getBytes());
+            buffer.put((collectionManager.beatifulOutputJson()).getBytes());
         }
         catch (InputUserException e) {
-            System.out.println("Команда show не должна содержать аргументов");
+            buffer.put("Команда show не должна содержать аргументов".getBytes());
         }
+        setByteBuffer(buffer);
     }
     /**
      * Метод описания действия команды

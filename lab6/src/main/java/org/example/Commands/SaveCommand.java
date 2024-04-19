@@ -6,8 +6,10 @@ import org.example.Managers.CollectionManager;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду save
@@ -20,14 +22,16 @@ public class SaveCommand implements Command {
      */
     @Override
     public void execute(String[] tokens) {
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
             if (tokens.length != 1) throw new InputUserException();
-            System.out.println("Сохранить коллекцию в файл");
+            buffer.put("Сохранить коллекцию в файл".getBytes());
             saveHashSetToFile();
         }
         catch (InputUserException e) {
-            System.out.println("Команда save не должна содержать аргументов");
+            buffer.put("Команда save не должна содержать аргументов".getBytes());
         }
+        setByteBuffer(buffer);
     }
 
     /**

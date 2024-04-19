@@ -1,11 +1,12 @@
 package org.example.Server;
 
+import org.example.Client.Commands;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.nio.charset.StandardCharsets;
-
-import static org.example.Server.ServerConnection.connection;
 
 public class ServerReadRequest {
     public static DatagramPacket getDatagramPacket(DatagramSocket serverSocket) throws IOException {
@@ -15,13 +16,12 @@ public class ServerReadRequest {
         return receivePacket;
     }
 
-    public static String readRequest(DatagramPacket receivePacket) {
-        String receivedMessage = new String(receivePacket.getData(), StandardCharsets.UTF_8)
-                .chars()
-                .filter(c -> c != 0)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-        return receivedMessage;
+    public static Commands readRequest(DatagramPacket receivePacket) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream byteStream = new ByteArrayInputStream(receivePacket.getData());
+        ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+        Commands receivedCommand = (Commands) objectStream.readObject();
+
+        return receivedCommand;
     }
 
 }

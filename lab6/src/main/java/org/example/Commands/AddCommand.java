@@ -6,11 +6,13 @@ import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
 
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Objects;
 
 import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
+import static org.example.Server.ServerResponds.setByteBuffer;
 
 /**
  * Данный класс реализует команду add
@@ -22,8 +24,9 @@ public class AddCommand implements Command {
      * Метод исполнения команды
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute() {
         //Анализ команды
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
             CollectionManager collectionManager = getCollectionManager();
             if (tokens.length != 1) throw new InputUserException();
@@ -33,17 +36,18 @@ public class AddCommand implements Command {
             //Запрос нашей коллекции для добавления нового элемента в группу
             HashSet<StudyGroup> studyGroup = collectionManager.getStudyGroups();
             if (Objects.isNull(group)) {
-                System.out.println("Произошла ошибка при выполнении команды add");
+                buffer.put("Произошла ошибка при выполнении команды add".getBytes());
             }
             else {
                 studyGroup.add(group);
-                System.out.println("Группа добавлена!");
+                buffer.put("Группа добавлена!".getBytes());
                 collectionManager.setStudyGroups(studyGroup);
             }
         }
         catch (InputUserException e) {
-            System.out.println("Команда add не должна содержать аргументов");
+            buffer.put("Команда add не должна содержать аргументов".getBytes());
         }
+        setByteBuffer(buffer);
     }
     /**
      * Метод описания действия команды

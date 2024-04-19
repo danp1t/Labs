@@ -1,5 +1,7 @@
 package org.example.Interface;
 
+import org.example.Collections.StudyGroup;
+
 import java.io.FileNotFoundException;
 
 /**
@@ -10,7 +12,7 @@ public interface Command  {
      * Абстрактный метод исполнения команды
      * @throws FileNotFoundException
      */
-    void execute(String[] tokens) throws FileNotFoundException;
+    void execute(String name, String arg, StudyGroup element) throws FileNotFoundException;
 
     /**
      * Абстрактный метод получение описания команды

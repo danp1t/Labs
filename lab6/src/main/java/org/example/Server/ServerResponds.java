@@ -12,12 +12,12 @@ public class ServerResponds {
 
 
     public static void sendResponds(DatagramSocket serverSocket, DatagramPacket receivePacket) throws IOException {
-        InetAddress clientAddress = receivePacket.getAddress();
-        int clientPort = receivePacket.getPort();
+         InetAddress clientAddress = receivePacket.getAddress();
+         int clientPort = receivePacket.getPort();
 
-        byte[] sendData = byteBuffer.array();
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
-        serverSocket.send(sendPacket);
+         byte[] sendData = byteBuffer.array();
+         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
+         serverSocket.send(sendPacket);
     }
 
     public static  void setByteBuffer(ByteBuffer buffer) {
