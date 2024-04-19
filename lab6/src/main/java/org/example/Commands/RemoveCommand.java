@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду remove_by_id
@@ -60,7 +60,8 @@ public class RemoveCommand implements Command {
         catch (NotCollectionIDFound e) {
             buffer.put(e.sendMessage().getBytes());
         }
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     /**

@@ -8,11 +8,12 @@ import org.example.Managers.CommandManager;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.StartManager.getCommandManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.*;
 
 /**
  * Данный класс реализует команду execute_script
@@ -69,11 +70,17 @@ public class ExecuteCommand implements Command {
                         buffer.put("Исполнение скрипта аварийно завершено!".getBytes());
                         break;
                     }
-//                    tokens = line.split(" ");
-//                    setScanner(scan);
-//                    setIsUserInput(false);
-//                    commands.addCommandToHistory(command);
-//                    command.execute(tokens);
+                    setScanner(scan);
+                    setIsUserInput(false);
+                    String args;
+                    commands.addCommandToHistory(command);
+                    if (line.strip().split(" ").length == 2) {
+                        args = line.strip().split(" ")[1];
+                    }
+                    else {
+                        args = null;
+                    }
+                    command.execute(line.strip().split(" ")[0], args, null);
                 }
             setIsUserInput(true);
             } catch (RecursionLimitException e) {
@@ -86,7 +93,8 @@ public class ExecuteCommand implements Command {
 
 
 
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
 
     }
 

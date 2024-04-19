@@ -8,7 +8,7 @@ import org.example.Managers.CommandManager;
 import java.nio.ByteBuffer;
 
 import static org.example.Managers.StartManager.getCommandManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 
 /**
@@ -30,7 +30,8 @@ public class HistoryCommand implements Command {
                 System.out.println(command);
                 buffer.put((command + "\n").getBytes());
             }
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     /**

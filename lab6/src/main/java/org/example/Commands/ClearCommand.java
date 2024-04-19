@@ -8,7 +8,7 @@ import org.example.Managers.CollectionManager;
 import java.nio.ByteBuffer;
 
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 
 /**
@@ -30,7 +30,8 @@ public class ClearCommand implements Command {
             collectionManager.getStudyGroups().clear();
             buffer.put("Коллекция очищена".getBytes());
 
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     /**

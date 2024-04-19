@@ -8,7 +8,7 @@ import org.example.Managers.CommandManager;
 import java.nio.ByteBuffer;
 
 import static org.example.Managers.StartManager.getCommandManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду help
@@ -29,7 +29,8 @@ public class HelpCommand implements Command {
             buffer.put((command.getNameCommand() + " - " + command.description() + "\n").getBytes());
         }
 
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     /**

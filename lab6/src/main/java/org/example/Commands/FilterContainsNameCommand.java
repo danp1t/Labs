@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 import java.util.HashSet;
 
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду filter_contains_name
@@ -50,7 +50,8 @@ public class FilterContainsNameCommand implements Command {
             }
 
 
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     /**

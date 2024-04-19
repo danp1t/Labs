@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду save
@@ -26,7 +26,9 @@ public class SaveCommand implements Command {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put("Сохранить коллекцию в файл".getBytes());
         saveHashSetToFile();
-        setByteBuffer(buffer);
+
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     /**

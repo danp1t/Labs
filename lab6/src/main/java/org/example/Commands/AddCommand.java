@@ -12,7 +12,7 @@ import java.util.Objects;
 
 import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду add
@@ -44,8 +44,8 @@ public class AddCommand implements Command {
                 buffer.put("Группа добавлена!".getBytes());
                 collectionManager.setStudyGroups(studyGroup);
             }
-
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
     /**
      * Метод описания действия команды

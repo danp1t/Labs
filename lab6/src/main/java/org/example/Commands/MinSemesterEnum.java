@@ -12,7 +12,8 @@ import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
+
 
 /**
  * Данный класс реализует команду min_by_semester_enum
@@ -29,7 +30,8 @@ public class MinSemesterEnum implements Command {
 
         buffer.put("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным\n".getBytes());
         buffer.put(printMinBySemesterEnum().getBytes());
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
     /**
      * Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным

@@ -12,7 +12,7 @@ import java.util.HashSet;
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду count_greater_than_average_mark
@@ -60,7 +60,8 @@ public class CountGreaterThanAverageMarkCommand implements Command {
         } catch (NumberFormatException e) {
             buffer.put("Введено не число с плавающей точкой".getBytes());
         }
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
     /**
      * Метод описания действия команды

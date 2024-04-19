@@ -12,7 +12,7 @@ import java.util.HashSet;
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду add_if_min
@@ -52,7 +52,8 @@ public class AddIfMinCommand implements Command {
             }
 
 
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     /**

@@ -14,7 +14,7 @@ import static org.example.Managers.ElementManager.*;
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.CommandManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду update
@@ -70,7 +70,8 @@ public class UpdateCommand implements Command {
             buffer.put("Ошибочка вышла".getBytes());
         }
 
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
 

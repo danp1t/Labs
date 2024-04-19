@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду show
@@ -28,7 +28,8 @@ public class ShowCommand implements Command {
         buffer.put("Все элементы коллекции в строковом представлении\n".getBytes());
         buffer.put((collectionManager.beatifulOutputJson()).getBytes());
 
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
     /**
      * Метод описания действия команды

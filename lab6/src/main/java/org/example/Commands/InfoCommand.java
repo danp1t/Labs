@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
 import java.util.HashSet;
 
 import static org.example.Managers.StartManager.getCollectionManager;
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду info
@@ -28,7 +28,9 @@ public class InfoCommand implements Command {
         ByteBuffer buffer = ByteBuffer.allocate(2048);
         buffer.put("Информация о коллекции\n".getBytes());
         buffer.put(printInfoHashSet().getBytes());
-        setByteBuffer(buffer);
+
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
 

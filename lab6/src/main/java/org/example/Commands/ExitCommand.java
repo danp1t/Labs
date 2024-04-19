@@ -6,7 +6,7 @@ import org.example.Interface.Command;
 
 import java.nio.ByteBuffer;
 
-import static org.example.Server.ServerResponds.setByteBuffer;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 
 /**
  * Данный класс реализует команду exit
@@ -23,7 +23,8 @@ public class ExitCommand implements Command {
         buffer.put("Выход...".getBytes());
         System.exit(0);
 
-        setByteBuffer(buffer);
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     /**
