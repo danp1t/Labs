@@ -28,28 +28,36 @@ public class AddIfMinCommand implements Command {
     public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
-            CollectionManager collectionManager = getCollectionManager();
-            buffer.put("Добавить элемент в коллекцию, если количество студентов в введенной группе минимально\n".getBytes());
-            //Нахождение минимального количества студентов
-            HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
-            Integer minStudentsCount = Integer.MAX_VALUE;
-            for (StudyGroup group : studyGroups) {
-                if (group.getStudentsCount() < minStudentsCount) {
-                    minStudentsCount = group.getStudentsCount();
-                }
-            }
-        ElementManager elementManager = new ElementManager();
-        int id = elementManager.nextID();
-        StudyGroup group = elementManager.createStudyGroup(id, element);
-
+        CollectionManager collectionManager = getCollectionManager();
+        buffer.put("Добавить элемент в коллекцию, если количество студентов в введенной группе минимально\n".getBytes());
+        //Нахождение минимального количества студентов
+        HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
+        Integer minStudentsCount = Integer.MAX_VALUE;
+        for (StudyGroup group : studyGroups) {
             if (group.getStudentsCount() < minStudentsCount) {
-                studyGroups.add(group);
-                collectionManager.setStudyGroups(studyGroups);
-                buffer.put("Учебная группа добавлена в коллекцию".getBytes());
+                minStudentsCount = group.getStudentsCount();
             }
-            else {
-                buffer.put("Не удалось добавить элемент в коллекцию. Группа не минимальная :(".getBytes());
-            }
+        }
+        StudyGroup group;
+        //Прочитать элемент
+        if (getIsUserInput()) {
+            ElementManager elementManager = new ElementManager();
+            int id = elementManager.nextID();
+            group = elementManager.createStudyGroup(id, element);
+        }
+        else {
+            ElementManager elementManager = new ElementManager();
+            group = elementManager.createStudyGroup(getIsUserInput());
+        }
+
+        if (group.getStudentsCount() < minStudentsCount) {
+            studyGroups.add(group);
+            collectionManager.setStudyGroups(studyGroups);
+            buffer.put("Учебная группа добавлена в коллекцию".getBytes());
+        }
+        else {
+            buffer.put("Не удалось добавить элемент в коллекцию. Группа не минимальная :(".getBytes());
+        }
 
 
         byteBufferArrayList.add(buffer);

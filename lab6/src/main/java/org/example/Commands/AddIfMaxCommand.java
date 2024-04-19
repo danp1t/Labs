@@ -28,30 +28,36 @@ public class AddIfMaxCommand implements Command {
     public void execute(String name, String arg, StudyGroup element){
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
-            CollectionManager collectionManager = getCollectionManager();
+        CollectionManager collectionManager = getCollectionManager();
 
-            buffer.put("Добавить элемент в коллекцию, если количество студентов в новой группе превышает количество людей в любой группе\n".getBytes());
-            HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
-            Integer maxStudentsCount = 0;
-            for (StudyGroup group : studyGroups) {
-                if (maxStudentsCount < group.getStudentsCount()){
-                    maxStudentsCount = group.getStudentsCount();
-                }
+        buffer.put("Добавить элемент в коллекцию, если количество студентов в новой группе превышает количество людей в любой группе\n".getBytes());
+        HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
+        Integer maxStudentsCount = 0;
+        for (StudyGroup group : studyGroups) {
+            if (maxStudentsCount < group.getStudentsCount()){
+                maxStudentsCount = group.getStudentsCount();
             }
-
-            //Прочитать элемент
+        }
+        StudyGroup group;
+        //Прочитать элемент
+        if (getIsUserInput()) {
             ElementManager elementManager = new ElementManager();
             int id = elementManager.nextID();
-            StudyGroup group = elementManager.createStudyGroup(id, element);
-            if (group.getStudentsCount() > maxStudentsCount) {
-                studyGroups.add(group);
-                collectionManager.setStudyGroups(studyGroups);
-                buffer.put("Учебная группа добавлена в коллекцию".getBytes());
-            }
-            else {
-                buffer.put("Не удалось добавить элемент в коллекцию. Группа не максимальная :(".getBytes());
-            }
+            group = elementManager.createStudyGroup(id, element);
+        }
+        else {
+            ElementManager elementManager = new ElementManager();
+            group = elementManager.createStudyGroup(getIsUserInput());
+        }
 
+        if (group.getStudentsCount() > maxStudentsCount) {
+            studyGroups.add(group);
+            collectionManager.setStudyGroups(studyGroups);
+            buffer.put("Учебная группа добавлена в коллекцию".getBytes());
+        }
+        else {
+            buffer.put("Не удалось добавить элемент в коллекцию. Группа не максимальная :(".getBytes());
+        }
 
 
         byteBufferArrayList.add(buffer);

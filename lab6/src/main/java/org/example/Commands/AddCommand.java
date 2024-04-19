@@ -27,23 +27,30 @@ public class AddCommand implements Command {
     public void execute(String name, String arg, StudyGroup element) {
         //Анализ команды
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-
-            CollectionManager collectionManager = getCollectionManager();
-
-            //Запрос на ввод данных для элемента группы
+        StudyGroup group;
+        CollectionManager collectionManager = getCollectionManager();
+        //Чекни кто ввод данные
+        if (getIsUserInput()) {
             ElementManager elementManager = new ElementManager();
             int id = elementManager.nextID();
-            StudyGroup group = elementManager.createStudyGroup(id, element);
-            //Запрос нашей коллекции для добавления нового элемента в группу
-            HashSet<StudyGroup> studyGroup = collectionManager.getStudyGroups();
-            if (Objects.isNull(group)) {
-                buffer.put("Произошла ошибка при выполнении команды add".getBytes());
-            }
-            else {
-                studyGroup.add(group);
-                buffer.put("Группа добавлена!".getBytes());
-                collectionManager.setStudyGroups(studyGroup);
-            }
+            group = elementManager.createStudyGroup(id, element);
+        }
+        else {
+            ElementManager elementManager = new ElementManager();
+            group = elementManager.createStudyGroup(getIsUserInput());
+        }
+        //Запрос на ввод данных для элемента группы
+
+        //Запрос нашей коллекции для добавления нового элемента в группу
+        HashSet<StudyGroup> studyGroup = collectionManager.getStudyGroups();
+        if (Objects.isNull(group)) {
+            buffer.put("Произошла ошибка при выполнении команды add".getBytes());
+        }
+        else {
+            studyGroup.add(group);
+            buffer.put("Группа добавлена!".getBytes());
+            collectionManager.setStudyGroups(studyGroup);
+        }
         byteBufferArrayList.add(buffer);
         buffer.clear();
     }

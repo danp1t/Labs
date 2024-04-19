@@ -46,9 +46,17 @@ public class UpdateCommand implements Command {
             }
             collectionManager.setStudyGroups(newStudyGroups);
             ElementManager elementManager = new ElementManager();
-            HashSet<StudyGroup> studyGroups1 = collectionManager.getStudyGroups();;
-            int id = elementManager.nextID();
-            StudyGroup element = elementManager.createStudyGroup(id, element123);
+            HashSet<StudyGroup> studyGroups1 = collectionManager.getStudyGroups();
+            StudyGroup element;
+            //Прочитать элемент
+            if (getIsUserInput()) {
+                int id = elementManager.nextID();
+                element = elementManager.createStudyGroup(id, element123);
+            }
+            else {
+                element = elementManager.createStudyGroup(getIsUserInput());
+            }
+
             if (element != null) {studyGroups1.add(element);}
 
             if (studyGroups.size() != studyGroups1.size()) {
