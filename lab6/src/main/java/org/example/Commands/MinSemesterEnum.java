@@ -9,6 +9,7 @@ import org.example.Managers.CollectionManager;
 
 import java.nio.ByteBuffer;
 import java.util.HashSet;
+import java.util.Objects;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
@@ -41,29 +42,26 @@ public class MinSemesterEnum implements Command {
     private String printMinBySemesterEnum() {
         CollectionManager collectionManager = getCollectionManager();
         HashSet<StudyGroup> hashSet = collectionManager.getStudyGroups();
-        Semester minSemester = Semester.SIXTH;
-        StudyGroup minGroup = null;
-
         try {
-            if (hashSet.isEmpty()) {
-                throw new EmptyCollectionException();
-            }
-            for (StudyGroup group : hashSet) {
-                Semester groupSemester = group.getSemesterEnum();
+        StudyGroup minGroup = hashSet.stream()
+                .filter(group -> group.getSemesterEnum() == Semester.SECOND)
+                .findFirst()
+                .orElseGet(() ->
+                        hashSet.stream()
+                                .filter(group -> group.getSemesterEnum() == Semester.FIFTH)
+                                .findFirst()
+                                .orElseGet(() ->
+                                        hashSet.stream()
+                                                .findFirst()
+                                                .orElse(null)
+                                )
+                );
+        if (Objects.isNull(minGroup)) throw new EmptyCollectionException();
+        return collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(minGroup));
+        }
 
-                if (groupSemester == Semester.SECOND) {
-                    minGroup = group;
-                    break;
-                } else if (minSemester == Semester.SIXTH && groupSemester == Semester.FIFTH) {
-                    minSemester = groupSemester;
-                    minGroup = group;
-                } else if (minSemester == Semester.SIXTH && minGroup == null) {
-                    minGroup = group;
-                }
-            }
-            return collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(minGroup));
 
-        } catch (EmptyCollectionException e) {
+         catch (EmptyCollectionException e) {
             return e.sendMessage();
         }
     }

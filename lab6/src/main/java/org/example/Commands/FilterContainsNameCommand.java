@@ -29,26 +29,15 @@ public class FilterContainsNameCommand implements Command {
         ByteBuffer buffer = ByteBuffer.allocate(18000);
         //Считать аргумент
 
-            CollectionManager collectionManager = getCollectionManager();
-            String filterName = arg;
-            HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
-            buffer.put(("Поиск элементов, поля name которых содержат подстроку: " + filterName + "\n").getBytes());
+        CollectionManager collectionManager = getCollectionManager();
+        String filterName = arg;
+        HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
+        buffer.put(("Поиск элементов, поля name которых содержат подстроку: " + filterName + "\n").getBytes());
 
-            boolean flag = false;
-            for (StudyGroup group : studyGroups){
-                String name = group.getName();
-                Person admin = group.getGroupAdmin();
-                String adminName = admin.getName();
-                if (name.contains(filterName) || adminName.contains(filterName)) {
-                    buffer.put((collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(group)) + "\n").getBytes());
-                    System.out.println();
-                    flag = true;
-                }
-            }
-            if (!flag) {
-                buffer.put("Не найдено ни одного поля с заданной подстрокой".getBytes());
-            }
-
+        studyGroups.stream()
+                .filter(group -> group.getName().contains(filterName) || group.getGroupAdmin().getName().contains(filterName))
+                .map(group -> collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(group)))
+                .forEach(element123 -> buffer.put((element123 + "\n").getBytes()));
 
         byteBufferArrayList.add(buffer);
         buffer.clear();

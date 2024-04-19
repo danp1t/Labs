@@ -16,9 +16,8 @@ public class ClientListCommands {
         commands.put("update", 3);
         commands.put("remove_by_id", 1);
         commands.put("clear", 0);
-        commands.put("save", 0);
         commands.put("execute_script", 1);
-        commands.put("exit", 0);
+        commands.put("exit", -1);
         commands.put("add_if_max", 2);
         commands.put("add_if_min", 2);
         commands.put("history", 0);

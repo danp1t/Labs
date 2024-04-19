@@ -45,13 +45,10 @@ public class CountGreaterThanAverageMarkCommand implements Command {
                 studyGroups = collectionManager.getStudyGroups();
             }
 
-            int counter = 0;
-            for (StudyGroup group : studyGroups) {
-                Double groupAverageMark = group.getAverageMark();
-                if (groupAverageMark > averageMark) {
-                    counter = counter + 1;
-                }
-            }
+            long counter = studyGroups.stream()
+                    .filter(group -> group.getAverageMark() > averageMark)
+                    .count();
+
             buffer.put(("Количество элементов, значение поля averageMark которых больше заданного: " + counter).getBytes());
 
 

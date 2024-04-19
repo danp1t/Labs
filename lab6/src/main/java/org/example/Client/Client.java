@@ -44,6 +44,12 @@ public class Client  {
                     System.out.println("Команда не найдена");
                     continue;
                 }
+                else if (type == -1) {
+                    if (line.split(" ").length != 1) continue;
+
+                    System.exit(0);
+
+                }
                 else if (type == 0) {
                     if (line.split(" ").length != 1) continue;
                     command = new Commands(line.strip().split(" ")[0]);
