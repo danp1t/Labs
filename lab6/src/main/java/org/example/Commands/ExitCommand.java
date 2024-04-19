@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 
@@ -17,16 +18,11 @@ public class ExitCommand implements Command {
      * Метод выполнения программы
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try {
-            if (tokens.length != 1) throw new InputUserException();
-            buffer.put("Выход...".getBytes());
-            System.exit(0);
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда exit не должна содержать аргументов".getBytes());
-        }
+        buffer.put("Выход...".getBytes());
+        System.exit(0);
+
         setByteBuffer(buffer);
     }
 

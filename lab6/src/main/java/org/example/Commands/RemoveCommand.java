@@ -27,14 +27,13 @@ public class RemoveCommand implements Command {
      * 3. Удаляем объект
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Получить id
         try {
             CollectionManager collectionManager = getCollectionManager();
             //Проверка на то, что у нас один аргумент
-            if (tokens.length != 2) throw new InputUserException();
-            int id = Integer.parseInt(tokens[1]);
+            int id = Integer.parseInt(arg);
             //Проверить, что он положительный и является целочисленным числом
             if (id <= 0) throw new NotPositiveField();
 
@@ -54,9 +53,6 @@ public class RemoveCommand implements Command {
             collectionManager.setStudyGroups(newStudyGroups);
 
 
-        }
-        catch (InputUserException e) {
-            buffer.put("Неверно введен аргумент для команды remove_by_id".getBytes());
         }
         catch (NotPositiveField | NumberFormatException e){
             buffer.put("Аргументом этой строки должно быть положительное целое число, которое больше 0".getBytes());

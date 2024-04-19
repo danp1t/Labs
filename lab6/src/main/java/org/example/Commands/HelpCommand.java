@@ -1,4 +1,5 @@
 package org.example.Commands;
+import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputFromFIleException;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
@@ -21,18 +22,13 @@ public class HelpCommand implements Command {
      * 2. Выводим имя команды и её описание
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(4096);
-        try {
-            CommandManager commandManager = getCommandManager();
-            if (tokens.length != 1) throw new InputUserException();
-            for (Command command : commandManager.getCommands().values()){
-                buffer.put((command.getNameCommand() + " - " + command.description() + "\n").getBytes());
-            }
+        CommandManager commandManager = getCommandManager();
+        for (Command command : commandManager.getCommands().values()){
+            buffer.put((command.getNameCommand() + " - " + command.description() + "\n").getBytes());
         }
-        catch (InputUserException e) {
-            buffer.put("Команда help не должна содержать аргументов".getBytes());
-        }
+
         setByteBuffer(buffer);
     }
 

@@ -20,7 +20,7 @@ public class Server {
                 DatagramPacket receivePacket = ServerReadRequest.getDatagramPacket(serverSocket);
                 Commands receivedMessage = readRequest(receivePacket);
                 System.out.println("Received from client: " + receivedMessage.getName());
-                handlerCommand(Commands);
+                handlerCommand(receivedMessage);
                 sendResponds(serverSocket, receivePacket);
             }
 

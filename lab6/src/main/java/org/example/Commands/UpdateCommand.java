@@ -29,13 +29,12 @@ public class UpdateCommand implements Command {
      * 3. Обновляем коллекцию
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element123) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
             CollectionManager collectionManager = getCollectionManager();
-            if (tokens.length != 2) throw new InputUserException();
             HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
-            int number = Integer.parseInt(tokens[1]);
+            int number = Integer.parseInt(arg);
             HashSet<StudyGroup> newStudyGroups = new HashSet<>();
             for (StudyGroup group : studyGroups) {
                 if (number != group.getID()) {
@@ -47,8 +46,9 @@ public class UpdateCommand implements Command {
             }
             collectionManager.setStudyGroups(newStudyGroups);
             ElementManager elementManager = new ElementManager();
-            HashSet<StudyGroup> studyGroups1 = collectionManager.getStudyGroups();
-            StudyGroup element = elementManager.createStudyGroup(getIsUserInput());
+            HashSet<StudyGroup> studyGroups1 = collectionManager.getStudyGroups();;
+            int id = elementManager.nextID();
+            StudyGroup element = elementManager.createStudyGroup(id, element123);
             if (element != null) {studyGroups1.add(element);}
 
             if (studyGroups.size() != studyGroups1.size()) {
@@ -69,9 +69,7 @@ public class UpdateCommand implements Command {
         catch (NullPointerException e) {
             buffer.put("Ошибочка вышла".getBytes());
         }
-        catch (InputUserException e) {
-            buffer.put("Команда update должна содержать один аргумент".getBytes());
-        }
+
         setByteBuffer(buffer);
     }
 

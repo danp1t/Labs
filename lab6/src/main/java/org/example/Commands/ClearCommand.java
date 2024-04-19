@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
@@ -20,19 +21,15 @@ public class ClearCommand implements Command {
      * Метод выполнение команды
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try {
+
 
             CollectionManager collectionManager = getCollectionManager();
-            if (tokens.length != 1) throw new InputUserException();
             buffer.put("Очистить коллекцию\n".getBytes());
             collectionManager.getStudyGroups().clear();
             buffer.put("Коллекция очищена".getBytes());
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда clear не должна содержать аргументов".getBytes());
-        }
+
         setByteBuffer(buffer);
     }
 

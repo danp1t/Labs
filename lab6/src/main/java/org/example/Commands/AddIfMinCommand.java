@@ -25,11 +25,10 @@ public class AddIfMinCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try {
+
             CollectionManager collectionManager = getCollectionManager();
-            if (tokens.length != 1) throw new InputUserException();
             buffer.put("Добавить элемент в коллекцию, если количество студентов в введенной группе минимально\n".getBytes());
             //Нахождение минимального количества студентов
             HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
@@ -39,8 +38,10 @@ public class AddIfMinCommand implements Command {
                     minStudentsCount = group.getStudentsCount();
                 }
             }
-            ElementManager elementManager = new ElementManager();
-            StudyGroup group = elementManager.createStudyGroup(getIsUserInput());
+        ElementManager elementManager = new ElementManager();
+        int id = elementManager.nextID();
+        StudyGroup group = elementManager.createStudyGroup(id, element);
+
             if (group.getStudentsCount() < minStudentsCount) {
                 studyGroups.add(group);
                 collectionManager.setStudyGroups(studyGroups);
@@ -49,10 +50,8 @@ public class AddIfMinCommand implements Command {
             else {
                 buffer.put("Не удалось добавить элемент в коллекцию. Группа не минимальная :(".getBytes());
             }
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда add_if_min не должна содержать аргументов".getBytes());
-        }
+
+
         setByteBuffer(buffer);
     }
 

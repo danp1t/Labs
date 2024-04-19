@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -74,26 +75,26 @@ public class Client  {
 
                 // Отправка сериализованного объекта по DatagramChannel
                 byte[] data = byteStream.toByteArray();
-                buffer = ByteBuffer.wrap(data);
-                channel.send(buffer, serverAddress);
+                channel.send(ByteBuffer.wrap(data), serverAddress);
 
                 System.out.println("Данные отправлены на сервер");
                 System.out.println();
                 // Получаем ответ от сервера
                 buffer.clear();
+
                 channel.receive(buffer);
                 buffer.flip();
 
                 // Читаем данные из буфера
-//                byte[] data = new byte[buffer.remaining()];
-//                buffer.get(data);
-//                String receivedMessage = new String(data, StandardCharsets.UTF_8)
-//                        .chars()
-//                        .filter(c -> c != 0)
-//                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-//                        .toString();
-//                System.out.println(receivedMessage);
-//                System.out.println();
+                data = new byte[buffer.remaining()];
+                buffer.get(data);
+                String receivedMessage = new String(data, StandardCharsets.UTF_8)
+                        .chars()
+                        .filter(c -> c != 0)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+                System.out.println(receivedMessage);
+                System.out.println();
             }
         } catch (Exception e) {
             e.printStackTrace();

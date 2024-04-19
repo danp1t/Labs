@@ -24,17 +24,10 @@ public class InfoCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String[] tokens) {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try {
-            buffer.put("Информация о коллекции\n".getBytes());
-            if (tokens.length != 1) throw new InputUserException();
-            buffer.put(printInfoHashSet().getBytes());
-
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда info не должна содержать аргументов".getBytes());
-        }
+    public void execute(String name, String arg, StudyGroup element) {
+        ByteBuffer buffer = ByteBuffer.allocate(2048);
+        buffer.put("Информация о коллекции\n".getBytes());
+        buffer.put(printInfoHashSet().getBytes());
         setByteBuffer(buffer);
     }
 

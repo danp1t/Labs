@@ -27,15 +27,14 @@ public class CountGreaterThanAverageMarkCommand implements Command {
      * 3. Выводим значение на экран
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Чтение аргумента из tokens
         try {
             CollectionManager collectionManager = getCollectionManager();
             //Проверка на то, что у нас один элемент
-            if (tokens.length != 2) throw new InputUserException();
             //Проверка на то, что у нас это дробное число
-            Double averageMark = Double.parseDouble(tokens[1]);
+            Double averageMark = Double.parseDouble(arg);
             //Проверка на то, что у нас это отрицательное число
             if (averageMark <= 0) throw new NotPositiveField();
             //Получить текучую коллекцию StudyGroup
@@ -56,8 +55,6 @@ public class CountGreaterThanAverageMarkCommand implements Command {
             buffer.put(("Количество элементов, значение поля averageMark которых больше заданного: " + counter).getBytes());
 
 
-        } catch (InputUserException e) {
-            buffer.put("Неверно введены аргументы для команды count_greater_than_average_mark".getBytes());
         } catch (NotPositiveField e) {
             buffer.put("Значение аргумента не может быть отрицательным числом и нулем".getBytes());
         } catch (NumberFormatException e) {

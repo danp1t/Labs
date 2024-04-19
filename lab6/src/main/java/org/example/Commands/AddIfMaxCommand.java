@@ -25,11 +25,11 @@ public class AddIfMaxCommand implements Command {
      * Метод исполнения команды
      */
     @Override
-    public void execute(String[] tokens){
+    public void execute(String name, String arg, StudyGroup element){
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try {
+
             CollectionManager collectionManager = getCollectionManager();
-            if (tokens.length != 1) throw new InputUserException();
+
             buffer.put("Добавить элемент в коллекцию, если количество студентов в новой группе превышает количество людей в любой группе\n".getBytes());
             HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
             Integer maxStudentsCount = 0;
@@ -41,7 +41,8 @@ public class AddIfMaxCommand implements Command {
 
             //Прочитать элемент
             ElementManager elementManager = new ElementManager();
-            StudyGroup group = elementManager.createStudyGroup(getIsUserInput());
+            int id = elementManager.nextID();
+            StudyGroup group = elementManager.createStudyGroup(id, element);
             if (group.getStudentsCount() > maxStudentsCount) {
                 studyGroups.add(group);
                 collectionManager.setStudyGroups(studyGroups);
@@ -51,10 +52,8 @@ public class AddIfMaxCommand implements Command {
                 buffer.put("Не удалось добавить элемент в коллекцию. Группа не максимальная :(".getBytes());
             }
 
-            }
-        catch (InputUserException e) {
-            buffer.put("Команда add_if_max не должна содержать аргументов".getBytes());
-        }
+
+
         setByteBuffer(buffer);
     }
 

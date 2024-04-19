@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
@@ -20,21 +21,15 @@ public class HistoryCommand implements Command {
      * Метод выполнение команды
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(2048);
-        try {
             CommandManager commandManager = getCommandManager();
-            if (tokens.length != 1) throw new InputUserException();
             System.out.println();
             buffer.put("Последние 13 введенных команд: \n".getBytes());
             for (String command : commandManager.getHistoryList()) {
                 System.out.println(command);
                 buffer.put((command + "\n").getBytes());
             }
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда history не должна содержать аргументов".getBytes());
-        }
         setByteBuffer(buffer);
     }
 

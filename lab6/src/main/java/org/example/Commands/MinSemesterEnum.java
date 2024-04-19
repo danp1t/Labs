@@ -24,16 +24,11 @@ public class MinSemesterEnum implements Command {
      * Метод выполнения команды
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(4098);
-        try {
-            if (tokens.length != 1) throw new InputUserException();
-            buffer.put("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным\n".getBytes());
-            buffer.put(printMinBySemesterEnum().getBytes());
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда min_by_semester_enum не должна содержать аргументов".getBytes());
-        }
+
+        buffer.put("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным\n".getBytes());
+        buffer.put(printMinBySemesterEnum().getBytes());
         setByteBuffer(buffer);
     }
     /**

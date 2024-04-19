@@ -54,7 +54,7 @@ public class ElementManager {
      * Метод нахождения уникального ID
      * @return уникальный ID
      */
-    private int nextID(){
+    public int nextID(){
         CollectionManager collectionManager = getCollectionManager();
         //Получение текущей коллекции
         HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
@@ -554,6 +554,12 @@ public class ElementManager {
         return group;
     }
 
+    public StudyGroup createStudyGroup(int id, StudyGroup element){
+
+        StudyGroup group = new StudyGroup(id, element.getName(), element.getCoordinates(), element.getCreationDate(), element.getStudentsCount(), element.getAverageMark(), element.getFormOfEducation(), element.getSemesterEnum(), element.getGroupAdmin());
+
+        return group;
+    }
     public StudyGroup createElement(){
         StudyGroup group = null;
         Scanner sc = new Scanner(System.in);

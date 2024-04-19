@@ -24,15 +24,16 @@ public class AddCommand implements Command {
      * Метод исполнения команды
      */
     @Override
-    public void execute() {
+    public void execute(String name, String arg, StudyGroup element) {
         //Анализ команды
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try {
+
             CollectionManager collectionManager = getCollectionManager();
-            if (tokens.length != 1) throw new InputUserException();
+
             //Запрос на ввод данных для элемента группы
             ElementManager elementManager = new ElementManager();
-            StudyGroup group = elementManager.createStudyGroup(getIsUserInput());
+            int id = elementManager.nextID();
+            StudyGroup group = elementManager.createStudyGroup(id, element);
             //Запрос нашей коллекции для добавления нового элемента в группу
             HashSet<StudyGroup> studyGroup = collectionManager.getStudyGroups();
             if (Objects.isNull(group)) {
@@ -43,10 +44,7 @@ public class AddCommand implements Command {
                 buffer.put("Группа добавлена!".getBytes());
                 collectionManager.setStudyGroups(studyGroup);
             }
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда add не должна содержать аргументов".getBytes());
-        }
+
         setByteBuffer(buffer);
     }
     /**

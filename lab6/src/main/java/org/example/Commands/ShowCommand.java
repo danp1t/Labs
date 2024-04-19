@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
@@ -20,17 +21,13 @@ public class ShowCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(64000);
-        try {
-            CollectionManager collectionManager = getCollectionManager();
-            if (tokens.length != 1) throw new InputUserException();
-            buffer.put("Все элементы коллекции в строковом представлении\n".getBytes());
-            buffer.put((collectionManager.beatifulOutputJson()).getBytes());
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда show не должна содержать аргументов".getBytes());
-        }
+
+        CollectionManager collectionManager = getCollectionManager();
+        buffer.put("Все элементы коллекции в строковом представлении\n".getBytes());
+        buffer.put((collectionManager.beatifulOutputJson()).getBytes());
+
         setByteBuffer(buffer);
     }
     /**

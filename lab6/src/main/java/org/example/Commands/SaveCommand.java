@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
@@ -21,16 +22,10 @@ public class SaveCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try {
-            if (tokens.length != 1) throw new InputUserException();
-            buffer.put("Сохранить коллекцию в файл".getBytes());
-            saveHashSetToFile();
-        }
-        catch (InputUserException e) {
-            buffer.put("Команда save не должна содержать аргументов".getBytes());
-        }
+        buffer.put("Сохранить коллекцию в файл".getBytes());
+        saveHashSetToFile();
         setByteBuffer(buffer);
     }
 

@@ -25,13 +25,12 @@ public class FilterContainsNameCommand implements Command {
      * 3. Выводим результат
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String command_name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(18000);
         //Считать аргумент
-        try {
+
             CollectionManager collectionManager = getCollectionManager();
-            if (tokens.length != 2) throw new InputUserException();
-            String filterName = tokens[1];
+            String filterName = arg;
             HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
             buffer.put(("Поиск элементов, поля name которых содержат подстроку: " + filterName + "\n").getBytes());
 
@@ -49,10 +48,8 @@ public class FilterContainsNameCommand implements Command {
             if (!flag) {
                 buffer.put("Не найдено ни одного поля с заданной подстрокой".getBytes());
             }
-        }
-        catch (InputUserException e) {
-            buffer.put("Неверно введены аргументы для команды filter_contains_name".getBytes());
-        }
+
+
         setByteBuffer(buffer);
     }
 

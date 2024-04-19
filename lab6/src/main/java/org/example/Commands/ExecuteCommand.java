@@ -1,5 +1,6 @@
 package org.example.Commands;
 
+import org.example.Collections.StudyGroup;
 import org.example.Exceptions.*;
 import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
@@ -37,16 +38,14 @@ public class ExecuteCommand implements Command {
      * 4. Выполняем команду
      */
     @Override
-    public void execute(String[] tokens) {
+    public void execute(String name, String arg, StudyGroup element) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try {
             if (getIsUserInput()) {
                 recursionDepth = 0;
             }
             //Проверка на то, что у нас один аргумент у команды
-            if (tokens.length != 2) throw new InputUserException();
             //Получение аргумента
-            String fileName = tokens[1];
+            String fileName = arg;
 
             CommandManager commands = getCommandManager();
             buffer.put(("Считать и исполнить скрипт из файла: " + fileName + "\n").getBytes());
@@ -70,11 +69,11 @@ public class ExecuteCommand implements Command {
                         buffer.put("Исполнение скрипта аварийно завершено!".getBytes());
                         break;
                     }
-                    tokens = line.split(" ");
-                    setScanner(scan);
-                    setIsUserInput(false);
-                    commands.addCommandToHistory(command);
-                    command.execute(tokens);
+//                    tokens = line.split(" ");
+//                    setScanner(scan);
+//                    setIsUserInput(false);
+//                    commands.addCommandToHistory(command);
+//                    command.execute(tokens);
                 }
             setIsUserInput(true);
             } catch (RecursionLimitException e) {
@@ -85,10 +84,8 @@ public class ExecuteCommand implements Command {
                 buffer.put(e.sendMessage().getBytes());
             }
 
-        }
-        catch (InputUserException e) {
-            buffer.put("Неверно введены аргументы для команды execute_script".getBytes());
-        }
+
+
         setByteBuffer(buffer);
 
     }

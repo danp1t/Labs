@@ -20,7 +20,6 @@ public class ServerReadRequest {
         ByteArrayInputStream byteStream = new ByteArrayInputStream(receivePacket.getData());
         ObjectInputStream objectStream = new ObjectInputStream(byteStream);
         Commands receivedCommand = (Commands) objectStream.readObject();
-
         return receivedCommand;
     }
 
