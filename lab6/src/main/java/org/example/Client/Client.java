@@ -15,25 +15,14 @@ import java.util.Scanner;
 public class Client  {
     public static void main(String[] args) {
         try (DatagramChannel channel = DatagramChannel.open()) {
-            //Пнуть сервер
-            // Устанавливаем адрес и порт сервера, к которому будем подключаться
+
             InetSocketAddress serverAddress = new InetSocketAddress("localhost", 1234);
 
             //Авторизация
             ByteBuffer buffer = ByteBuffer.allocate(8192);
-            buffer.put("Connection".getBytes());
-            buffer.flip();
-            channel.send(buffer, serverAddress);
-            //Хочу получить commandManager с сервера.
 
             ClientListCommands clientListCommands = new ClientListCommands();
             Map<String, Integer> commands = clientListCommands.getCommands();
-            //Установить на сервере id для пользователя
-            //Выдать пользователю список команд (command manager)
-
-
-
-
 
             //Отправить команду на сервер
             System.out.println("Клиент запущена!");
@@ -51,18 +40,22 @@ public class Client  {
                     continue;
                 }
                 else if (type == 0) {
+                    if (line.split(" ").length != 1) continue;
                     command = new Commands(line.strip().split(" ")[0]);
                 }
                 else if (type == 1) {
+                    if (line.split(" ").length != 2) continue;
                     command = new Commands(line.strip().split(" ")[0], line.strip().split(" ")[1]);
                 }
                 else if (type == 2) {
+                    if (line.split(" ").length != 1) continue;
                     //пнуть сервер и спросить следующий id для коллекции.
                     ElementManager elementManager = new ElementManager();
                     StudyGroup element = elementManager.createElement();
                     command = new Commands(line.strip().split(" ")[0], element);
                 }
                 else if (type == 3) {
+                    if (line.split(" ").length != 2) continue;
                     ElementManager elementManager = new ElementManager();
                     StudyGroup element = elementManager.createElement();
                     command = new Commands(line.strip().split(" ")[0], line.strip().split(" ")[1], element);

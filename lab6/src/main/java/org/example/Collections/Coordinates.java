@@ -1,10 +1,13 @@
 package org.example.Collections;
 
+import java.io.Serializable;
+
 /**
  * @author danp1t
  * Класс, описывающий местоположение учебной группы
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
+    private static final long serialVersionUID = 2;
     /** Поле первой координаты x*/
     private double x;
     /** Поле второй координаты y

@@ -19,8 +19,8 @@ public class ClientListCommands {
         commands.put("save", 0);
         commands.put("execute_script", 1);
         commands.put("exit", 0);
-        commands.put("add_if_max", 3);
-        commands.put("add_if_min", 3);
+        commands.put("add_if_max", 2);
+        commands.put("add_if_min", 2);
         commands.put("history", 0);
         commands.put("min_by_semester_enum", 0);
         commands.put("count_greater_than_average_mark", 1);

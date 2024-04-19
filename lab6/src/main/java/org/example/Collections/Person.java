@@ -1,9 +1,12 @@
 package org.example.Collections;
 
+import java.io.Serializable;
+
 /**
  * Данный класс описывает старост учебных групп
  */
-public class Person {
+public class Person implements Serializable {
+    private static final long serialVersionUID = 3;
     /**
      * Поле имени старосты
      * Данное поле не может принимать значение null или быть пустой строкой
