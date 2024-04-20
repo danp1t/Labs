@@ -21,9 +21,9 @@ public class ServerResponds {
          DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
          serverSocket.send(sendPacket);
          for (ByteBuffer buffer : byteBufferArrayList) {
-         sendData = buffer.array();
-             sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
-             serverSocket.send(sendPacket);
+            sendData = buffer.array();
+            sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
+            serverSocket.send(sendPacket);
 
          }
         byteBufferArrayList.clear();

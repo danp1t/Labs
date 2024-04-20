@@ -45,21 +45,40 @@ public class Client  {
                     continue;
                 }
                 else if (type == -1) {
-                    if (line.split(" ").length != 1) continue;
+                    if (line.split(" ").length != 1) {
+                        System.out.println("Команда не должна содержать аргументов");
+                        continue;
+                    };
+                    command = new Commands("save");
+                    ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteStream);
+                    objectOutputStream.writeObject(command);
 
+                    // Отправка сериализованного объекта по DatagramChannel
+                    byte[] data = byteStream.toByteArray();
+                    channel.send(ByteBuffer.wrap(data), serverAddress);
                     System.exit(0);
 
                 }
                 else if (type == 0) {
-                    if (line.split(" ").length != 1) continue;
+                    if (line.split(" ").length != 1) {
+                        System.out.println("Команда не должна содержать аргументов");
+                        continue;
+                    }
                     command = new Commands(line.strip().split(" ")[0]);
                 }
                 else if (type == 1) {
-                    if (line.split(" ").length != 2) continue;
+                    if (line.split(" ").length != 2) {
+                        System.out.println("Команда должна содержать 1 аргумент");
+                        continue;
+                    };
                     command = new Commands(line.strip().split(" ")[0], line.strip().split(" ")[1]);
                 }
                 else if (type == 2) {
-                    if (line.split(" ").length != 1) continue;
+                    if (line.split(" ").length != 1) {
+                        System.out.println("Команда не должна содержать аргументов");
+                        continue;
+                    };
                     //пнуть сервер и спросить следующий id для коллекции.
                     ElementManager elementManager = new ElementManager();
                     StudyGroup element = elementManager.createElement();

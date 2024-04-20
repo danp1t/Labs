@@ -6,6 +6,7 @@ import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 import static org.example.Managers.CollectionManager.*;
 import static org.example.Managers.StartManager.getCollectionManager;
@@ -22,13 +23,26 @@ public class ShowCommand implements Command {
      */
     @Override
     public void execute(String name, String arg, StudyGroup element) {
-        ByteBuffer buffer = ByteBuffer.allocate(64000);
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         CollectionManager collectionManager = getCollectionManager();
         buffer.put("Все элементы коллекции в строковом представлении\n".getBytes());
-        buffer.put((collectionManager.beatifulOutputJson()).getBytes());
         byteBufferArrayList.add(buffer);
         buffer.clear();
+        String message = collectionManager.beatifulOutputJson();
+        int messageLength = message.getBytes().length;
+        int bufferSize = 1024;
+        int numBuffers = (int) Math.ceil((double) messageLength / bufferSize);
+
+        for (int i = 0; i < numBuffers; i++) {
+            int start = i * bufferSize;
+            int end = Math.min(start + bufferSize, messageLength);
+            String subMessage = message.substring(start, end);
+
+            ByteBuffer subBuffer = ByteBuffer.allocate(1024);
+            subBuffer.put(subMessage.getBytes());
+            byteBufferArrayList.add(subBuffer);
+        }
     }
     /**
      * Метод описания действия команды

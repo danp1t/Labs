@@ -8,6 +8,7 @@ import org.example.Managers.CollectionManager;
 
 import java.nio.ByteBuffer;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 import static org.example.Managers.StartManager.getCollectionManager;
 import static org.example.Server.ServerResponds.byteBufferArrayList;
@@ -26,21 +27,36 @@ public class FilterContainsNameCommand implements Command {
      */
     @Override
     public void execute(String command_name, String arg, StudyGroup element) {
-        ByteBuffer buffer = ByteBuffer.allocate(18000);
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Считать аргумент
 
         CollectionManager collectionManager = getCollectionManager();
         String filterName = arg;
         HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
         buffer.put(("Поиск элементов, поля name которых содержат подстроку: " + filterName + "\n").getBytes());
-
-        studyGroups.stream()
-                .filter(group -> group.getName().contains(filterName) || group.getGroupAdmin().getName().contains(filterName))
-                .map(group -> collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(group)))
-                .forEach(element123 -> buffer.put((element123 + "\n").getBytes()));
-
         byteBufferArrayList.add(buffer);
         buffer.clear();
+
+        String message = studyGroups.stream()
+                .filter(group -> group.getName().contains(filterName) || group.getGroupAdmin().getName().contains(filterName))
+                .map(group -> collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(group)))
+                .collect(Collectors.joining("\n"));
+        System.out.println(message);
+        int messageLength = message.getBytes().length;
+        int bufferSize = 1024;
+        int numBuffers = (int) Math.ceil((double) messageLength / bufferSize);
+
+        for (int i = 0; i < numBuffers; i++) {
+            int start = i * bufferSize;
+            int end = Math.min(start + bufferSize, messageLength);
+            String subMessage = message.substring(start, end);
+
+            ByteBuffer subBuffer = ByteBuffer.allocate(1024);
+            subBuffer.put(subMessage.getBytes());
+            byteBufferArrayList.add(subBuffer);
+        }
+
+
     }
 
     /**
