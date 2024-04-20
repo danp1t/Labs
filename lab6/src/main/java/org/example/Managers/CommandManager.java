@@ -39,7 +39,6 @@ public class CommandManager {
         commands.put("min_by_semester_enum", new MinSemesterEnum());
         commands.put("count_greater_than_average_mark", new CountGreaterThanAverageMarkCommand());
         commands.put("filter_contains_name", new FilterContainsNameCommand());
-        commands.put("ping", new Ping());
         this.commands = commands;
     }
 

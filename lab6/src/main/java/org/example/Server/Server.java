@@ -20,7 +20,8 @@ public class Server {
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
     public static void main(String[] args) throws SocketException {
-        serverSocket = connection();
+        Integer port = Integer.parseInt(args[0]);
+        serverSocket = connection(port);
         try {
             logger.info("Server started");
             while (true) {

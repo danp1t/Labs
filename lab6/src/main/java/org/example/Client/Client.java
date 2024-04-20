@@ -1,18 +1,12 @@
 package org.example.Client;
 
-import org.example.Collections.StudyGroup;
-import org.example.Managers.ElementManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -23,10 +17,11 @@ import static org.example.Client.SerializableCommand.getCommand;
 public class Client  {
     public static void main(String[] args) {
         try (DatagramChannel channel = DatagramChannel.open()) {
+            Integer port = Integer.parseInt(args[0]);
             channel.socket().setSoTimeout(5000);
             channel.configureBlocking(false);
 
-            InetSocketAddress serverAddress = new InetSocketAddress("localhost", 1234);
+            InetSocketAddress serverAddress = new InetSocketAddress("localhost", port);
 
             //Авторизация
             ByteBuffer buffer = ByteBuffer.allocate(8192);

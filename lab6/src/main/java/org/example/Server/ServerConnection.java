@@ -10,9 +10,9 @@ import static org.example.Managers.StartManager.setCollectionManager;
 import static org.example.Managers.StartManager.setCommandManager;
 
 public class ServerConnection {
-    public static DatagramSocket connection() throws SocketException {
+    public static DatagramSocket connection(Integer port) throws SocketException {
         System.out.println("Сервер запущен!");
-        DatagramSocket serverSocket = new DatagramSocket(1234);
+        DatagramSocket serverSocket = new DatagramSocket(port);
         CommandManager commands = new CommandManager();
         CollectionManager collectionManager = new CollectionManager();
         setCollectionManager(collectionManager);
