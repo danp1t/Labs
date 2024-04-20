@@ -8,6 +8,7 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public class ClientSendCommand {
     public static ByteBuffer sendCommand(Commands command, DatagramChannel channel, InetSocketAddress serverAddress, ByteBuffer buffer) throws IOException, InterruptedException {
@@ -25,6 +26,8 @@ public class ClientSendCommand {
         }
 
         // Отправка сериализованного объекта по DatagramChannel
+
+
         byte[] data = byteStream.toByteArray();
         channel.send(ByteBuffer.wrap(data), serverAddress);
         System.out.println("Данные отправлены на сервер");
@@ -34,16 +37,14 @@ public class ClientSendCommand {
 
         Thread.sleep(450);
         while (channel.receive(buffer) == null) {
-            Thread.sleep(5000);
             channel.send(ByteBuffer.wrap(data), serverAddress);
             System.out.println("Сервер недоступен. Сделаем попытку отправки пакета через 5 секунд");
             System.out.println("Данные отправлены на сервер");
             System.out.println();
             buffer.clear();
-
+            Thread.sleep(5000);
         }
         buffer.flip();
         return buffer;
-
     }
 }

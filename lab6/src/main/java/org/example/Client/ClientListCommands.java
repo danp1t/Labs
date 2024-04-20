@@ -24,6 +24,7 @@ public class ClientListCommands {
         commands.put("min_by_semester_enum", 0);
         commands.put("count_greater_than_average_mark", 1);
         commands.put("filter_contains_name", 1);
+        commands.put("ping", 0);
         this.commands = commands;
     }
 
