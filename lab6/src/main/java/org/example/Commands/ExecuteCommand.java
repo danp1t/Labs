@@ -51,8 +51,8 @@ public class ExecuteCommand implements Command {
             CommandManager commands = getCommandManager();
             buffer.put(("Считать и исполнить скрипт из файла: " + fileName + "\n").getBytes());
             //Найти такой файл
-            fileName = System.getenv("FILE_DIR_LAB5") + fileName;
-
+            //fileName = System.getenv("FILE_DIR_LAB5") + fileName;
+            fileName = "/home/danp1t/github/Labs/lab6/src/main/java/org/example/Files/" + fileName;
             try (FileReader fr = new FileReader(fileName)) {
                 recursionDepth += 1;
                 if (recursionDepth > MAX_DEPTH) {

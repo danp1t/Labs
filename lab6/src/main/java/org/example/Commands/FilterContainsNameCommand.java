@@ -7,6 +7,7 @@ import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
 import java.nio.ByteBuffer;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -39,9 +40,10 @@ public class FilterContainsNameCommand implements Command {
 
         String message = studyGroups.stream()
                 .filter(group -> group.getName().contains(filterName) || group.getGroupAdmin().getName().contains(filterName))
+                .sorted(Comparator.comparing(StudyGroup::getName))
                 .map(group -> collectionManager.beatifulOutputElementJson(collectionManager.parseStudyGroupToJson(group)))
                 .collect(Collectors.joining("\n"));
-        System.out.println(message);
+
         int messageLength = message.getBytes().length;
         int bufferSize = 1024;
         int numBuffers = (int) Math.ceil((double) messageLength / bufferSize);

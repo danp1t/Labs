@@ -1,5 +1,10 @@
 package org.example.Server;
+
+
 import org.example.Client.Commands;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -12,21 +17,24 @@ import static org.example.Server.ServerResponds.sendResponds;;
 
 public class Server {
     private static DatagramSocket serverSocket;
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
     public static void main(String[] args) throws SocketException {
         serverSocket = connection();
         try {
+            logger.info("Server started");
             while (true) {
                 DatagramPacket receivePacket = ServerReadRequest.getDatagramPacket(serverSocket);
                 Commands receivedMessage = readRequest(receivePacket);
-                System.out.println("Received from client: " + receivedMessage.getName());
+                logger.info("Received from client: " + receivedMessage.getName());
                 handlerCommand(receivedMessage);
                 sendResponds(serverSocket, receivePacket);
+                logger.info("Response sent to client");
             }
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error occurred: ", e);
         }
     }
     public static DatagramSocket getServerSocket() {
