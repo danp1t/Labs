@@ -26,26 +26,13 @@ public class SaveCommand implements Command {
     public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put("Сохранить коллекцию в файл".getBytes());
-        saveHashSetToFile();
+        //saveHashSetToFile();
 
         byteBufferArrayList.add(buffer);
         buffer.clear();
     }
 
-    /**
-     * Данный метод сохраняет нашу коллекцию в файл
-     */
-    public void saveHashSetToFile() throws SQLException, IOException {
-        CollectionManager collectionManager = getCollectionManager();
-        String jsonString = collectionManager.beatifulOutputJson();
-        String pathJson = System.getenv("JSON_FILE_LAB5");
-        try(FileWriter fileWriter = new FileWriter(pathJson)) {
-            fileWriter.write(jsonString);
-        }
-        catch (IOException e){
-            System.out.println("Ошибка при сохранении коллекции в файл");
-        }
-    }
+
     /**
      * Метод описания действия команды
      * Данное описание используется в команде help

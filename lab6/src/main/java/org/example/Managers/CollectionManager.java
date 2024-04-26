@@ -28,29 +28,17 @@ import static org.example.Managers.CommandManager.*;
  */
 public class CollectionManager {
     /**
-     * Путь до json_file, где хранится сохраненная коллекция HashSet
-     */
-    private String fileName;
-    /**
      * Дата создания коллекции
      */
     private String createDateHashSet;
     /**
      * JSONArray, в котором хранится коллекция HashSet
      */
-    private JSONArray jsonFile;
     /**
      * Список учебных групп, которые хранятся в коллекции HashSet
      */
     private HashSet<StudyGroup> studyGroups;
 
-    /**
-     * Конструктор класса
-     */
-    public CollectionManager(){
-        String pathJson = System.getenv("LAB6") + "Collection.json";
-        this.fileName = pathJson;
-    }
 
     public String getCreateDateHashSet(){
         return this.createDateHashSet;
@@ -134,18 +122,6 @@ public class CollectionManager {
         createDateHashSet = formattedDateTime;
     }
 
-    /**
-     * В данном методе мы читаем коллекцию из json файла
-     * @return JSONArray
-     */
-    public JSONArray readJsonFile(){
-        try {
-            return (JSONArray) new JSONParser().parse(new FileReader(System.getenv("LAB6") + "Collection.json"));
-        } catch (IOException | ParseException e) {
-            System.out.println("Ошибка при чтении коллекции из файла");
-        }
-        return null;
-    }
 
     /**
      * В этом методе мы преобразовываем коллекцию HashSet в JSONArray для последующего сохранения в файл
@@ -209,75 +185,7 @@ public class CollectionManager {
 
         return groupObject;
     }
-    /**
-     * Данная функция возвращает HashSet из JSONObject
-     */
-//    public void getHashSet(){
-//        HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
-//        if (jsonFile == null){
-//            jsonFile = readJsonFile();
-//        }
-//        for (int i = 0; i < jsonFile.size(); i++){
-//            JSONObject object = (JSONObject) jsonFile.get(i);
-//
-//            Long id = (Long) object.get("id");
-//            String name = (String) object.get("name");
-//            JSONObject coordinates = (JSONObject) object.get("coordinates");
-//            String creationDate = (String) object.get("creationDate");
-//            Long studentsCount = (Long) object.get("studentsCount");
-//            Double averageMark = (Double) object.get("averageMark");
-//            String formOfEducation = (String) object.get("formOfEducation");
-//            String semesterEnum = (String) object.get("semesterEnum");
-//            JSONObject groupAdmin = (JSONObject) object.get("groupAdmin");
-//
-//            //Преобразовать объекты в нужный тип для конструктора
-//            int newId = id.intValue();
-//
-//            //Преобразовать coordinates
-//            double x = (double) coordinates.get("x");
-//            Double y = (Double) coordinates.get("y");
-//            Coordinates newCoordinates = new Coordinates(x, y);
-//
-//            //Преобразовать creationDate в нужный тип
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-//            LocalDateTime newCreationDate = LocalDateTime.parse(creationDate, formatter);
-//
-//            //Преобразовать integerCount
-//            Integer newStudentsCount = studentsCount.intValue();
-//
-//            //Преобразовать formOfEducation и semesterEnum
-//            FormOfEducation newFormOfEducation = FormOfEducation.valueOf(formOfEducation);
-//            Semester semester = Semester.valueOf(semesterEnum);
-//
-//            //Преобразовать groupAdmin
-//            //Распарсинг groupAdmin
-//            String personName = (String) groupAdmin.get("name");
-//            String birthday = (String) groupAdmin.get("birthday");
-//            String eyeColor = (String) groupAdmin.get("eyeColor");
-//            String hairColor = (String) groupAdmin.get("hairColor");
-//
-//            //Преобразование типов
-//            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//            LocalDate newBirthday = LocalDate.parse(birthday, formatter);
-//            EyeColor newEyeColor = EyeColor.valueOf(eyeColor);
-//            HairColor newHairColor = HairColor.valueOf(hairColor);
-//
-//            //Создание админа из конструктора
-//            Person newGroupAdmim = new Person(personName, newBirthday, newEyeColor, newHairColor);
-//
-//
-//            //С помощью конструктора для StudyGroup создать новый объект
-//            StudyGroup group = new StudyGroup(newId, name, newCoordinates, newCreationDate, newStudentsCount, averageMark, newFormOfEducation, semester, newGroupAdmim);
-//            //Добавить этот объект в коллекцию
-//            studyGroups.add(group);
-//
-//        }
-//        LocalDateTime now = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-//        String formattedDateTime = now.format(formatter);
-//        this.studyGroups = studyGroups;
-//        createDateHashSet = formattedDateTime;
-//    }
+
 
     /**
      * Данный метод возвращает отсортированное множество

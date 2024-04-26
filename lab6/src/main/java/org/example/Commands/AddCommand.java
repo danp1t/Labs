@@ -33,7 +33,6 @@ public class AddCommand implements Command {
     public void execute(String name, String arg, StudyGroup element, String login) throws IOException, SQLException {
         //Анализ команды
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        StudyGroup group;
         CollectionManager collectionManager = getCollectionManager();
         String url = "jdbc:postgresql://pg:5432/studs";
         Properties info = new Properties();
@@ -41,12 +40,27 @@ public class AddCommand implements Command {
 
         Connection db = getConnection(url, info);
         db.setAutoCommit(false);
+        String getNextIDStudyGroup = "SELECT nextval('studygroup__123_id_seq');";
+        Statement st = db.createStatement();
+        ResultSet rs = st.executeQuery(getNextIDStudyGroup);
+        rs.next();
+        int StudyGroupNextId = rs.getInt(1);
+
+        if (getIsUserInput()) {
+            ElementManager elementManager = new ElementManager();
+            element = elementManager.createStudyGroup(StudyGroupNextId, element);
+        }
+        else {
+            ElementManager elementManager = new ElementManager();
+            element = elementManager.createStudyGroup(getIsUserInput());
+        }
+
         //id нужно запросить следующее
 
         String query = "SELECT id FROM person__123 where person__123.login = ?";
         PreparedStatement ps = db.prepareStatement(query);
         ps.setString(1, login);
-        ResultSet rs = ps.executeQuery();
+        rs = ps.executeQuery();
         rs.next();
         int loginID = rs.getInt(1);
 
@@ -69,7 +83,7 @@ public class AddCommand implements Command {
         EyeColor eyeColor = person.getEyeColor();
 
         String insertCommand = "SELECT nextval('coordinates__123_id_seq');";
-        Statement st = db.createStatement();
+        st = db.createStatement();
         rs = st.executeQuery(insertCommand);
         rs.next();
         int coordinationNextId = rs.getInt(1);
@@ -98,11 +112,6 @@ public class AddCommand implements Command {
         ps.setObject(5, eyeColor, Types.OTHER);
         ps.execute();
 
-        String getNextIDStudyGroup = "SELECT nextval('studygroup__123_id_seq');";
-        st = db.createStatement();
-        rs = st.executeQuery(getNextIDStudyGroup);
-        rs.next();
-        int StudyGroupNextId = rs.getInt(1);
 
 
         String query2 = "INSERT INTO studygroup__123 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -123,24 +132,14 @@ public class AddCommand implements Command {
         ps.close();
         db.close();
 
-        if (getIsUserInput()) {
-            ElementManager elementManager = new ElementManager();
-            int id = elementManager.nextID();
-            group = elementManager.createStudyGroup(id, element);
-        }
-        else {
-            ElementManager elementManager = new ElementManager();
-            group = elementManager.createStudyGroup(getIsUserInput());
-        }
-        //Запрос на ввод данных для элемента группы
 
         //Запрос нашей коллекции для добавления нового элемента в группу
         HashSet<StudyGroup> studyGroup = collectionManager.getStudyGroups();
-        if (Objects.isNull(group)) {
+        if (Objects.isNull(element)) {
             buffer.put("Произошла ошибка при выполнении команды add".getBytes());
         }
         else {
-            studyGroup.add(group);
+            studyGroup.add(element);
             buffer.put("Группа добавлена!".getBytes());
             collectionManager.setStudyGroups(studyGroup);
         }

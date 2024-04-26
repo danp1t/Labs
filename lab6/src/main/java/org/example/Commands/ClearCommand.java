@@ -25,12 +25,13 @@ public class ClearCommand implements Command {
     @Override
     public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
+            //Удалить группы только принадлежащие пользователю
 
 
-            CollectionManager collectionManager = getCollectionManager();
-            buffer.put("Очистить коллекцию\n".getBytes());
-            collectionManager.getStudyGroups().clear();
-            buffer.put("Коллекция очищена".getBytes());
+        CollectionManager collectionManager = getCollectionManager();
+        buffer.put("Очистить коллекцию\n".getBytes());
+        collectionManager.getStudyGroups().clear();
+        buffer.put("Коллекция очищена".getBytes());
 
         byteBufferArrayList.add(buffer);
         buffer.clear();
