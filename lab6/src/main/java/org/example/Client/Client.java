@@ -17,17 +17,17 @@ import static org.example.Client.SerializableCommand.getCommand;
 public class Client  {
     public static void main(String[] args) {
         try (DatagramChannel channel = DatagramChannel.open()) {
-            Integer port = Integer.parseInt(args[0]);
+            int port = 8932;
+
             channel.socket().setSoTimeout(5000);
             channel.configureBlocking(false);
 
-            InetSocketAddress serverAddress = new InetSocketAddress("localhost", port);
-
+            InetSocketAddress serverAddress = new InetSocketAddress("helios.cs.ifmo.ru", port);
             //Авторизация
             ByteBuffer buffer = ByteBuffer.allocate(8192);
 
             //Отправить команду на сервер
-            System.out.println("Клиент запущена!");
+            System.out.println("Клиент запущен!");
             Scanner sc = new Scanner(System.in);
 
             while (true) {

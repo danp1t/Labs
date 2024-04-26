@@ -45,7 +45,7 @@ public class CollectionManager {
      * Конструктор класса
      */
     public CollectionManager(){
-        String pathJson = System.getenv("JSON_FILE_LAB5");
+        String pathJson = System.getenv("LAB6") + "Collection.json";
         this.fileName = pathJson;
     }
 
@@ -78,7 +78,7 @@ public class CollectionManager {
      */
     public JSONArray readJsonFile(){
         try {
-            return (JSONArray) new JSONParser().parse(new FileReader(System.getenv("JSON_FILE_LAB5")));
+            return (JSONArray) new JSONParser().parse(new FileReader(System.getenv("LAB6") + "Collection.json"));
         } catch (IOException | ParseException e) {
             System.out.println("Ошибка при чтении коллекции из файла");
         }

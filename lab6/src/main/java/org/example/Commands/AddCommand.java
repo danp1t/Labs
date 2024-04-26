@@ -32,6 +32,7 @@ public class AddCommand implements Command {
         //Чекни кто ввод данные
         if (getIsUserInput()) {
             ElementManager elementManager = new ElementManager();
+
             int id = elementManager.nextID();
             group = elementManager.createStudyGroup(id, element);
         }
