@@ -14,28 +14,36 @@ public class Commands implements Serializable {
     private String login;
     private String password;
 
-    public Commands(String name, String arg, StudyGroup element) {
+    public Commands(String name, String arg, StudyGroup element, String login, String password) {
         this.name = name;
         this.arg = arg;
         this.element = element;
+        this.login = login;
+        this.password = password;
     }
 
-    public Commands(String name, String arg) {
+    public Commands(String name, String arg, String login, String password) {
         this.name = name;
         this.arg = arg;
         this.element = null;
+        this.login = login;
+        this.password = password;
     }
 
-    public Commands(String name, StudyGroup element) {
+    public Commands(String name, StudyGroup element, String login, String password) {
         this.name = name;
         this.arg = null;
         this.element = element;
+        this.login = login;
+        this.password = password;
     }
 
-    public Commands(String name) {
+    public Commands(String name, String login, String password) {
         this.name = name;
         this.arg = null;
         this.element = null;
+        this.login = login;
+        this.password = password;
     }
 
     public String toString() {
@@ -61,5 +69,13 @@ public class Commands implements Serializable {
 
     public StudyGroup getElement() {
         return this.element;
+    }
+
+    public String getLogin() {
+        return this.login;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 }

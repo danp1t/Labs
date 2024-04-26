@@ -14,7 +14,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class SerializableCommand {
-    public static Commands getCommand(String line, DatagramChannel channel, InetSocketAddress serverAddress, ByteBuffer buffer) throws IOException, InterruptedException {
+    public static Commands getCommand(String line, DatagramChannel channel, InetSocketAddress serverAddress, ByteBuffer buffer,
+    String login, String password) throws IOException, InterruptedException {
 
         ClientListCommands clientListCommands = new ClientListCommands();
         Map<String, Integer> commands = clientListCommands.getCommands();
@@ -28,7 +29,7 @@ public class SerializableCommand {
             if (line.split(" ").length != 1) {
                 System.out.println("Команда не должна содержать аргументов");
             };
-            command = new Commands("save");
+            command = new Commands("save", login, password);
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteStream);
             objectOutputStream.writeObject(command);
@@ -79,7 +80,7 @@ public class SerializableCommand {
 
             }
             else {
-                command = new Commands(line.strip().split(" ")[0]);
+                command = new Commands(line.strip().split(" ")[0], login, password);
             }
         }
         else if (type == 1) {
@@ -88,8 +89,11 @@ public class SerializableCommand {
 
             }
             else {
-                command = new Commands(line.strip().split(" ")[0], line.strip().split(" ")[1]);
+                command = new Commands(line.strip().split(" ")[0], line.strip().split(" ")[1], login, password);
             }
+        }
+        else if (type == 4) {
+            command = new Commands(line.strip().split(" ")[0], login, password);
         }
         else if (type == 2) {
             if (line.split(" ").length != 1) {
@@ -99,7 +103,7 @@ public class SerializableCommand {
             //пнуть сервер и спросить следующий id для коллекции.
                 ElementManager elementManager = new ElementManager();
                 StudyGroup element = elementManager.createElement();
-                command = new Commands(line.strip().split(" ")[0], element);
+                command = new Commands(line.strip().split(" ")[0], element, login, password);
             }
         }
         else if (type == 3) {
@@ -109,7 +113,7 @@ public class SerializableCommand {
             else {
                 ElementManager elementManager = new ElementManager();
                 StudyGroup element = elementManager.createElement();
-                command = new Commands(line.strip().split(" ")[0], line.strip().split(" ")[1], element);
+                command = new Commands(line.strip().split(" ")[0], line.strip().split(" ")[1], element, login, password);
             }
         }
         return command;

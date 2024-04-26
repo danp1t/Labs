@@ -11,9 +11,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Scanner;
 
+import static org.example.Client.ClientGetAnswer.getAnswer;
 import static org.example.Client.ClientResponds.getRespond;
 import static org.example.Client.ClientSendCommand.sendCommand;
-import static org.example.Client.RegisterOrAuthorizationClient.isNewUser;
 import static org.example.Client.SerializableCommand.getCommand;
 
 public class Client  {
@@ -23,25 +23,32 @@ public class Client  {
 
             channel.socket().setSoTimeout(5000);
             channel.configureBlocking(false);
-
+            Scanner sc = new Scanner(System.in);
+            boolean flag = false;
+            String login = null;
+            String password = null;
+            ByteBuffer buffer = ByteBuffer.allocate(8192);
             InetSocketAddress serverAddress = new InetSocketAddress("helios.cs.ifmo.ru", port);
             //Авторизация
-            ByteBuffer buffer = ByteBuffer.allocate(8192);
-
-            //Отправить команду на сервер
             System.out.println("Клиент запущен!");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Введите ваш логин: ");
-            String login = sc.nextLine();
-            System.out.println("Введите ваш пароль");
-            String password = sc.nextLine();
-
+            while (!flag) {
+                //Отправить команду на сервер
+                System.out.println("Введите ваш логин: ");
+                login = sc.nextLine();
+                System.out.println("Введите ваш пароль");
+                password = sc.nextLine();
+                String line = "authorizations";
+                Commands command = getCommand(line, channel, serverAddress, buffer, login, password);
+                buffer = sendCommand(command, channel, serverAddress, buffer);
+                flag = getAnswer(buffer, channel);
+                buffer.clear();
+            }
             while (true) {
                 buffer.clear();
                 channel.configureBlocking(false);
                 System.out.println("Введите команду: ");
                 String line = sc.nextLine();
-                Commands command = getCommand(line, channel, serverAddress, buffer);
+                Commands command = getCommand(line, channel, serverAddress, buffer, login, password);
                 if (Objects.isNull(command)) {
                     continue;
                 }
@@ -49,7 +56,6 @@ public class Client  {
                 getRespond(buffer, channel);
                 }
 
-                // Читаем данные из буфера
 
             } catch (SocketException ex) {
             throw new RuntimeException(ex);
@@ -57,8 +63,6 @@ public class Client  {
             throw new RuntimeException(ex);
         } catch (InterruptedException ex) {
             throw new RuntimeException(ex);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 }
