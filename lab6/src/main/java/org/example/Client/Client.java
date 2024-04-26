@@ -7,11 +7,13 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Scanner;
 
 import static org.example.Client.ClientResponds.getRespond;
 import static org.example.Client.ClientSendCommand.sendCommand;
+import static org.example.Client.RegisterOrAuthorizationClient.isNewUser;
 import static org.example.Client.SerializableCommand.getCommand;
 
 public class Client  {
@@ -29,6 +31,10 @@ public class Client  {
             //Отправить команду на сервер
             System.out.println("Клиент запущен!");
             Scanner sc = new Scanner(System.in);
+            System.out.println("Введите ваш логин: ");
+            String login = sc.nextLine();
+            System.out.println("Введите ваш пароль");
+            String password = sc.nextLine();
 
             while (true) {
                 buffer.clear();
@@ -51,6 +57,8 @@ public class Client  {
             throw new RuntimeException(ex);
         } catch (InterruptedException ex) {
             throw new RuntimeException(ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

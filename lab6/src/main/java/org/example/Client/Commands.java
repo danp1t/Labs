@@ -11,6 +11,8 @@ public class Commands implements Serializable {
     private String name;
     private String arg;
     private StudyGroup element;
+    private String login;
+    private String password;
 
     public Commands(String name, String arg, StudyGroup element) {
         this.name = name;

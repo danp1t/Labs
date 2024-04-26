@@ -1,7 +1,6 @@
 package org.example.Commands;
 
-import org.example.Collections.Coordinates;
-import org.example.Collections.StudyGroup;
+import org.example.Collections.*;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
@@ -39,28 +38,82 @@ public class AddCommand implements Command {
         String url = "jdbc:postgresql://pg:5432/studs";
         Properties info = new Properties();
         info.load(new FileInputStream("db.cfg"));
+
         Connection db = getConnection(url, info);
+        db.setAutoCommit(false);
         //id нужно запросить следующее
+
+
         String name_group = element.getName();
         Coordinates coordinates = element.getCoordinates();
         Double x = coordinates.getX();
         Double y = coordinates.getY();
+        java.time.LocalDateTime creationDate = element.getCreationDate();
+        Integer studentsCount = element.getStudentsCount();
+        Double averageMark = element.getAverageMark();
+        FormOfEducation formOfEducation = element.getFormOfEducation();
+        Semester semesterEnum = element.getSemesterEnum();
+
+
+        Person person = element.getGroupAdmin();
+        String person_name = person.getName();
+        java.time.LocalDate birthday = person.getBirthday();
+        HairColor hairColor = person.getHairColor();
+        EyeColor eyeColor = person.getEyeColor();
 
         String insertCommand = "SELECT nextval('coordinates__123_id_seq');";
         Statement st = db.createStatement();
-        System.out.println("Все было нормально");
         ResultSet rs = st.executeQuery(insertCommand);
         rs.next();
-        int next_id = rs.getInt(1);
+        int coordinationNextId = rs.getInt(1);
 
 
-        String query = "INSERT INTO coordinates__123 VALUES(?, ?, ?)";
+        String query = "INSERT INTO coordinates__123 VALUES(?, ?, ?);";
         PreparedStatement ps = db.prepareStatement(query);
-        ps.setInt(1, next_id);
+        ps.setInt(1, coordinationNextId);
         ps.setDouble(2, x);
         ps.setDouble(3, y);
         ps.execute();
 
+        String getNextIDPerson = "SELECT nextval('users__123_id_seq');";
+        st = db.createStatement();
+        rs = st.executeQuery(getNextIDPerson);
+        rs.next();
+        int personNextId = rs.getInt(1);
+
+
+        String query1 = "INSERT INTO users__123 VALUES(?, ?, ?, ?, ?, ?, ?);";
+        ps = db.prepareStatement(query1);
+        ps.setInt(1, personNextId);
+        ps.setString(2, person_name);
+        ps.setDate(3, Date.valueOf(birthday));
+        ps.setObject(4, hairColor, Types.OTHER);
+        ps.setObject(5, eyeColor, Types.OTHER);
+        ps.execute();
+
+        String getNextIDStudyGroup = "SELECT nextval('studygroup__123_id_seq');";
+        st = db.createStatement();
+        rs = st.executeQuery(getNextIDPerson);
+        rs.next();
+        int StudyGroupNextId = rs.getInt(1);
+
+
+        String query2 = "INSERT INTO studygroup__123 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        ps = db.prepareStatement(query2);
+        ps.setInt(1, StudyGroupNextId);
+        ps.setString(2, name_group);
+        ps.setInt(3, coordinationNextId);
+        ps.setTimestamp(4, Timestamp.valueOf(creationDate));
+        ps.setInt(5, studentsCount);
+        ps.setDouble(6, averageMark);
+        ps.setObject(7, formOfEducation, Types.OTHER);
+        ps.setObject(8, semesterEnum, Types.OTHER);
+        ps.setInt(9, personNextId);
+        ps.execute();
+
+        db.commit();
+        ps.close();
+        db.close();
 
         if (getIsUserInput()) {
             ElementManager elementManager = new ElementManager();
