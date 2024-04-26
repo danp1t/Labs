@@ -7,7 +7,9 @@ import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 import java.util.HashSet;
 
 import static org.example.Managers.ElementManager.*;
@@ -29,7 +31,7 @@ public class UpdateCommand implements Command {
      * 3. Обновляем коллекцию
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element123) {
+    public void execute(String name, String arg, StudyGroup element123, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         try {
             CollectionManager collectionManager = getCollectionManager();

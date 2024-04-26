@@ -9,15 +9,18 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+import static java.sql.DriverManager.getConnection;
 import static org.example.Managers.CommandManager.*;
 
 /**
@@ -57,7 +60,7 @@ public class CollectionManager {
      * getter для поля studyGroups
      * @return значение поля studyGroups
      */
-    public HashSet<StudyGroup> getStudyGroups() {
+    public HashSet<StudyGroup> getStudyGroups() throws SQLException, IOException {
         if (Objects.isNull(this.studyGroups)) {
             getHashSet();
         };
@@ -70,6 +73,65 @@ public class CollectionManager {
      */
     public void setStudyGroups(HashSet<StudyGroup> group){
         this.studyGroups = group;
+    }
+
+    public void getHashSet() throws IOException, SQLException {
+        String url = "jdbc:postgresql://pg:5432/studs";
+        Properties info = new Properties();
+        info.load(new FileInputStream("db.cfg"));
+
+        Connection db = getConnection(url, info);
+        String query = "SELECT * FROM studygroup__123";
+        Statement st = db.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
+        while(rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("name_group");
+            int idCoordinates = rs.getInt("id_coordinates");
+            Timestamp creationDate = rs.getTimestamp("creation_date");
+            int studentsCount = rs.getInt("students_count");
+            double averageMark = rs.getDouble("average_mark");
+            Object formOfEducation = rs.getObject("form_education");
+            Object semesterEnum = rs.getObject("semester");
+            int groupAdminId = rs.getInt("group_admin_id");
+
+            String query123 = "SELECT * FROM coordinates__123 where coordinates__123.id = ?";
+            PreparedStatement ps = db.prepareStatement(query123);
+            ps.setInt(1, idCoordinates);
+            rs = ps.executeQuery();
+            rs.next();
+            double x = rs.getDouble("x");
+            double y = rs.getDouble("y");
+            Coordinates newCoordinates = new Coordinates(x, y);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime newCreationDate = creationDate.toLocalDateTime();
+            FormOfEducation newFormOfEducation = FormOfEducation.valueOf((String) formOfEducation);
+            Semester semester = Semester.valueOf((String) semesterEnum);
+
+            String query12 = "SELECT * FROM users__123 where users__123.id = ?";
+            ps = db.prepareStatement(query12);
+            ps.setInt(1, groupAdminId);
+            rs = ps.executeQuery();
+            rs.next();
+
+            String personName = rs.getString("name");
+            LocalDate newBirthday = rs.getDate("birthday").toLocalDate();
+            Object eyeColor = rs.getObject("eye_color");
+            Object hairColor = rs.getObject( "hair_color");
+            EyeColor newEyeColor = EyeColor.valueOf(eyeColor.toString());
+            HairColor newHairColor = HairColor.valueOf(hairColor.toString());
+
+            Person newGroupAdmim = new Person(personName, newBirthday, newEyeColor, newHairColor);
+            StudyGroup group = new StudyGroup(id, name, newCoordinates, newCreationDate, studentsCount, averageMark, newFormOfEducation, semester, newGroupAdmim);
+            studyGroups.add(group);
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        this.studyGroups = studyGroups;
+        createDateHashSet = formattedDateTime;
     }
 
     /**
@@ -89,7 +151,7 @@ public class CollectionManager {
      * В этом методе мы преобразовываем коллекцию HashSet в JSONArray для последующего сохранения в файл
      * @return JSONArray
      */
-    public JSONArray parseHashsetToJson(){
+    public JSONArray parseHashsetToJson() throws SQLException, IOException {
         Set<StudyGroup> studyGroups = printHashSet();
         JSONArray groupArray = new JSONArray();
         for (StudyGroup sg : studyGroups){
@@ -150,78 +212,78 @@ public class CollectionManager {
     /**
      * Данная функция возвращает HashSet из JSONObject
      */
-    public void getHashSet(){
-        HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
-        if (jsonFile == null){
-            jsonFile = readJsonFile();
-        }
-        for (int i = 0; i < jsonFile.size(); i++){
-            JSONObject object = (JSONObject) jsonFile.get(i);
-
-            Long id = (Long) object.get("id");
-            String name = (String) object.get("name");
-            JSONObject coordinates = (JSONObject) object.get("coordinates");
-            String creationDate = (String) object.get("creationDate");
-            Long studentsCount = (Long) object.get("studentsCount");
-            Double averageMark = (Double) object.get("averageMark");
-            String formOfEducation = (String) object.get("formOfEducation");
-            String semesterEnum = (String) object.get("semesterEnum");
-            JSONObject groupAdmin = (JSONObject) object.get("groupAdmin");
-
-            //Преобразовать объекты в нужный тип для конструктора
-            int newId = id.intValue();
-
-            //Преобразовать coordinates
-            double x = (double) coordinates.get("x");
-            Double y = (Double) coordinates.get("y");
-            Coordinates newCoordinates = new Coordinates(x, y);
-
-            //Преобразовать creationDate в нужный тип
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            LocalDateTime newCreationDate = LocalDateTime.parse(creationDate, formatter);
-
-            //Преобразовать integerCount
-            Integer newStudentsCount = studentsCount.intValue();
-
-            //Преобразовать formOfEducation и semesterEnum
-            FormOfEducation newFormOfEducation = FormOfEducation.valueOf(formOfEducation);
-            Semester semester = Semester.valueOf(semesterEnum);
-
-            //Преобразовать groupAdmin
-            //Распарсинг groupAdmin
-            String personName = (String) groupAdmin.get("name");
-            String birthday = (String) groupAdmin.get("birthday");
-            String eyeColor = (String) groupAdmin.get("eyeColor");
-            String hairColor = (String) groupAdmin.get("hairColor");
-
-            //Преобразование типов
-            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate newBirthday = LocalDate.parse(birthday, formatter);
-            EyeColor newEyeColor = EyeColor.valueOf(eyeColor);
-            HairColor newHairColor = HairColor.valueOf(hairColor);
-
-            //Создание админа из конструктора
-            Person newGroupAdmim = new Person(personName, newBirthday, newEyeColor, newHairColor);
-
-
-            //С помощью конструктора для StudyGroup создать новый объект
-            StudyGroup group = new StudyGroup(newId, name, newCoordinates, newCreationDate, newStudentsCount, averageMark, newFormOfEducation, semester, newGroupAdmim);
-            //Добавить этот объект в коллекцию
-            studyGroups.add(group);
-
-        }
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        String formattedDateTime = now.format(formatter);
-        this.studyGroups = studyGroups;
-        createDateHashSet = formattedDateTime;
-    }
+//    public void getHashSet(){
+//        HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
+//        if (jsonFile == null){
+//            jsonFile = readJsonFile();
+//        }
+//        for (int i = 0; i < jsonFile.size(); i++){
+//            JSONObject object = (JSONObject) jsonFile.get(i);
+//
+//            Long id = (Long) object.get("id");
+//            String name = (String) object.get("name");
+//            JSONObject coordinates = (JSONObject) object.get("coordinates");
+//            String creationDate = (String) object.get("creationDate");
+//            Long studentsCount = (Long) object.get("studentsCount");
+//            Double averageMark = (Double) object.get("averageMark");
+//            String formOfEducation = (String) object.get("formOfEducation");
+//            String semesterEnum = (String) object.get("semesterEnum");
+//            JSONObject groupAdmin = (JSONObject) object.get("groupAdmin");
+//
+//            //Преобразовать объекты в нужный тип для конструктора
+//            int newId = id.intValue();
+//
+//            //Преобразовать coordinates
+//            double x = (double) coordinates.get("x");
+//            Double y = (Double) coordinates.get("y");
+//            Coordinates newCoordinates = new Coordinates(x, y);
+//
+//            //Преобразовать creationDate в нужный тип
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+//            LocalDateTime newCreationDate = LocalDateTime.parse(creationDate, formatter);
+//
+//            //Преобразовать integerCount
+//            Integer newStudentsCount = studentsCount.intValue();
+//
+//            //Преобразовать formOfEducation и semesterEnum
+//            FormOfEducation newFormOfEducation = FormOfEducation.valueOf(formOfEducation);
+//            Semester semester = Semester.valueOf(semesterEnum);
+//
+//            //Преобразовать groupAdmin
+//            //Распарсинг groupAdmin
+//            String personName = (String) groupAdmin.get("name");
+//            String birthday = (String) groupAdmin.get("birthday");
+//            String eyeColor = (String) groupAdmin.get("eyeColor");
+//            String hairColor = (String) groupAdmin.get("hairColor");
+//
+//            //Преобразование типов
+//            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//            LocalDate newBirthday = LocalDate.parse(birthday, formatter);
+//            EyeColor newEyeColor = EyeColor.valueOf(eyeColor);
+//            HairColor newHairColor = HairColor.valueOf(hairColor);
+//
+//            //Создание админа из конструктора
+//            Person newGroupAdmim = new Person(personName, newBirthday, newEyeColor, newHairColor);
+//
+//
+//            //С помощью конструктора для StudyGroup создать новый объект
+//            StudyGroup group = new StudyGroup(newId, name, newCoordinates, newCreationDate, newStudentsCount, averageMark, newFormOfEducation, semester, newGroupAdmim);
+//            //Добавить этот объект в коллекцию
+//            studyGroups.add(group);
+//
+//        }
+//        LocalDateTime now = LocalDateTime.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+//        String formattedDateTime = now.format(formatter);
+//        this.studyGroups = studyGroups;
+//        createDateHashSet = formattedDateTime;
+//    }
 
     /**
      * Данный метод возвращает отсортированное множество
      * @return отсортированное множество
      */
-    public Set printHashSet(){
+    public Set printHashSet() throws SQLException, IOException {
         getStudyGroups();
         Set<StudyGroup> sortedGroups = new TreeSet<>(this.studyGroups);
         return sortedGroups;
@@ -230,7 +292,7 @@ public class CollectionManager {
      * Метод возвращает красивый вывод JSONArray
      * @return красивый вывод JSONArray
      */
-    public String beatifulOutputJson(){
+    public String beatifulOutputJson() throws SQLException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(parseHashsetToJson());
         return jsonString;

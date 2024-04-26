@@ -7,7 +7,9 @@ import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
@@ -27,7 +29,7 @@ public class RemoveCommand implements Command {
      * 3. Удаляем объект
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element) {
+    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Получить id
         try {

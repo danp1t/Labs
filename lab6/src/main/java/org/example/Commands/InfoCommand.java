@@ -6,9 +6,11 @@ import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Server.Server;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.DatagramSocket;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 import java.util.HashSet;
 
 import static org.example.Managers.StartManager.getCollectionManager;
@@ -24,7 +26,7 @@ public class InfoCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element) {
+    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(2048);
         buffer.put("Информация о коллекции\n".getBytes());
         buffer.put(printInfoHashSet().getBytes());
@@ -38,7 +40,7 @@ public class InfoCommand implements Command {
      * Вспомогательный метод для команды info
      * @return строку для команды info
      */
-    private String printInfoHashSet(){
+    private String printInfoHashSet() throws SQLException, IOException {
         CollectionManager collectionManager = getCollectionManager();
         HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
         return "Тип: " + studyGroups.getClass() + "\n" +

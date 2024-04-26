@@ -6,7 +6,9 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -27,7 +29,7 @@ public class FilterContainsNameCommand implements Command {
      * 3. Выводим результат
      */
     @Override
-    public void execute(String command_name, String arg, StudyGroup element) {
+    public void execute(String command_name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Считать аргумент
 

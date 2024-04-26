@@ -14,7 +14,7 @@ public interface Command  {
      * Абстрактный метод исполнения команды
      * @throws FileNotFoundException
      */
-    void execute(String name, String arg, StudyGroup element) throws IOException, SQLException;
+    void execute(String name, String arg, StudyGroup element, String login) throws IOException, SQLException;
 
     /**
      * Абстрактный метод получение описания команды

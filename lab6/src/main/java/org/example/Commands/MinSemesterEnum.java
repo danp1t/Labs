@@ -7,7 +7,9 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -26,7 +28,7 @@ public class MinSemesterEnum implements Command {
      * Метод выполнения команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element) {
+    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(4098);
 
         buffer.put("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным\n".getBytes());
@@ -39,7 +41,7 @@ public class MinSemesterEnum implements Command {
      * Вспомогательный метод для команды min_by_semester_enum
      * @return объект из коллекции, значение поля semesterEnum которого является минимальным
      */
-    private String printMinBySemesterEnum() {
+    private String printMinBySemesterEnum() throws SQLException, IOException {
         CollectionManager collectionManager = getCollectionManager();
         HashSet<StudyGroup> hashSet = collectionManager.getStudyGroups();
         try {

@@ -3,6 +3,8 @@ package org.example.Managers;
 import org.example.Collections.*;
 import org.example.Exceptions.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -54,7 +56,7 @@ public class ElementManager {
      * Метод нахождения уникального ID
      * @return уникальный ID
      */
-    public int nextID(){
+    public int nextID() throws SQLException, IOException {
         CollectionManager collectionManager = getCollectionManager();
         //Получение текущей коллекции
         HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
@@ -516,7 +518,7 @@ public class ElementManager {
      * @param isUserInput вид ввода
      * @return element для соответсвующих команд
      */
-    public StudyGroup createStudyGroup(boolean isUserInput){
+    public StudyGroup createStudyGroup(boolean isUserInput) throws SQLException, IOException {
         StudyGroup group = null;
         Scanner sc;
         if (isUserInput) {sc = new Scanner(System.in);}

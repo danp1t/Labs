@@ -2,10 +2,10 @@ package org.example.Server;
 
 
 import org.example.Client.Commands;
-import org.example.Collections.EyeColor;
-import org.example.Collections.HairColor;
-import org.example.Collections.Person;
-import org.example.Managers.ElementManager;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +24,7 @@ import java.util.Scanner;
 import static org.example.Server.ServerCommandHandler.handlerCommand;
 import static org.example.Server.ServerConnection.connection;
 import static org.example.Server.ServerReadRequest.readRequest;
+import static org.example.Server.ServerResponds.byteBufferArrayList;
 import static org.example.Server.ServerResponds.sendResponds;
 import static org.example.Server.WrongPassword.sendMessage;;
 
@@ -67,8 +68,10 @@ public class Server {
             logger.error("Error occurred: ", e);
         }
     }
-    public static boolean isNewUser(String login, String password) throws SQLException, IOException {
+    public static boolean isNewUser(String login, String password) throws SQLException, IOException, NoSuchAlgorithmException {
         String url = "jdbc:postgresql://pg:5432/studs";
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+
         Properties info = new Properties();
         info.load(new FileInputStream("db.cfg"));
         Connection db = DriverManager.getConnection(url, info);
@@ -76,18 +79,33 @@ public class Server {
         PreparedStatement ps = db.prepareStatement(query);
         ps.setString(1, login);
         ResultSet rs = ps.executeQuery();
+
         if (rs.next()){
-            boolean flag = password.equals(rs.getString(1));
+            buffer.put("Логин найден в базе данных\n".getBytes());
+            buffer.put("Проверка пароля\n".getBytes());
+            MessageDigest md = MessageDigest.getInstance("SHA-384");
+            byte[] messageDigest = md.digest(password.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            boolean flag = hashtext.equals(rs.getString(1));
+            if (flag) buffer.put("Введен корректный пароль\n".getBytes());
+            else buffer.put("Введен некорректный пароль\nНапрягите свою память, чтобы вспомнить пароль".getBytes());
+            byteBufferArrayList.add(buffer);
+            buffer.clear();
             return flag;
         }
         else {
             Register(login, password);
             return true;
         }
+
     }
 
-    public static void Register(String login, String password) throws IOException, SQLException {
+    public static void Register(String login, String password) throws IOException, SQLException, NoSuchAlgorithmException {
         String url = "jdbc:postgresql://pg:5432/studs";
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        buffer.put("Логин не обнаружен в базе данных\n".getBytes());
+        buffer.put("Будет создан новый пользователь с введенным логином и паролем\n".getBytes());
         Properties info = new Properties();
         info.load(new FileInputStream("db.cfg"));
         Connection db = DriverManager.getConnection(url, info);
@@ -96,15 +114,19 @@ public class Server {
         ResultSet rs = st.executeQuery(getNextIDPerson);
         rs.next();
         int personNextId = rs.getInt(1);
-
+        MessageDigest md = MessageDigest.getInstance("SHA-384");
+        byte[] messageDigest = md.digest(password.getBytes());
+        BigInteger no = new BigInteger(1, messageDigest);
+        String hashtext = no.toString(16);
         String query = "INSERT INTO person__123 VALUES(?, ?, ?);";
         PreparedStatement ps = db.prepareStatement(query);
         ps.setInt(1, personNextId);
         ps.setString(2, login);
-        ps.setString(3, password);
-
+        ps.setString(3, hashtext);
         ps.execute();
-
+        buffer.put("Пользователь добавлен в базу данных".getBytes());
+        byteBufferArrayList.add(buffer);
+        buffer.clear();
     }
 
     public static DatagramSocket getServerSocket() {

@@ -8,6 +8,7 @@ import org.example.Managers.CollectionManager;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 
 import static org.example.Managers.StartManager.getCollectionManager;
 import static org.example.Server.ServerResponds.byteBufferArrayList;
@@ -22,7 +23,7 @@ public class SaveCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element) {
+    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put("Сохранить коллекцию в файл".getBytes());
         saveHashSetToFile();
@@ -34,7 +35,7 @@ public class SaveCommand implements Command {
     /**
      * Данный метод сохраняет нашу коллекцию в файл
      */
-    public void saveHashSetToFile() {
+    public void saveHashSetToFile() throws SQLException, IOException {
         CollectionManager collectionManager = getCollectionManager();
         String jsonString = collectionManager.beatifulOutputJson();
         String pathJson = System.getenv("JSON_FILE_LAB5");

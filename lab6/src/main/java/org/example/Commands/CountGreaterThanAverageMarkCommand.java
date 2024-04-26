@@ -6,7 +6,9 @@ import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
@@ -27,7 +29,7 @@ public class CountGreaterThanAverageMarkCommand implements Command {
      * 3. Выводим значение на экран
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element) {
+    public void execute(String name, String arg, StudyGroup element, String login) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Чтение аргумента из tokens
         try {
@@ -56,6 +58,10 @@ public class CountGreaterThanAverageMarkCommand implements Command {
             buffer.put("Значение аргумента не может быть отрицательным числом и нулем".getBytes());
         } catch (NumberFormatException e) {
             buffer.put("Введено не число с плавающей точкой".getBytes());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         byteBufferArrayList.add(buffer);
         buffer.clear();

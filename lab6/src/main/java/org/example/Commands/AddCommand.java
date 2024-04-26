@@ -30,7 +30,7 @@ public class AddCommand implements Command {
      * Метод исполнения команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element) throws IOException, SQLException {
+    public void execute(String name, String arg, StudyGroup element, String login) throws IOException, SQLException {
         //Анализ команды
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         StudyGroup group;
@@ -42,6 +42,13 @@ public class AddCommand implements Command {
         Connection db = getConnection(url, info);
         db.setAutoCommit(false);
         //id нужно запросить следующее
+
+        String query = "SELECT id FROM person__123 where person__123.login = ?";
+        PreparedStatement ps = db.prepareStatement(query);
+        ps.setString(1, login);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int loginID = rs.getInt(1);
 
 
         String name_group = element.getName();
@@ -63,13 +70,13 @@ public class AddCommand implements Command {
 
         String insertCommand = "SELECT nextval('coordinates__123_id_seq');";
         Statement st = db.createStatement();
-        ResultSet rs = st.executeQuery(insertCommand);
+        rs = st.executeQuery(insertCommand);
         rs.next();
         int coordinationNextId = rs.getInt(1);
 
 
-        String query = "INSERT INTO coordinates__123 VALUES(?, ?, ?);";
-        PreparedStatement ps = db.prepareStatement(query);
+        String query123 = "INSERT INTO coordinates__123 VALUES(?, ?, ?);";
+        ps = db.prepareStatement(query123);
         ps.setInt(1, coordinationNextId);
         ps.setDouble(2, x);
         ps.setDouble(3, y);
@@ -82,7 +89,7 @@ public class AddCommand implements Command {
         int personNextId = rs.getInt(1);
 
 
-        String query1 = "INSERT INTO users__123 VALUES(?, ?, ?, ?, ?, ?, ?);";
+        String query1 = "INSERT INTO users__123 VALUES(?, ?, ?, ?, ?);";
         ps = db.prepareStatement(query1);
         ps.setInt(1, personNextId);
         ps.setString(2, person_name);
@@ -93,12 +100,12 @@ public class AddCommand implements Command {
 
         String getNextIDStudyGroup = "SELECT nextval('studygroup__123_id_seq');";
         st = db.createStatement();
-        rs = st.executeQuery(getNextIDPerson);
+        rs = st.executeQuery(getNextIDStudyGroup);
         rs.next();
         int StudyGroupNextId = rs.getInt(1);
 
 
-        String query2 = "INSERT INTO studygroup__123 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String query2 = "INSERT INTO studygroup__123 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         ps = db.prepareStatement(query2);
         ps.setInt(1, StudyGroupNextId);
         ps.setString(2, name_group);
@@ -109,6 +116,7 @@ public class AddCommand implements Command {
         ps.setObject(7, formOfEducation, Types.OTHER);
         ps.setObject(8, semesterEnum, Types.OTHER);
         ps.setInt(9, personNextId);
+        ps.setInt(10, loginID);
         ps.execute();
 
         db.commit();

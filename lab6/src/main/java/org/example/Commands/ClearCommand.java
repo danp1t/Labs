@@ -5,7 +5,9 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 
 import static org.example.Managers.StartManager.getCollectionManager;
 import static org.example.Server.ServerResponds.byteBufferArrayList;
@@ -21,7 +23,7 @@ public class ClearCommand implements Command {
      * Метод выполнение команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element) {
+    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
 

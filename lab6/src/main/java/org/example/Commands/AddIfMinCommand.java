@@ -6,7 +6,9 @@ import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.SQLException;
 import java.util.HashSet;
 
 import static org.example.Managers.CollectionManager.*;
@@ -25,7 +27,7 @@ public class AddIfMinCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element) {
+    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         CollectionManager collectionManager = getCollectionManager();
