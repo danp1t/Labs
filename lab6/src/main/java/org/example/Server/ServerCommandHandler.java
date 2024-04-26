@@ -5,6 +5,8 @@ import org.example.Interface.Command;
 import org.example.Managers.CommandManager;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
 
 import static org.example.Managers.StartManager.getCommandManager;
 
@@ -19,6 +21,10 @@ public class ServerCommandHandler {
         }
         catch (NullPointerException | FileNotFoundException e) {
             System.out.println("Команда не найдена");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

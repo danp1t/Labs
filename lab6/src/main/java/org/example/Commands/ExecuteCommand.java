@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import static org.example.Managers.ElementManager.*;
@@ -89,10 +90,9 @@ public class ExecuteCommand implements Command {
                 buffer.put("Ошибка чтения из файла или файл не был найден".getBytes());
             } catch (CommandNotFound e) {
                 buffer.put(e.sendMessage().getBytes());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-
-
-
 
 
     }
