@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
+import org.postgresql.util.PSQLException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class AddIfMinCommand implements Command {
     @Override
     public synchronized void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
+        try {
         ReadWriteLock lock = new ReentrantReadWriteLock();
         String url = "jdbc:postgresql://pg:5432/studs";
         Properties info = new Properties();
@@ -166,10 +168,13 @@ public class AddIfMinCommand implements Command {
         }
         lock.readLock().lock();
         collectionManager.getHashSet();
-
+        lock.readLock().unlock();
+        }
+        catch (PSQLException e) {
+            buffer.put(e.toString().getBytes());
+        }
         byteBufferArrayList.add(buffer);
         buffer.clear();
-        lock.readLock().unlock();
     }
 
     /**

@@ -65,6 +65,7 @@ public class ExecuteCommand implements Command {
                         line = scan.nextLine();
                     }
                     String strCommand = line.strip().split(" ")[0];
+
                     Command command = commands.getCommands().get(strCommand);
                     if (command == null) {
                         buffer.put("Исполнение скрипта аварийно завершено!".getBytes());

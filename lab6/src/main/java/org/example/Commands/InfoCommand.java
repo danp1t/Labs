@@ -44,7 +44,7 @@ public class InfoCommand implements Command {
      * Вспомогательный метод для команды info
      * @return строку для команды info
      */
-    private String printInfoHashSet() throws SQLException, IOException {
+    private synchronized String printInfoHashSet() throws SQLException, IOException {
 
         CollectionManager collectionManager = getCollectionManager();
         HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();

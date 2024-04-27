@@ -5,6 +5,8 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
+import org.postgresql.util.PSQLException;
+
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -33,8 +35,10 @@ public class AddCommand implements Command {
      */
     @Override
     public synchronized void execute(String name, String arg, StudyGroup element, String login) throws IOException, SQLException {
-        //Анализ команды
         ByteBuffer buffer = ByteBuffer.allocate(1024);
+        //Анализ команды
+        try {
+
         CollectionManager collectionManager = getCollectionManager();
         String url = "jdbc:postgresql://pg:5432/studs";
         Properties info = new Properties();
@@ -158,11 +162,17 @@ public class AddCommand implements Command {
             collectionManager.setStudyGroups(studyGroup);
             lock.writeLock().unlock();
         }
-        lock.writeLock().lock();
-        collectionManager.getHashSet();
+            lock.writeLock().lock();
+            collectionManager.getHashSet();
+            lock.writeLock().unlock();
+        }
+        catch (PSQLException e) {
+            buffer.put(e.toString().getBytes());
+        }
+
         byteBufferArrayList.add(buffer);
         buffer.clear();
-        lock.writeLock().unlock();
+
     }
     /**
      * Метод описания действия команды
