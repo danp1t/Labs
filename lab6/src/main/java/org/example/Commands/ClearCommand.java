@@ -1,5 +1,7 @@
 package org.example.Commands;
 
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.example.Collections.StudyGroup;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
@@ -29,17 +31,18 @@ public class ClearCommand implements Command {
      * Метод выполнение команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
             //Удалить группы только принадлежащие пользователю
         CollectionManager collectionManager = getCollectionManager();
+        ReadWriteLock lock = new ReentrantReadWriteLock();
         String url = "jdbc:postgresql://pg:5432/studs";
         Properties info = new Properties();
         info.load(new FileInputStream("db.cfg"));
 
         Connection db = getConnection(url, info);
 
-
+        lock.writeLock().lock();
         String query = "SELECT id FROM person__123 where person__123.login = ?";
         PreparedStatement ps = db.prepareStatement(query);
         ps.setString(1, login);
@@ -51,12 +54,20 @@ public class ClearCommand implements Command {
         ps.setInt(1, loginID);
         ps.execute();
 
-        collectionManager.getHashSet();
-        buffer.put("Очистить коллекцию\n".getBytes());
-        collectionManager.getStudyGroups().clear();
-        buffer.put("Коллекция очищена".getBytes());
-        byteBufferArrayList.add(buffer);
-        buffer.clear();
+
+        lock.readLock().lock();
+        try {
+            collectionManager.getHashSet();
+            buffer.put("Очистить коллекцию\n".getBytes());
+            lock.writeLock().unlock();
+            collectionManager.getStudyGroups().clear();
+            buffer.put("Коллекция очищена".getBytes());
+            byteBufferArrayList.add(buffer);
+            buffer.clear();
+        }
+        finally {
+            lock.readLock().unlock();
+        }
     }
 
     /**

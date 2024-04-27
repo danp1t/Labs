@@ -21,7 +21,7 @@ public class HistoryCommand implements Command {
      * Метод выполнение команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) {
         ByteBuffer buffer = ByteBuffer.allocate(2048);
             CommandManager commandManager = getCommandManager();
             System.out.println();

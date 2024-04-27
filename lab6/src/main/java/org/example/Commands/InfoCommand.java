@@ -5,7 +5,8 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Server.Server;
-
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.DatagramSocket;
@@ -26,10 +27,13 @@ public class InfoCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(2048);
+        ReadWriteLock lock = new ReentrantReadWriteLock();
         buffer.put("Информация о коллекции\n".getBytes());
+        lock.readLock().lock();
         buffer.put(printInfoHashSet().getBytes());
+        lock.readLock().unlock();
 
         byteBufferArrayList.add(buffer);
         buffer.clear();
@@ -41,6 +45,7 @@ public class InfoCommand implements Command {
      * @return строку для команды info
      */
     private String printInfoHashSet() throws SQLException, IOException {
+
         CollectionManager collectionManager = getCollectionManager();
         HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
         return "Тип: " + studyGroups.getClass() + "\n" +

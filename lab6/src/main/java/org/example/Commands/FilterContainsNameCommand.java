@@ -29,7 +29,7 @@ public class FilterContainsNameCommand implements Command {
      * 3. Выводим результат
      */
     @Override
-    public void execute(String command_name, String arg, StudyGroup element, String login) throws SQLException, IOException {
+    public synchronized void execute(String command_name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Считать аргумент
 

@@ -28,7 +28,7 @@ public class MinSemesterEnum implements Command {
      * Метод выполнения команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(4098);
 
         buffer.put("Вывод любого объекта из коллекции, значение поля semesterEnum которого является минимальным\n".getBytes());

@@ -2,6 +2,8 @@ package org.example.Commands;
 
 import org.example.Collections.*;
 import org.example.Exceptions.InputUserException;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
@@ -30,25 +32,27 @@ public class AddIfMinCommand implements Command {
      * Метод исполнение команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-
+        ReadWriteLock lock = new ReentrantReadWriteLock();
         String url = "jdbc:postgresql://pg:5432/studs";
         Properties info = new Properties();
         info.load(new FileInputStream("db.cfg"));
 
         Connection db = getConnection(url, info);
         db.setAutoCommit(false);
+        lock.readLock().lock();
         String getNextIDStudyGroup = "SELECT nextval('studygroup__123_id_seq');";
         Statement st = db.createStatement();
         ResultSet rs = st.executeQuery(getNextIDStudyGroup);
         rs.next();
         int StudyGroupNextId = rs.getInt(1);
+        lock.readLock().unlock();
 
 
 
 
-
+        lock.readLock().lock();
         CollectionManager collectionManager = getCollectionManager();
         buffer.put("Добавить элемент в коллекцию, если количество студентов в введенной группе минимально\n".getBytes());
         //Нахождение минимального количества студентов
@@ -59,6 +63,7 @@ public class AddIfMinCommand implements Command {
                 minStudentsCount = group.getStudentsCount();
             }
         }
+        lock.readLock().unlock();
         //Прочитать элемент
         if (getIsUserInput()) {
             ElementManager elementManager = new ElementManager();
@@ -69,6 +74,7 @@ public class AddIfMinCommand implements Command {
             element = elementManager.createStudyGroup(getIsUserInput());
         }
 
+        lock.readLock().lock();
         if (element.getStudentsCount() < minStudentsCount) {
             String query = "SELECT id FROM person__123 where person__123.login = ?";
             PreparedStatement ps = db.prepareStatement(query);
@@ -95,27 +101,32 @@ public class AddIfMinCommand implements Command {
             HairColor hairColor = person.getHairColor();
             EyeColor eyeColor = person.getEyeColor();
 
+
             String insertCommand = "SELECT nextval('coordinates__123_id_seq');";
             st = db.createStatement();
             rs = st.executeQuery(insertCommand);
             rs.next();
             int coordinationNextId = rs.getInt(1);
 
-
+            lock.readLock().unlock();
+            lock.writeLock().lock();
             String query123 = "INSERT INTO coordinates__123 VALUES(?, ?, ?);";
             ps = db.prepareStatement(query123);
             ps.setInt(1, coordinationNextId);
             ps.setDouble(2, x);
             ps.setDouble(3, y);
             ps.execute();
+            lock.writeLock().unlock();
 
+            lock.readLock().lock();
             String getNextIDPerson = "SELECT nextval('users__123_id_seq');";
             st = db.createStatement();
             rs = st.executeQuery(getNextIDPerson);
             rs.next();
             int personNextId = rs.getInt(1);
+            lock.readLock().unlock();
 
-
+            lock.writeLock().lock();
             String query1 = "INSERT INTO users__123 VALUES(?, ?, ?, ?, ?);";
             ps = db.prepareStatement(query1);
             ps.setInt(1, personNextId);
@@ -140,6 +151,7 @@ public class AddIfMinCommand implements Command {
             ps.setInt(9, personNextId);
             ps.setInt(10, loginID);
             ps.execute();
+            lock.writeLock().unlock();
 
             db.commit();
             ps.close();
@@ -152,10 +164,12 @@ public class AddIfMinCommand implements Command {
         else {
             buffer.put("Не удалось добавить элемент в коллекцию. Группа не минимальная :(".getBytes());
         }
+        lock.readLock().lock();
         collectionManager.getHashSet();
 
         byteBufferArrayList.add(buffer);
         buffer.clear();
+        lock.readLock().unlock();
     }
 
     /**

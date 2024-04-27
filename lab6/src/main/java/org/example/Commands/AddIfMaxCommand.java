@@ -1,6 +1,8 @@
 package org.example.Commands;
 
 import org.example.Collections.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
@@ -32,7 +34,7 @@ public class AddIfMaxCommand implements Command {
     @Override
     public synchronized void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-
+        ReadWriteLock lock = new ReentrantReadWriteLock();
         CollectionManager collectionManager = getCollectionManager();
 
         buffer.put("Добавить элемент в коллекцию, если количество студентов в новой группе превышает количество людей в любой группе\n".getBytes());
@@ -50,13 +52,14 @@ public class AddIfMaxCommand implements Command {
         info.load(new FileInputStream("db.cfg"));
 
         Connection db = getConnection(url, info);
+        lock.readLock().lock();
         db.setAutoCommit(false);
         String getNextIDStudyGroup = "SELECT nextval('studygroup__123_id_seq');";
         Statement st = db.createStatement();
         ResultSet rs = st.executeQuery(getNextIDStudyGroup);
         rs.next();
         int StudyGroupNextId = rs.getInt(1);
-
+        lock.readLock().unlock();
 
         //Прочитать элемент
         if (getIsUserInput()) {
@@ -69,13 +72,14 @@ public class AddIfMaxCommand implements Command {
         }
 
         if (element.getStudentsCount() > maxStudentsCount) {
+            lock.readLock().lock();
             String query = "SELECT id FROM person__123 where person__123.login = ?";
             PreparedStatement ps = db.prepareStatement(query);
             ps.setString(1, login);
             rs = ps.executeQuery();
             rs.next();
             int loginID = rs.getInt(1);
-
+            lock.readLock().unlock();
 
             String name_group = element.getName();
             Coordinates coordinates = element.getCoordinates();
@@ -94,27 +98,32 @@ public class AddIfMaxCommand implements Command {
             HairColor hairColor = person.getHairColor();
             EyeColor eyeColor = person.getEyeColor();
 
+            lock.readLock().lock();
             String insertCommand = "SELECT nextval('coordinates__123_id_seq');";
             st = db.createStatement();
             rs = st.executeQuery(insertCommand);
             rs.next();
             int coordinationNextId = rs.getInt(1);
+            lock.readLock().unlock();
 
-
+            lock.writeLock().lock();
             String query123 = "INSERT INTO coordinates__123 VALUES(?, ?, ?);";
             ps = db.prepareStatement(query123);
             ps.setInt(1, coordinationNextId);
             ps.setDouble(2, x);
             ps.setDouble(3, y);
             ps.execute();
+            lock.writeLock().unlock();
 
+            lock.readLock().lock();
             String getNextIDPerson = "SELECT nextval('users__123_id_seq');";
             st = db.createStatement();
             rs = st.executeQuery(getNextIDPerson);
             rs.next();
             int personNextId = rs.getInt(1);
+            lock.readLock().unlock();
 
-
+            lock.writeLock().lock();
             String query1 = "INSERT INTO users__123 VALUES(?, ?, ?, ?, ?);";
             ps = db.prepareStatement(query1);
             ps.setInt(1, personNextId);
@@ -123,9 +132,9 @@ public class AddIfMaxCommand implements Command {
             ps.setObject(4, hairColor, Types.OTHER);
             ps.setObject(5, eyeColor, Types.OTHER);
             ps.execute();
+            lock.writeLock().unlock();
 
-
-
+            lock.writeLock().lock();
             String query2 = "INSERT INTO studygroup__123 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             ps = db.prepareStatement(query2);
             ps.setInt(1, StudyGroupNextId);
@@ -139,6 +148,7 @@ public class AddIfMaxCommand implements Command {
             ps.setInt(9, personNextId);
             ps.setInt(10, loginID);
             ps.execute();
+            lock.writeLock().unlock();
 
             db.commit();
             ps.close();

@@ -5,6 +5,8 @@ import org.example.Exceptions.InputUserException;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,6 +41,8 @@ public class AddCommand implements Command {
         info.load(new FileInputStream("db.cfg"));
 
         Connection db = getConnection(url, info);
+        ReadWriteLock lock = new ReentrantReadWriteLock();
+        lock.readLock().lock();
         db.setAutoCommit(false);
         String getNextIDStudyGroup = "SELECT nextval('studygroup__123_id_seq');";
         Statement st = db.createStatement();
@@ -54,16 +58,17 @@ public class AddCommand implements Command {
             ElementManager elementManager = new ElementManager();
             element = elementManager.createStudyGroup(getIsUserInput());
         }
+        lock.readLock().unlock();
 
         //id нужно запросить следующее
-
+        lock.readLock().lock();
         String query = "SELECT id FROM person__123 where person__123.login = ?";
         PreparedStatement ps = db.prepareStatement(query);
         ps.setString(1, login);
         rs = ps.executeQuery();
         rs.next();
         int loginID = rs.getInt(1);
-
+        lock.readLock().unlock();
 
         String name_group = element.getName();
         Coordinates coordinates = element.getCoordinates();
@@ -82,13 +87,15 @@ public class AddCommand implements Command {
         HairColor hairColor = person.getHairColor();
         EyeColor eyeColor = person.getEyeColor();
 
+        lock.readLock().lock();
         String insertCommand = "SELECT nextval('coordinates__123_id_seq');";
         st = db.createStatement();
         rs = st.executeQuery(insertCommand);
         rs.next();
         int coordinationNextId = rs.getInt(1);
+        lock.readLock().unlock();
 
-
+        lock.writeLock().lock();
         String query123 = "INSERT INTO coordinates__123 VALUES(?, ?, ?);";
         ps = db.prepareStatement(query123);
         ps.setInt(1, coordinationNextId);
@@ -96,13 +103,17 @@ public class AddCommand implements Command {
         ps.setDouble(3, y);
         ps.execute();
 
+        lock.writeLock().unlock();
+
+        lock.readLock().lock();
         String getNextIDPerson = "SELECT nextval('users__123_id_seq');";
         st = db.createStatement();
         rs = st.executeQuery(getNextIDPerson);
         rs.next();
         int personNextId = rs.getInt(1);
+        lock.readLock().unlock();
 
-
+        lock.writeLock().lock();
         String query1 = "INSERT INTO users__123 VALUES(?, ?, ?, ?, ?);";
         ps = db.prepareStatement(query1);
         ps.setInt(1, personNextId);
@@ -111,9 +122,10 @@ public class AddCommand implements Command {
         ps.setObject(4, hairColor, Types.OTHER);
         ps.setObject(5, eyeColor, Types.OTHER);
         ps.execute();
+        lock.writeLock().unlock();
 
 
-
+        lock.writeLock().lock();
         String query2 = "INSERT INTO studygroup__123 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         ps = db.prepareStatement(query2);
         ps.setInt(1, StudyGroupNextId);
@@ -127,6 +139,7 @@ public class AddCommand implements Command {
         ps.setInt(9, personNextId);
         ps.setInt(10, loginID);
         ps.execute();
+        lock.writeLock().unlock();
 
         db.commit();
         ps.close();
@@ -139,13 +152,17 @@ public class AddCommand implements Command {
             buffer.put("Произошла ошибка при выполнении команды add".getBytes());
         }
         else {
+            lock.writeLock().lock();
             studyGroup.add(element);
             buffer.put("Группа добавлена!".getBytes());
             collectionManager.setStudyGroups(studyGroup);
+            lock.writeLock().unlock();
         }
+        lock.writeLock().lock();
         collectionManager.getHashSet();
         byteBufferArrayList.add(buffer);
         buffer.clear();
+        lock.writeLock().unlock();
     }
     /**
      * Метод описания действия команды

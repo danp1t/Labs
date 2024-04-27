@@ -6,6 +6,8 @@ import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
 import org.example.Managers.ElementManager;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,8 +36,9 @@ public class UpdateCommand implements Command {
      * 3. Обновляем коллекцию
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element123, String login) throws SQLException, IOException {
+    public synchronized void execute(String name, String arg, StudyGroup element123, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
+        ReadWriteLock lock = new ReentrantReadWriteLock();
         String url = "jdbc:postgresql://pg:5432/studs";
         Properties info = new Properties();
         info.load(new FileInputStream("db.cfg"));
@@ -43,28 +46,26 @@ public class UpdateCommand implements Command {
         Connection db = getConnection(url, info);
         db.setAutoCommit(false);
 
-
+        lock.readLock().lock();
         String query = "SELECT id FROM person__123 where person__123.login = ?";
         PreparedStatement ps = db.prepareStatement(query);
         ps.setString(1, login);
         ResultSet rs = ps.executeQuery();
         rs.next();
         int loginID = rs.getInt(1);
+        lock.readLock().unlock();
         try {
             CollectionManager collectionManager = getCollectionManager();
             HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
             int number = Integer.parseInt(arg);
+            lock.readLock().lock();
             String query1234 = "SELECT * FROM studygroup__123 WHERE (studygroup__123.who_created_id = ? AND studygroup__123.id = ?);";
             PreparedStatement ps1 = db.prepareStatement(query1234);
             ps1.setInt(1, loginID);
             ps1.setInt(2, number);
             boolean flag = ps1.executeQuery().next();
             if (!flag) throw new NotCollectionIDFound();
-
-            String query123 = "DELETE FROM studygroup__123 WHERE (studygroup__123.who_created_id = ? AND studygroup__123.id = ?);";
-            ps = db.prepareStatement(query123);
-            ps.setInt(1, loginID);
-            ps.setInt(2, number);
+            lock.readLock().unlock();
 
             HashSet<StudyGroup> newStudyGroups = new HashSet<>();
             for (StudyGroup group : studyGroups) {
@@ -106,6 +107,7 @@ public class UpdateCommand implements Command {
             HairColor hairColor = person.getHairColor();
             EyeColor eyeColor = person.getEyeColor();
 
+            lock.writeLock().lock();
             String query5 = "SELECT id_coordinates FROM studygroup__123 where studygroup__123.id = ?;";
             ps = db.prepareStatement(query5);
             ps.setInt(1, number);
@@ -187,6 +189,7 @@ public class UpdateCommand implements Command {
             ps.setObject(1, eyeColor, Types.OTHER);
             ps.setInt(2, GroupAdminId);
             ps.execute();
+            lock.writeLock().unlock();
 
             db.commit();
             ps.close();

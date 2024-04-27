@@ -40,7 +40,7 @@ public class ExecuteCommand implements Command {
      * 4. Выполняем команду
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
             if (getIsUserInput()) {
                 recursionDepth = 0;

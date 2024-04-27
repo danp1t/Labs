@@ -6,6 +6,8 @@ import org.example.Exceptions.NotCollectionIDFound;
 import org.example.Exceptions.NotPositiveField;
 import org.example.Interface.Command;
 import org.example.Managers.CollectionManager;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,8 +37,9 @@ public class RemoveCommand implements Command {
      * 3. Удаляем объект
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) throws SQLException, IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
+        ReadWriteLock lock = new ReentrantReadWriteLock();
 
 
         String url = "jdbc:postgresql://pg:5432/studs";
@@ -45,32 +48,35 @@ public class RemoveCommand implements Command {
 
         Connection db = getConnection(url, info);
 
-
+        lock.readLock().lock();
         String query = "SELECT id FROM person__123 where person__123.login = ?";
         PreparedStatement ps = db.prepareStatement(query);
         ps.setString(1, login);
         ResultSet rs = ps.executeQuery();
         rs.next();
         int loginID = rs.getInt(1);
+        lock.readLock().unlock();
 
         //Получить id
         try {
             CollectionManager collectionManager = getCollectionManager();
             HashSet<StudyGroup> studyGroups = collectionManager.getStudyGroups();
-
+            lock.readLock().lock();
             int id = Integer.parseInt(arg);
             String query1234 = "SELECT * FROM studygroup__123 WHERE (studygroup__123.who_created_id = ? AND studygroup__123.id = ?);";
             PreparedStatement ps1 = db.prepareStatement(query1234);
             ps1.setInt(1, loginID);
             ps1.setInt(2, id);
             boolean flag = ps1.executeQuery().next();
+            lock.readLock().unlock();
             if (!flag) throw new NotCollectionIDFound();
 
+            lock.writeLock().lock();
             String query123 = "DELETE FROM studygroup__123 WHERE (studygroup__123.who_created_id = ? AND studygroup__123.id = ?);";
             ps = db.prepareStatement(query123);
             ps.setInt(1, loginID);
             ps.setInt(2, id);
-
+            lock.writeLock().unlock();
 
 
             //Проверить, что он положительный и является целочисленным числом
@@ -79,7 +85,7 @@ public class RemoveCommand implements Command {
             //Получение текущей коллекции
             buffer.put(("Удалить элемент из коллекции по id: " + id + "\n").getBytes());
             HashSet<StudyGroup> newStudyGroups = new HashSet<>();
-
+            lock.writeLock().lock();
             for (StudyGroup group : studyGroups) {
                 if (id == group.getID()) {
                     buffer.put(("Коллекция с id: " + id + " удалена.").getBytes());
@@ -90,6 +96,7 @@ public class RemoveCommand implements Command {
             if (newStudyGroups.size() == studyGroups.size()) throw new NotCollectionIDFound();
             collectionManager.setStudyGroups(newStudyGroups);
             collectionManager.getHashSet();
+            lock.writeLock().unlock();
 
 
         }

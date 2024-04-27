@@ -22,7 +22,7 @@ public class HelpCommand implements Command {
      * 2. Выводим имя команды и её описание
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) {
         ByteBuffer buffer = ByteBuffer.allocate(4096);
         CommandManager commandManager = getCommandManager();
         for (Command command : commandManager.getCommands().values()){

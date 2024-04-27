@@ -18,7 +18,7 @@ public class ExitCommand implements Command {
      * Метод выполнения программы
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put("Выход...".getBytes());
         System.exit(0);

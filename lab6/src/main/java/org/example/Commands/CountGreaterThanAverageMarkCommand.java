@@ -29,7 +29,7 @@ public class CountGreaterThanAverageMarkCommand implements Command {
      * 3. Выводим значение на экран
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Чтение аргумента из tokens
         try {
