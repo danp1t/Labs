@@ -7,8 +7,9 @@ import java.nio.channels.DatagramChannel;
 import java.nio.charset.StandardCharsets;
 
 public class ClientResponds {
-    public static void getRespond(ByteBuffer buffer, DatagramChannel channel) throws IOException {
+    public static boolean getRespond(ByteBuffer buffer, DatagramChannel channel) throws IOException {
         byte[] data = new byte[buffer.remaining()];
+        boolean flag = false;
         buffer.get(data);
         int n = ByteBuffer.wrap(data).getInt();
         for (int i = 0; i < n; i++) {
@@ -24,8 +25,10 @@ public class ClientResponds {
                     .toString();
             System.out.println(receivedMessage);
             System.out.println();
+            if (receivedMessage.length() > 1) flag = true;
+            else flag = false;
         }
         buffer.clear();
-
+return flag;
     }
 }

@@ -20,17 +20,20 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.example.Server.ServerCommandHandler.handlerCommand;
 import static org.example.Server.ServerConnection.connection;
 import static org.example.Server.ServerReadRequest.readRequest;
-import static org.example.Server.ServerResponds.byteBufferArrayList;
-import static org.example.Server.ServerResponds.sendResponds;
+import static org.example.Server.ServerResponds.*;
 import static org.example.Server.WrongPassword.sendMessage;;
 
 public class Server {
     private static DatagramSocket serverSocket;
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
+    private static final ExecutorService executor = Executors.newCachedThreadPool();
+
 
     public static void main(String[] args) throws IOException, SQLException {
         Integer port = 8932;
@@ -41,21 +44,29 @@ public class Server {
             logger.info("Server started");
             while (true) {
                 DatagramPacket receivePacket = ServerReadRequest.getDatagramPacket(serverSocket);
-                Commands receivedMessage = readRequest(receivePacket);
+
+                ServerReadRequest serverReadRequest = new ServerReadRequest(receivePacket);
+                Thread thread = new Thread(serverReadRequest);
+                thread.start();
+                thread.join();
+
+                Commands receivedMessage = serverReadRequest.getReceivedMessage();
+
                 //Проверка регистрации
                 String login = receivedMessage.getLogin();
                 String password = receivedMessage.getPassword();
+                if (!isNatural) isNatural = isNewUser(login, password);
                 if (!isNatural) {
-                    isNatural = isNewUser(login, password);
                     sendMessage(serverSocket, receivePacket, "Вы ввели неправильный пароль. Попробуйте еще раз: ");
                     continue;
                 }
                 if (!receivedMessage.getName().equals("authorizations")) {
                     logger.info("Received from client: " + receivedMessage.getName());
-                    //Авторизация или регистрация.
-                    handlerCommand(receivedMessage);
-                    sendResponds(serverSocket, receivePacket);
-                    logger.info("Response sent to client");
+                    executor.execute(() -> {
+                        handlerCommand(receivedMessage);
+                        sendRespondsAsync(serverSocket, receivePacket);
+                        logger.info("Response sent to client");
+                    });
                 }
                 else {
                     sendMessage(serverSocket, receivePacket, "Авторизация прошла успешно");
@@ -67,6 +78,8 @@ public class Server {
         } catch (Exception e) {
             logger.error("Error occurred: ", e);
         }
+        shutdownThreadPool();
+        executor.shutdown();
     }
     public static boolean isNewUser(String login, String password) throws SQLException, IOException, NoSuchAlgorithmException {
         String url = "jdbc:postgresql://pg:5432/studs";

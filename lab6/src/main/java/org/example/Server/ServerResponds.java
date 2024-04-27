@@ -6,18 +6,29 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class ServerResponds {
     public static ArrayList<ByteBuffer> byteBufferArrayList = new ArrayList<ByteBuffer>();
+    private static final ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
 
+    public synchronized static void sendRespondsAsync(DatagramSocket serverSocket, DatagramPacket receivePacket) {
+        fixedThreadPool.execute(() -> {
+            try {
+                sendResponds(serverSocket, receivePacket);
 
-    public static void sendResponds(DatagramSocket serverSocket, DatagramPacket receivePacket) throws IOException {
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    public synchronized static void sendResponds(DatagramSocket serverSocket, DatagramPacket receivePacket) throws IOException {
          InetAddress clientAddress = receivePacket.getAddress();
          int clientPort = receivePacket.getPort();
          int size = byteBufferArrayList.size();
          byte[] sendData = ByteBuffer.allocate(Integer.BYTES).putInt(size).array();
-
          DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
          serverSocket.send(sendPacket);
          for (ByteBuffer buffer : byteBufferArrayList) {
@@ -27,6 +38,10 @@ public class ServerResponds {
 
          }
         byteBufferArrayList.clear();
+    }
+
+    public static void shutdownThreadPool() {
+        fixedThreadPool.shutdown();
     }
 
 }

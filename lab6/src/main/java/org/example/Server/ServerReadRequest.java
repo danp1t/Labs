@@ -8,7 +8,18 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
-public class ServerReadRequest {
+public class ServerReadRequest implements Runnable{
+    private Commands receivedMessage;
+    private DatagramPacket receivePacket;
+
+    public ServerReadRequest(DatagramPacket receivePacket) {
+        this.receivePacket = receivePacket;
+    }
+
+    public Commands getReceivedMessage() {
+        return receivedMessage;
+    }
+
     public static DatagramPacket getDatagramPacket(DatagramSocket serverSocket) throws IOException {
         byte[] receiveData = new byte[8192];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -16,7 +27,18 @@ public class ServerReadRequest {
         return receivePacket;
     }
 
-    public static Commands readRequest(DatagramPacket receivePacket) throws IOException, ClassNotFoundException {
+    @Override
+    public void run() {
+        try {
+             receivedMessage = readRequest(receivePacket);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static synchronized Commands readRequest(DatagramPacket receivePacket) throws IOException, ClassNotFoundException {
         ByteArrayInputStream byteStream = new ByteArrayInputStream(receivePacket.getData());
 
 

@@ -13,7 +13,7 @@ import static org.example.Managers.StartManager.getCollectionManager;
 import static org.example.Managers.StartManager.getCommandManager;
 
 public class ServerCommandHandler {
-    public static void handlerCommand(Commands input_command) {
+    public synchronized static void handlerCommand(Commands input_command) {
         CommandManager commands = getCommandManager();
 
         try {

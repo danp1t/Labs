@@ -25,6 +25,7 @@ public class Client  {
             channel.configureBlocking(false);
             Scanner sc = new Scanner(System.in);
             boolean flag = false;
+            boolean readFlag = true;
             String login = null;
             String password = null;
             ByteBuffer buffer = ByteBuffer.allocate(8192);
@@ -33,9 +34,9 @@ public class Client  {
             System.out.println("Клиент запущен!");
             while (!flag) {
                 //Отправить команду на сервер
-                System.out.println("Введите ваш логин: ");
+                System.out.print("Введите ваш логин: ");
                 login = sc.nextLine();
-                System.out.println("Введите ваш пароль");
+                System.out.print("Введите ваш пароль: ");
                 password = sc.nextLine();
                 String line = "authorizations";
                 Commands command = getCommand(line, channel, serverAddress, buffer, login, password);
@@ -45,7 +46,6 @@ public class Client  {
             }
             while (true) {
                 buffer.clear();
-                channel.configureBlocking(false);
                 System.out.println("Введите команду: ");
                 String line = sc.nextLine();
                 Commands command = getCommand(line, channel, serverAddress, buffer, login, password);
@@ -53,6 +53,7 @@ public class Client  {
                     continue;
                 }
                 buffer = sendCommand(command, channel, serverAddress, buffer);
+                buffer.clear();
                 getRespond(buffer, channel);
                 }
 

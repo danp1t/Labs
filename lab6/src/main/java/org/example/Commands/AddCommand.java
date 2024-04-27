@@ -30,7 +30,7 @@ public class AddCommand implements Command {
      * Метод исполнения команды
      */
     @Override
-    public void execute(String name, String arg, StudyGroup element, String login) throws IOException, SQLException {
+    public synchronized void execute(String name, String arg, StudyGroup element, String login) throws IOException, SQLException {
         //Анализ команды
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         CollectionManager collectionManager = getCollectionManager();
