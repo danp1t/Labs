@@ -146,12 +146,13 @@ public class AddIfMaxCommand implements Command {
 
 
             studyGroups.add(element);
+
             buffer.put("Учебная группа добавлена в коллекцию".getBytes());
         }
         else {
             buffer.put("Не удалось добавить элемент в коллекцию. Группа не максимальная :(".getBytes());
         }
-
+        collectionManager.getHashSet();
 
         byteBufferArrayList.add(buffer);
         buffer.clear();

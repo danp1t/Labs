@@ -152,7 +152,7 @@ public class AddIfMinCommand implements Command {
         else {
             buffer.put("Не удалось добавить элемент в коллекцию. Группа не минимальная :(".getBytes());
         }
-
+        collectionManager.getHashSet();
 
         byteBufferArrayList.add(buffer);
         buffer.clear();

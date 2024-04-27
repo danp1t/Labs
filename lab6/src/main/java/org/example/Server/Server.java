@@ -45,8 +45,8 @@ public class Server {
                 //Проверка регистрации
                 String login = receivedMessage.getLogin();
                 String password = receivedMessage.getPassword();
-                isNatural = isNewUser(login, password);
                 if (!isNatural) {
+                    isNatural = isNewUser(login, password);
                     sendMessage(serverSocket, receivePacket, "Вы ввели неправильный пароль. Попробуйте еще раз: ");
                     continue;
                 }

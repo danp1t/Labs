@@ -52,6 +52,7 @@ public class CollectionManager {
         if (Objects.isNull(this.studyGroups)) {
             getHashSet();
         };
+
         return this.studyGroups;
     }
 
@@ -71,23 +72,23 @@ public class CollectionManager {
         Connection db = getConnection(url, info);
         String query = "SELECT * FROM studygroup__123";
         Statement st = db.createStatement();
-        ResultSet rs = st.executeQuery(query);
+        ResultSet my_rs = st.executeQuery(query);
         HashSet<StudyGroup> studyGroups = new HashSet<StudyGroup>();
-        while(rs.next()) {
-            int id = rs.getInt("id");
-            String name = rs.getString("name_group");
-            int idCoordinates = rs.getInt("id_coordinates");
-            Timestamp creationDate = rs.getTimestamp("creation_date");
-            int studentsCount = rs.getInt("students_count");
-            double averageMark = rs.getDouble("average_mark");
-            Object formOfEducation = rs.getObject("form_education");
-            Object semesterEnum = rs.getObject("semester");
-            int groupAdminId = rs.getInt("group_admin_id");
+        while(my_rs.next()) {
+            int id = my_rs.getInt("id");
+            String name = my_rs.getString("name_group");
+            int idCoordinates = my_rs.getInt("id_coordinates");
+            Timestamp creationDate = my_rs.getTimestamp("creation_date");
+            int studentsCount = my_rs.getInt("students_count");
+            double averageMark = my_rs.getDouble("average_mark");
+            Object formOfEducation = my_rs.getObject("form_education");
+            Object semesterEnum = my_rs.getObject("semester");
+            int groupAdminId = my_rs.getInt("group_admin_id");
 
             String query123 = "SELECT * FROM coordinates__123 where coordinates__123.id = ?";
             PreparedStatement ps = db.prepareStatement(query123);
             ps.setInt(1, idCoordinates);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             rs.next();
             double x = rs.getDouble("x");
             double y = rs.getDouble("y");

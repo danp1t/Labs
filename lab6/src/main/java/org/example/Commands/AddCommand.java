@@ -143,6 +143,7 @@ public class AddCommand implements Command {
             buffer.put("Группа добавлена!".getBytes());
             collectionManager.setStudyGroups(studyGroup);
         }
+        collectionManager.getHashSet();
         byteBufferArrayList.add(buffer);
         buffer.clear();
     }
