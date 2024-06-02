@@ -17,7 +17,10 @@ import static org.example.Client.ClientSendCommand.sendCommand;
 import static org.example.Client.SerializableCommand.getCommand;
 
 public class Client  {
+
     public static void main(String[] args) {
+
+
         try (DatagramChannel channel = DatagramChannel.open()) {
             int port = 8932;
 
