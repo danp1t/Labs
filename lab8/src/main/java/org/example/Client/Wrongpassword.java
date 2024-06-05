@@ -1,24 +1,21 @@
 package org.example.Client;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Registration {
+public class Wrongpassword {
     @FXML
     private MenuButton TextLanguage;
     @FXML
     private Button Ok;
-    @FXML
-    private PasswordField Password;
-    @FXML
-    private TextField Login;
 
     @FXML
     private void initialize() {
@@ -46,13 +43,12 @@ public class Registration {
 
     private void changeLanguage(String language) {
         TextLanguage.setText(language);
-        // Здесь вы можете выполнить другие действия, связанные с изменением языка
     }
 
     private void handleOkButtonClick() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Stage primaryStage = Client.primaryStage;
-        Parent secondScene = loader.load(getClass().getResource("/org.example.Client/main.fxml"));
+        Parent secondScene = loader.load(getClass().getResource("/org.example.Client/authorization.fxml"));
         primaryStage.setScene(new Scene(secondScene));
     }
 }

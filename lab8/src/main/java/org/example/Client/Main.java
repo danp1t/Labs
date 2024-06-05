@@ -1,48 +1,34 @@
 package org.example.Client;
 
-import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 
+public class Main {
+    @FXML
+    private MenuButton TextLanguage;
 
-public class Main extends Application {
+    @FXML
+    private void initialize() {
 
-    public static Stage primaryStage;
-    private Parent firstScene;
-    private Parent secondScene;
+        MenuItem russianItem = new MenuItem("Русский");
+        russianItem.setOnAction(event -> changeLanguage("Русский"));
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.primaryStage = primaryStage;
-        FXMLLoader loader = new FXMLLoader();
-        this.primaryStage.setTitle("Суперское приложение");
+        MenuItem slovakItem = new MenuItem("Словацкий");
+        slovakItem.setOnAction(event -> changeLanguage("Словацкий"));
 
-        // Загружаем первую сцену из fxml-файла
-        firstScene = loader.load(getClass().getResource("/org.example.Client/authorization.fxml"));
+        MenuItem danishItem = new MenuItem("Датский");
+        danishItem.setOnAction(event -> changeLanguage("Датский"));
 
-        // Создаем контроллер для первой сцены
-        Authorization firstSceneController = new Authorization();
+        MenuItem englishItem = new MenuItem("Английский (Австралия)");
+        englishItem.setOnAction(event -> changeLanguage("Английский (Австралия)"));
 
-        // Устанавливаем контроллер для первой сцены
-        loader.setController(firstSceneController);
-
-        // Устанавливаем сцену и отображаем окно
-        primaryStage.setScene(new Scene(firstScene));
-        primaryStage.show();
-    }
-
-    public static Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
+        TextLanguage.getItems().addAll(russianItem, slovakItem, danishItem, englishItem);
     }
 }

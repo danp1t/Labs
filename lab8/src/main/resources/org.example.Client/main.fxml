@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.MenuButton?>
+<AnchorPane prefHeight="827.0" prefWidth="1274.0" style="-fx-background-color: #aeaeae;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Client.Main">
+    <children>
+        <MenuButton fx:id="TextLanguage" layoutX="424.0" layoutY="52.0" mnemonicParsing="false" text="Русский">
+        </MenuButton>
+        <Label fx:id="userLabel" layoutX="14.0" layoutY="18.0" text="Пользователь:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0">
+            <font>
+                <Font name="Segoe UI" size="16.0" />
+            </font>
+        </Label>
+        <AnchorPane layoutX="1.0" layoutY="60.0" prefHeight="590.0" prefWidth="956.0">
+            <children>
+                <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" layoutY="492.0" prefHeight="275.0" prefWidth="1274.0" vgap="10.0">
+                    <Button fx:id="helpButton" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="help">
+                        <font>
+                            <Font name="Segoe UI" size="16.0" />
+                        </font>
+                    </Button>
+               <Button fx:id="infoButton" layoutX="505.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="info">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="showButton" layoutX="555.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="show">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="addButton" layoutX="591.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="add">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="updateButton" layoutX="626.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="update id">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="removeButton" layoutX="662.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="remove_by_id">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="clearButton" layoutX="697.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="clear">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="executeButton" layoutX="733.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="execute_script">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="add_if_maxButton" layoutX="804.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="add_if_max">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="add_if_minButton" layoutX="839.0" layoutY="55.0" mnemonicParsing="false"  style="-fx-background-radius: 10; -fx-border-radius: 10;" text="add_if_min">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="historyButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="history">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="min_by_semesterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="min_by_semester_enum">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="counter_greaterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="counter_greater_than_average_mark">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="filterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="filter_contains_name">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+               <Button fx:id="ExitButton" layoutX="768.0" layoutY="55.0" mnemonicParsing="false"  style="-fx-background-radius: 10; -fx-border-radius: 10;" text="exit">
+                  <font>
+                     <Font name="Segoe UI" size="16.0" />
+                  </font>
+               </Button>
+                </FlowPane>
+                <TabPane layoutX="-1.0" layoutY="-4.0" prefHeight="496.0" prefWidth="1275.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab fx:id="tableTab" text="Таблица">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="1091.0">
+                                    <children>
+                                        <TableView fx:id="tableTable" layoutY="1.0" prefHeight="463.0" prefWidth="1275.0">
+                                            <columns>
+                                                <TableColumn fx:id="ownerColumn" prefWidth="90.0" text="Owner" />
+                                                <TableColumn fx:id="idColumn" prefWidth="45.0" text="ID" />
+                                                <TableColumn fx:id="nameColumn" prefWidth="90.0" text="Name" />
+                                                <TableColumn prefWidth="45.0" text="X" fx:id="xColumn" />
+                                                <TableColumn fx:id="yColumn" prefWidth="70.0" text="Y" />
+                                                <TableColumn fx:id="dateColumn" prefWidth="140.0" text="Creation date" />
+                                                <TableColumn fx:id="priceColumn" prefWidth="150.0" text="students count" />
+                                                <TableColumn fx:id="partNumberColumn" prefWidth="126.0" text="average mark" />
+                                                <TableColumn fx:id="unitOfMeasureColumn" prefWidth="145.0" text="form of education" />
+                        
+                                                <TableColumn fx:id="manufacturerIdColumn" prefWidth="135.0" text="semester" />
+                                                <TableColumn fx:id="manufacturerNameColumn" prefWidth="115.0" text="group admin" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="visualTab" text="Visualization">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <AnchorPane fx:id="visualPane" prefHeight="463.0" prefWidth="1080.0" style="-fx-background-color: white;" />
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
