@@ -25,6 +25,7 @@ public class ClientListCommands {
         commands.put("count_greater_than_average_mark", 1);
         commands.put("filter_contains_name", 1);
         commands.put("authorizations", 4);
+        commands.put("getTable", 4);
         this.commands = commands;
     }
 

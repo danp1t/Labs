@@ -94,8 +94,7 @@ public class SerializableCommand {
         }
         else if (type == 4) {
             command = new Commands(line.strip().split(" ")[0], login, password);
-        }
-        else if (type == 2) {
+        } else if (type == 2) {
             if (line.split(" ").length != 1) {
                 System.out.println("Команда не должна содержать аргументов");
             }

@@ -11,5 +11,6 @@ module org.example.Client {
     requires org.postgresql.jdbc;
 
     opens org.example.Client to javafx.fxml;
+    opens org.example.Collections to javafx.base;
     exports org.example.Client;
 }

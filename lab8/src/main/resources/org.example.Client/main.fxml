@@ -88,7 +88,7 @@
                      <Font name="Segoe UI" size="16.0" />
                   </font>
                </Button>
-               <Button fx:id="filterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false"   style="-fx-background-radius: 10; -fx-border-radius: 10;" text="filter_contains_name">
+               <Button fx:id="filterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="filter_contains_name">
                   <font>
                      <Font name="Segoe UI" size="16.0" />
                   </font>
@@ -103,7 +103,7 @@
                     <tabs>
                         <Tab fx:id="tableTab" text="Таблица">
                             <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="1091.0">
+                                <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="1091.0">
                                     <children>
                                         <TableView fx:id="tableTable" layoutY="1.0" prefHeight="463.0" prefWidth="1275.0">
                                             <columns>
@@ -118,7 +118,11 @@
                                                 <TableColumn fx:id="formOfEducationColumn" prefWidth="145.0" text="form of education" />
                         
                                                 <TableColumn fx:id="SemesterColumn" prefWidth="135.0" text="semester" />
-                                                <TableColumn fx:id="GroupAdminColumn" prefWidth="115.0" text="group admin" />
+                                                <TableColumn fx:id="GroupAdminColumn" prefWidth="54.0" text="group admin" />
+                                    <TableColumn fx:id="AdminNameColumn" minWidth="0.0" prefWidth="82.0" text="admin_name" />
+                                    <TableColumn fx:id="BithdayColumn" prefWidth="124.0" text="birthday" />
+                                    <TableColumn fx:id="HairColumn" minWidth="0.0" prefWidth="82.0" text="hair color" />
+                                    <TableColumn fx:id="EyeColumn" prefWidth="124.0" text="eye color" />
                                             </columns>
                                         </TableView>
                                     </children>

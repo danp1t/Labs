@@ -27,6 +27,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static org.example.Server.SendTables.sendTables;
 import static org.example.Server.ServerCommandHandler.handlerCommand;
 import static org.example.Server.ServerConnection.connection;
 import static org.example.Server.ServerReadRequest.readRequest;
@@ -70,16 +71,18 @@ public class Server {
                     sendMessage(serverSocket, receivePacket, "Вы ввели неправильный пароль. Попробуйте еще раз: ");
                     continue;
                 }
-                if (!receivedMessage.getName().equals("authorizations")) {
+                if (!receivedMessage.getName().equals("authorizations") && !receivedMessage.getName().equals("getTable")) {
                     logger.info("Received from client: " + receivedMessage.getName());
                     executor.execute(() -> {
                         handlerCommand(receivedMessage);
                         sendRespondsAsync(serverSocket, receivePacket);
                         logger.info("Response sent to client");
                     });
-                }
-                else {
+                } else if (receivedMessage.getName().equals("authorizations")) {
                     sendMessage(serverSocket, receivePacket, "Авторизация прошла успешно");
+
+                } else if (receivedMessage.getName().equals("getTable")) {
+                    sendTables(serverSocket, receivePacket);
                 }
 
             }
