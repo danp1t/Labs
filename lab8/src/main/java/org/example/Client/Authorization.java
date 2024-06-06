@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -12,7 +13,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import static org.example.Client.Client.primaryStage;
@@ -23,6 +26,7 @@ import static org.example.Client.SerializableCommand.getCommand;
 
 public class Authorization {
     public static String login;
+    public static String language = "ru";
     public static String password;
     @FXML
     private MenuButton TextLanguage;
@@ -30,6 +34,12 @@ public class Authorization {
     private PasswordField UserPassword;
     @FXML
     private TextField UserLogin;
+    @FXML
+    private Text authText;
+    @FXML
+    private Text passwordText;
+    @FXML
+    private Text loginText;
     @FXML
     private Button Auth;
 
@@ -55,6 +65,32 @@ public class Authorization {
 
     private void changeLanguage(String language) {
         TextLanguage.setText(language);
+        switch(language) {
+            case "Английский (Австралия)": language =  "en";
+            break;
+            case "Русский": language = "ru";
+            break;
+            case "Датский": language = "da";
+            break;
+            case "Словацкий":  language = "sk";
+            break;
+        }
+
+        Locale locale = new Locale(language); // Создаем объект Locale для выбранного языка
+        ResourceBundle bundle = ResourceBundle.getBundle("locales/gui", locale); // Загружаем ресурсы для выбранного языка
+
+        // Пример использования ресурсов из файла свойств
+        String auth = bundle.getString("auth");
+        String login_text = bundle.getString("login_text");
+        String password_text = bundle.getString("password_text");
+        String auth_button = bundle.getString("auth_button");
+
+        // Здесь вы можете установить тексты согласно загруженным ресурсам
+        authText.setText(auth);
+        Auth.setText(auth_button);
+        passwordText.setText(password_text);
+        loginText.setText(login_text);
+        Authorization.language = language;
     }
 
     private void handleLoginButtonClick() {
@@ -66,7 +102,6 @@ public class Authorization {
 
             channel.socket().setSoTimeout(5000);
             channel.configureBlocking(false);
-            Scanner sc = new Scanner(System.in);
             boolean flag = false;
             int flag1 = 0;
             boolean readFlag = true;
@@ -85,14 +120,17 @@ public class Authorization {
             }
 
             if (flag1 == 2) {
+                FXMLLoader loader = new FXMLLoader();
+                Parent firstScene = loader.load(getClass().getResource("/org.example.Client/registration.fxml"));
 
-                Parent firstScene = FXMLLoader.load(getClass().getResource("/org.example.Client/registration.fxml"));
                 primaryStage.setScene(new Scene(firstScene));
+
                 // Устанавливаем позицию всплывающего окна относительно основного окна
                 primaryStage.setX(primaryStage.getX());
                 primaryStage.setY(primaryStage.getY());
 
                 primaryStage.show();
+                System.out.println(language);
             }
             else if (flag1 == 3){
                 FXMLLoader loader = new FXMLLoader();

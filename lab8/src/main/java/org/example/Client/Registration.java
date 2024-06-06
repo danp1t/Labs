@@ -6,9 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Registration {
     @FXML
@@ -19,6 +22,14 @@ public class Registration {
     private PasswordField Password;
     @FXML
     private TextField Login;
+    @FXML
+    private Text registationMessage1;
+    @FXML
+    private Text registationMessage2;
+    @FXML
+    private Text registationMessage3;
+
+
 
     @FXML
     private void initialize() {
@@ -46,7 +57,27 @@ public class Registration {
 
     private void changeLanguage(String language) {
         TextLanguage.setText(language);
-        // Здесь вы можете выполнить другие действия, связанные с изменением языка
+        switch(language) {
+            case "Английский (Австралия)": language =  "en";
+                break;
+            case "Русский": language = "ru";
+                break;
+            case "Датский": language = "da";
+                break;
+            case "Словацкий":  language = "sk";
+                break;
+        }
+
+        Locale locale = new Locale(language); // Создаем объект Locale для выбранного языка
+        ResourceBundle bundle = ResourceBundle.getBundle("locales/gui", locale);
+        String message1 = bundle.getString("registation_message_1");
+        String message2 = bundle.getString("registation_message_2");
+        String message3 = bundle.getString("registation_message_3");
+
+        registationMessage1.setText(message1);
+        registationMessage2.setText(message2);
+        registationMessage3.setText(message3);
+
     }
 
     private void handleOkButtonClick() throws IOException {

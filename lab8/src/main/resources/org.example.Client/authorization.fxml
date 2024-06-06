@@ -14,9 +14,9 @@
          <children>
             <PasswordField fx:id="UserPassword" layoutX="142.0" layoutY="244.0" prefHeight="37.0" prefWidth="256.0" />
             <TextField fx:id="UserLogin" layoutX="142.0" layoutY="163.0" prefHeight="37.0" prefWidth="256.0" />
-            <Text layoutX="142.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введите пароль:" />
-            <Text layoutX="142.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введите логин:" />
-            <Text layoutX="194.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Авторизация" textAlignment="CENTER">
+            <Text fx:id="passwordText" layoutX="142.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введите пароль:" />
+            <Text fx:id="loginText" layoutX="142.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введите логин:" />
+            <Text fx:id="authText" layoutX="194.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Авторизация" textAlignment="CENTER">
                <font>
                   <Font size="23.0" />
                </font>

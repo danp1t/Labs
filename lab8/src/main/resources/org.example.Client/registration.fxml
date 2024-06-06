@@ -18,17 +18,17 @@
                 <MenuButton fx:id="TextLanguage" layoutX="424.0" layoutY="52.0" mnemonicParsing="false" text="Русский">
                 </MenuButton>
             <Button fx:id="Ok" layoutX="253.0" layoutY="332.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Ok" />
-            <Text layoutX="89.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Логин не обнаружен в базе данных" textAlignment="CENTER">
+            <Text fx:id="registationMessage1" layoutX="89.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Логин не обнаружен в базе данных" textAlignment="CENTER">
                <font>
                   <Font size="23.0" />
                </font>
             </Text>
-            <Text layoutX="40.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Поэтому будет создан новый пользователь" textAlignment="CENTER">
+            <Text fx:id="registationMessage2" layoutX="40.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Поэтому будет создан новый пользователь" textAlignment="CENTER">
                <font>
                   <Font size="23.0" />
                </font>
             </Text>
-            <Text layoutX="100.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="с введенным логином и паролем" textAlignment="CENTER">
+            <Text fx:id="registationMessage3"  layoutX="100.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="с введенным логином и паролем" textAlignment="CENTER">
                <font>
                   <Font size="23.0" />
                </font>
