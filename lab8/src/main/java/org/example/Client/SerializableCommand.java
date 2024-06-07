@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class SerializableCommand {
     public static Commands getCommand(String line, DatagramChannel channel, InetSocketAddress serverAddress, ByteBuffer buffer,
-    String login, String password) throws IOException, InterruptedException {
+    String login, String password, StudyGroup element) throws IOException, InterruptedException {
 
         ClientListCommands clientListCommands = new ClientListCommands();
         Map<String, Integer> commands = clientListCommands.getCommands();
@@ -94,14 +94,13 @@ public class SerializableCommand {
         }
         else if (type == 4) {
             command = new Commands(line.strip().split(" ")[0], login, password);
-        } else if (type == 2) {
+        }
+        else if (type == 2) {
             if (line.split(" ").length != 1) {
                 System.out.println("Команда не должна содержать аргументов");
             }
             else {
             //пнуть сервер и спросить следующий id для коллекции.
-                ElementManager elementManager = new ElementManager();
-                StudyGroup element = elementManager.createElement();
                 command = new Commands(line.strip().split(" ")[0], element, login, password);
             }
         }
@@ -110,8 +109,6 @@ public class SerializableCommand {
                 System.out.println("Команда должна содержать 1 аргумент");
             }
             else {
-                ElementManager elementManager = new ElementManager();
-                StudyGroup element = elementManager.createElement();
                 command = new Commands(line.strip().split(" ")[0], line.strip().split(" ")[1], element, login, password);
             }
         }

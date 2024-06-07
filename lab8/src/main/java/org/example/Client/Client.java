@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.Collections.StudyGroup;
 
 
 import java.io.IOException;
@@ -84,8 +85,9 @@ class NetworkThread implements Runnable {
             System.out.println("Клиент запущен!");
             while (!flag) {
                 //Отправить команду на сервер
+                StudyGroup element = new StudyGroup();
                 String line = "authorizations";
-                Commands command = getCommand(line, channel, serverAddress, buffer, login, password);
+                Commands command = getCommand(line, channel, serverAddress, buffer, login, password, element);
                 buffer = sendCommand(command, channel, serverAddress, buffer);
                 int flag1 = getAnswer(buffer, channel);
                 if (flag1 == 0) {flag = false;}
@@ -96,7 +98,8 @@ class NetworkThread implements Runnable {
                 buffer.clear();
                 System.out.println("Введите команду: ");
                 String line = sc.nextLine();
-                Commands command = getCommand(line, channel, serverAddress, buffer, login, password);
+                StudyGroup element = new StudyGroup();
+                Commands command = getCommand(line, channel, serverAddress, buffer, login, password, element);
                 if (Objects.isNull(command)) {
                     continue;
                 }

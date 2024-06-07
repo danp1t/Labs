@@ -5,9 +5,11 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class ClientResponds {
-    public static boolean getRespond(ByteBuffer buffer, DatagramChannel channel) throws IOException {
+    public static ArrayList<String> getRespond(ByteBuffer buffer, DatagramChannel channel) throws IOException {
+        ArrayList<String> answer = new ArrayList<String>();
         byte[] data = new byte[buffer.remaining()];
         boolean flag = false;
         buffer.get(data);
@@ -23,12 +25,11 @@ public class ClientResponds {
                     .filter(c -> c != 0)
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
+            answer.add(receivedMessage);
             System.out.println(receivedMessage);
             System.out.println();
-            if (receivedMessage.length() > 1) flag = true;
-            else flag = false;
         }
         buffer.clear();
-return flag;
+return answer;
     }
 }

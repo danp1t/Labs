@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.example.Collections.StudyGroup;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -110,8 +111,9 @@ public class Authorization {
             //Авторизация
             while (!flag) {
                 //Отправить команду на сервер
+                StudyGroup element = new StudyGroup();
                 String line = "authorizations";
-                Commands command = getCommand(line, channel, serverAddress, buffer, login, password);
+                Commands command = getCommand(line, channel, serverAddress, buffer, login, password, element);
                 buffer = sendCommand(command, channel, serverAddress, buffer);
                 flag1 = getAnswer(buffer, channel);
                 if (flag1 == 0) {flag = false;}

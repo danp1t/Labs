@@ -10,31 +10,31 @@
       <AnchorPane prefHeight="460.0" prefWidth="718.0">
          <children>
             <MenuButton fx:id="TextLanguage" layoutX="470.0" layoutY="31.0" mnemonicParsing="false" text="Русский" />
-            <Text layoutX="186.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Список команд" textAlignment="CENTER">
+            <Text fx:id="helpMain" layoutX="186.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Список команд" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="27.0" />
                </font>
             </Text>
-            <Text layoutX="15.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="add {element} - добавляет новый элемент в коллекцию" />
-            <Text layoutX="14.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="add_if_min {element} - добавляет новый элемент в коллекцию," />
-            <Text layoutX="15.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="если его значение меньше, чем у наименьшего элемента этой коллекции" />
-            <Text layoutX="14.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="execute_script file_name - считывает и исполняет скрипт из указанного файла" />
-            <Text layoutX="15.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="show - выводит в стандартный поток вывода все элементы коллекции в строковом представлении" />
-            <Text layoutX="13.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="clear - очищает коллекцию" />
-            <Text layoutX="13.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="update id {element} - обновляет значение элемента коллекции, id которого равен заданному" />
-            <Text layoutX="13.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="remove_by_id id - удаляет элемент из коллекции по его id" />
-            <Text layoutX="13.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="add_if_max {element} - добавляет новый элемент в коллекцию, " />
-            <Text layoutX="13.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="если его значение превышает значение наибольшего элемента этой коллекции" />
-            <Text layoutX="15.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="history - выводит последние 13 команд (без их аргументов)" />
-            <Text layoutX="15.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="count_greater_than_average_mark averageMark - выводит количество элементов," />
-            <Text layoutX="15.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="значение поля averageMark которых больше заданного" />
-            <Text layoutX="15.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="help - выводит справку по доступным командам" />
-            <Text layoutX="15.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="exit - завершает программу" />
-            <Text layoutX="15.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" text="filter_contains_name name - выводит элементы," />
-            <Text layoutX="15.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="значение поля name которых содержит заданную подстроку" />
-            <Text layoutX="15.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min_by_semester_enum - выводит любой объект из коллекции," />
-            <Text layoutX="15.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="значение поля semesterEnum которого является минимальным" />
-            <Text layoutX="15.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="info - выводит в стандартный поток вывода информацию о коллекции" />
+            <Text fx:id="add" layoutX="15.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="add {element} - добавляет новый элемент в коллекцию" />
+            <Text fx:id="addIfMin" layoutX="14.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="add_if_min {element} - добавляет новый элемент в коллекцию," />
+            <Text fx:id="addIfMin2" layoutX="15.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="если его значение меньше, чем у наименьшего элемента этой коллекции" />
+            <Text fx:id="execute" layoutX="14.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="execute_script file_name - считывает и исполняет скрипт из указанного файла" />
+            <Text fx:id="show" layoutX="15.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="show - выводит в стандартный поток вывода все элементы коллекции в строковом представлении" />
+            <Text fx:id="clear" layoutX="13.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="clear - очищает коллекцию" />
+            <Text fx:id="update" layoutX="13.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="update id {element} - обновляет значение элемента коллекции, id которого равен заданному" />
+            <Text fx:id="remove" layoutX="13.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="remove_by_id id - удаляет элемент из коллекции по его id" />
+            <Text fx:id="addIfMax" layoutX="13.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="add_if_max {element} - добавляет новый элемент в коллекцию, " />
+            <Text fx:id="addIfMax2" layoutX="13.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="если его значение превышает значение наибольшего элемента этой коллекции" />
+            <Text fx:id="history" layoutX="15.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="history - выводит последние 13 команд (без их аргументов)" />
+            <Text fx:id="count" layoutX="15.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="count_greater_than_average_mark averageMark - выводит количество элементов," />
+            <Text fx:id="count2" layoutX="15.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="значение поля averageMark которых больше заданного" />
+            <Text fx:id="help" layoutX="15.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="help - выводит справку по доступным командам" />
+            <Text fx:id="exit" layoutX="15.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="exit - завершает программу" />
+            <Text fx:id="filter" layoutX="15.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" text="filter_contains_name name - выводит элементы," />
+            <Text fx:id="filter2" layoutX="15.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="значение поля name которых содержит заданную подстроку" />
+            <Text fx:id="minBySem" layoutX="15.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min_by_semester_enum - выводит любой объект из коллекции," />
+            <Text fx:id="minBySem2" layoutX="15.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="значение поля semesterEnum которого является минимальным" />
+            <Text fx:id="info" layoutX="15.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="info - выводит в стандартный поток вывода информацию о коллекции" />
          </children>
       </AnchorPane>
    </children>

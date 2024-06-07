@@ -63,12 +63,12 @@
                      <Font name="Segoe UI" size="16.0" />
                   </font>
                </Button>
-               <Button fx:id="add_if_maxButton" layoutX="804.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="add_if_max">
+               <Button fx:id="addIfMaxButton" layoutX="804.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="add_if_max">
                   <font>
                      <Font name="Segoe UI" size="16.0" />
                   </font>
                </Button>
-               <Button fx:id="add_if_minButton" layoutX="839.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="add_if_min">
+               <Button fx:id="addIfMinButton" layoutX="839.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="add_if_min">
                   <font>
                      <Font name="Segoe UI" size="16.0" />
                   </font>
@@ -78,12 +78,12 @@
                      <Font name="Segoe UI" size="16.0" />
                   </font>
                </Button>
-               <Button fx:id="min_by_semesterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="min_by_semester_enum">
+               <Button fx:id="minBySemesterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="min_by_semester_enum">
                   <font>
                      <Font name="Segoe UI" size="16.0" />
                   </font>
                </Button>
-               <Button fx:id="counter_greaterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="counter_greater_than_average_mark">
+               <Button fx:id="counterGreaterButton" layoutX="950.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="counter_greater_than_average_mark">
                   <font>
                      <Font name="Segoe UI" size="16.0" />
                   </font>
@@ -93,7 +93,7 @@
                      <Font name="Segoe UI" size="16.0" />
                   </font>
                </Button>
-               <Button fx:id="ExitButton" layoutX="768.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="exit">
+               <Button fx:id="exitButton" layoutX="768.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="exit">
                   <font>
                      <Font name="Segoe UI" size="16.0" />
                   </font>
