@@ -30,13 +30,13 @@ public class SendTables {
 
         Connection db = getConnection(url, info);
 
-        String getNextIDStudyGroup = "select who_created_id, studygroup__123.id, name_group, x, y, creation_date, students_count, average_mark, form_education, semester, users__123.id, users__123.name, users__123.birthday, users__123.hair_color, users__123.eye_color from studygroup__123 join coordinates__123 on id_coordinates=coordinates__123.id join users__123 on users__123.id=group_admin_id;";
+        String getNextIDStudyGroup = "select login, studygroup__123.id, name_group, x, y, creation_date, students_count, average_mark, form_education, semester, users__123.id, users__123.name, users__123.birthday, users__123.hair_color, users__123.eye_color from studygroup__123 join coordinates__123 on id_coordinates=coordinates__123.id join users__123 on users__123.id=group_admin_id join person__123 on who_created_id=person__123.id;";
         Statement st = db.createStatement();
         List<Table> tableList = new ArrayList<>();
         ResultSet rs = st.executeQuery(getNextIDStudyGroup);
         int number = 0;
         while(rs.next()) {
-            int whoCreatedId = rs.getInt("who_created_id");
+            String whoCreatedId = rs.getString("login");
             int id = rs.getInt("id");
             String groupName = rs.getString("name_group");
             Double x = rs.getDouble("x");

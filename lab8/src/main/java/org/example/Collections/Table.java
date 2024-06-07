@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class Table implements Serializable {
     @Serial
     private static final long serialVersionUID = 153;
-    private int whoCreatedId;
+    private String whoCreatedId;
     private int id;
     private String groupName;
     private Double x;
@@ -22,7 +22,7 @@ public class Table implements Serializable {
     private HairColor adminHairColor;
     private EyeColor adminEyeColor;
 
-    public Table(int whoCreatedId, int id, String groupName, Double x, Double y, java.time.LocalDateTime creationDate,
+    public Table(String whoCreatedId, int id, String groupName, Double x, Double y, java.time.LocalDateTime creationDate,
                  int studentsCount, Double averageMark, FormOfEducation formOfEducation, Semester semester,
                  int adminId, String adminName, java.time.LocalDate birthday, HairColor adminHairColor, EyeColor adminEyeColor) {
         this.whoCreatedId = whoCreatedId;
@@ -42,7 +42,7 @@ public class Table implements Serializable {
         this.adminEyeColor = adminEyeColor;
     }
 
-    public int getWhoCreatedId() {
+    public String getWhoCreatedId() {
         return whoCreatedId;
     }
     public int getId() {
@@ -86,6 +86,51 @@ public class Table implements Serializable {
     }
     public EyeColor getAdminEyeColor() {
         return adminEyeColor;
+    }
+    public void setWhoCreatedId(String whoCreatedId) {
+        this.whoCreatedId = whoCreatedId;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+    public void setX(Double x) {
+        this.x = x;
+    }
+    public void setY(Double y) {
+        this.y = y;
+    }
+    public void setCreationDate(java.time.LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+    public void setStudentsCount(int studentsCount) {
+        this.studentsCount = studentsCount;
+    }
+    public void setAverageMark(Double averageMark) {
+        this.averageMark = averageMark;
+    }
+    public void setFormOfEducation(FormOfEducation formOfEducation) {
+        this.formOfEducation = formOfEducation;
+    }
+    public void setSemester(Semester semester) {
+        this.semester = semester;
+    }
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
+    }
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
+    public void setBirthday(java.time.LocalDate birthday) {
+        this.birthday = birthday;
+    }
+    public void setAdminHairColor(HairColor adminHairColor) {
+        this.adminHairColor = adminHairColor;
+    }
+    public void setAdminEyeColor(EyeColor adminEyeColor) {
+        this.adminEyeColor = adminEyeColor;
     }
 
 }

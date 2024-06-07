@@ -1,9 +1,15 @@
 package org.example.Client;
 
-import javafx.animation.PathTransition;
+import javafx.animation.*;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.util.Callback;
+import javafx.util.converter.DoubleStringConverter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -11,9 +17,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.LocalDateStringConverter;
 import org.example.Collections.*;
 import org.example.Filter;
 
@@ -30,6 +43,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static org.example.Client.Authorization.login;
@@ -108,6 +122,10 @@ public class Main {
     @FXML
     private TableColumn<Table, EyeColor> EyeColumn;
 
+    private HashMap<String, Color> colorMap;
+    private HashMap<Integer, Label> infoMap;
+    private Random random;
+
     private void updateTable() {
         ObservableList<Table> tables = FXCollections.observableArrayList();
         try (DatagramChannel channel = DatagramChannel.open()) {
@@ -135,7 +153,7 @@ public class Main {
                 ObjectInputStream ois = new ObjectInputStream(bais);
                 Table receivedTable = (Table) ois.readObject();
                 ois.close();
-                int ownerID = receivedTable.getWhoCreatedId();
+                String ownerID = receivedTable.getWhoCreatedId();
                 int ID = receivedTable.getId();
                 String name = receivedTable.getGroupName();
                 Double x = receivedTable.getX();
@@ -167,10 +185,359 @@ public class Main {
                 BithdayColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
                 HairColumn.setCellValueFactory(new PropertyValueFactory<>("adminHairColor"));
                 EyeColumn.setCellValueFactory(new PropertyValueFactory<>("adminEyeColor"));
+
             }
+
+            nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            xColumn.setCellFactory(TextFieldTableCell.<Table, Double>forTableColumn(new DoubleStringConverter()));
+            yColumn.setCellFactory(TextFieldTableCell.<Table, Double>forTableColumn(new DoubleStringConverter()));
+            studentCountColumn.setCellFactory(TextFieldTableCell.<Table, Integer>forTableColumn(new IntegerStringConverter()));
+            averageMarkColumn.setCellFactory(TextFieldTableCell.<Table, Double>forTableColumn(new DoubleStringConverter()));
+            BithdayColumn.setCellFactory(TextFieldTableCell.<Table, LocalDate>forTableColumn(new LocalDateStringConverter()));
+            AdminNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+
 
 
             tableTable.setItems(tables);
+            tableTable.setEditable(true);
+
+
+            tableTable.setRowFactory(tv -> {
+                TableRow<Table> row = new TableRow<>();
+                row.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 2 && !row.isEmpty()) {
+                        Table rowData = row.getItem();
+                        if (rowData.getWhoCreatedId().equals(login)) {
+                            nameColumn.setEditable(true);
+                            xColumn.setEditable(true);
+                            yColumn.setEditable(true);
+                            studentCountColumn.setEditable(true);
+                            averageMarkColumn.setEditable(true);
+                            BithdayColumn.setEditable(true);
+                            AdminNameColumn.setEditable(true);
+
+                        } else {
+                            nameColumn.setEditable(false);
+                            xColumn.setEditable(false);
+                            yColumn.setEditable(false);
+                            studentCountColumn.setEditable(false);
+                            averageMarkColumn.setEditable(false);
+                            BithdayColumn.setEditable(false);
+                            AdminNameColumn.setEditable(false);
+                        }
+                    }
+                });
+                return row;
+            });
+            nameColumn.setOnEditCommit(event -> {
+                Table editedTable = event.getTableView().getItems().get(event.getTablePosition().getRow());
+                TableColumn<Table, ?> editedColumn = event.getTableColumn();
+                Object newValue = event.getNewValue();
+
+                // Добавьте код для сбора остальных данных из строки
+
+                // Отправить данные на сервер (замените эту строку на ваш реальный метод отправки данных на сервер)
+                Integer id = editedTable.getId();
+                String name = (String) newValue;
+                Double x1 = editedTable.getX();
+                Double y1 = editedTable.getY();
+                Integer studentCount = editedTable.getStudentsCount();
+                Double averageMark1 = editedTable.getAverageMark();
+                FormOfEducation formOfEducation = editedTable.getFormOfEducation();
+                Semester semester1 = editedTable.getSemester();
+                String adminName1 = editedTable.getAdminName();
+                java.time.LocalDate birthday1 = editedTable.getBirthday();
+                EyeColor eyeColor = editedTable.getAdminEyeColor();
+                HairColor hairColor = editedTable.getAdminHairColor();
+                Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
+                Coordinates coordinates = new Coordinates(x1, y1);
+                LocalDateTime creatingData = createDateCreating();
+                StudyGroup studyGroup = new StudyGroup(id, name, coordinates, creatingData, studentCount, averageMark1, formOfEducation, semester1, admin);
+
+                try (DatagramChannel channel1 = DatagramChannel.open()) {
+                    channel1.configureBlocking(false);
+                    int port1 = 8932;
+                    ByteBuffer buffer1 = ByteBuffer.allocate(8192);
+                    InetSocketAddress serverAddress1 = new InetSocketAddress("192.168.10.80", port1);
+                    String line1 = "update " + id;
+                    StudyGroup element1 = studyGroup;
+                    Commands command1 = getCommand(line1, channel1, serverAddress1, buffer1, login, password, element1);
+                    sendCommand(command1, channel1, serverAddress1, buffer1);
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                updateTable();
+
+            });
+            xColumn.setOnEditCommit(event -> {
+                Table editedTable = event.getTableView().getItems().get(event.getTablePosition().getRow());
+                TableColumn<Table, ?> editedColumn = event.getTableColumn();
+                Object newValue = event.getNewValue();
+
+                // Добавьте код для сбора остальных данных из строки
+
+                // Отправить данные на сервер (замените эту строку на ваш реальный метод отправки данных на сервер)
+                Integer id = editedTable.getId();
+                String name = editedTable.getGroupName();
+                Double x1 = (Double) newValue;
+                Double y1 = editedTable.getY();
+                Integer studentCount = editedTable.getStudentsCount();
+                Double averageMark1 = editedTable.getAverageMark();
+                FormOfEducation formOfEducation = editedTable.getFormOfEducation();
+                Semester semester1 = editedTable.getSemester();
+                String adminName1 = editedTable.getAdminName();
+                java.time.LocalDate birthday1 = editedTable.getBirthday();
+                EyeColor eyeColor = editedTable.getAdminEyeColor();
+                HairColor hairColor = editedTable.getAdminHairColor();
+                Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
+                Coordinates coordinates = new Coordinates(x1, y1);
+                LocalDateTime creatingData = createDateCreating();
+                StudyGroup studyGroup = new StudyGroup(id, name, coordinates, creatingData, studentCount, averageMark1, formOfEducation, semester1, admin);
+
+                try (DatagramChannel channel1 = DatagramChannel.open()) {
+                    channel1.configureBlocking(false);
+                    int port1 = 8932;
+                    ByteBuffer buffer1 = ByteBuffer.allocate(8192);
+                    InetSocketAddress serverAddress1 = new InetSocketAddress("192.168.10.80", port1);
+                    String line1 = "update " + id;
+                    StudyGroup element1 = studyGroup;
+                    Commands command1 = getCommand(line1, channel1, serverAddress1, buffer1, login, password, element1);
+                    sendCommand(command1, channel1, serverAddress1, buffer1);
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                updateTable();
+
+            });
+            yColumn.setOnEditCommit(event -> {
+                Table editedTable = event.getTableView().getItems().get(event.getTablePosition().getRow());
+                TableColumn<Table, ?> editedColumn = event.getTableColumn();
+                Object newValue = event.getNewValue();
+
+                // Добавьте код для сбора остальных данных из строки
+
+                // Отправить данные на сервер (замените эту строку на ваш реальный метод отправки данных на сервер)
+                Integer id = editedTable.getId();
+                String name = editedTable.getGroupName();
+                Double x1 = editedTable.getX();
+                Double y1 = (Double) newValue;
+                Integer studentCount = editedTable.getStudentsCount();
+                Double averageMark1 = editedTable.getAverageMark();
+                FormOfEducation formOfEducation = editedTable.getFormOfEducation();
+                Semester semester1 = editedTable.getSemester();
+                String adminName1 = editedTable.getAdminName();
+                java.time.LocalDate birthday1 = editedTable.getBirthday();
+                EyeColor eyeColor = editedTable.getAdminEyeColor();
+                HairColor hairColor = editedTable.getAdminHairColor();
+                Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
+                Coordinates coordinates = new Coordinates(x1, y1);
+                LocalDateTime creatingData = createDateCreating();
+                StudyGroup studyGroup = new StudyGroup(id, name, coordinates, creatingData, studentCount, averageMark1, formOfEducation, semester1, admin);
+
+                try (DatagramChannel channel1 = DatagramChannel.open()) {
+                    channel1.configureBlocking(false);
+                    int port1 = 8932;
+                    ByteBuffer buffer1 = ByteBuffer.allocate(8192);
+                    InetSocketAddress serverAddress1 = new InetSocketAddress("192.168.10.80", port1);
+                    String line1 = "update " + id;
+                    StudyGroup element1 = studyGroup;
+                    Commands command1 = getCommand(line1, channel1, serverAddress1, buffer1, login, password, element1);
+                    sendCommand(command1, channel1, serverAddress1, buffer1);
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                updateTable();
+
+            });
+            studentCountColumn.setOnEditCommit(event -> {
+                Table editedTable = event.getTableView().getItems().get(event.getTablePosition().getRow());
+                TableColumn<Table, ?> editedColumn = event.getTableColumn();
+                Object newValue = event.getNewValue();
+
+                // Добавьте код для сбора остальных данных из строки
+
+                // Отправить данные на сервер (замените эту строку на ваш реальный метод отправки данных на сервер)
+                Integer id = editedTable.getId();
+                String name = editedTable.getGroupName();
+                Double x1 = editedTable.getX();
+                Double y1 = editedTable.getY();
+                Integer studentCount = (Integer) newValue;
+                Double averageMark1 = editedTable.getAverageMark();
+                FormOfEducation formOfEducation = editedTable.getFormOfEducation();
+                Semester semester1 = editedTable.getSemester();
+                String adminName1 = editedTable.getAdminName();
+                java.time.LocalDate birthday1 = editedTable.getBirthday();
+                EyeColor eyeColor = editedTable.getAdminEyeColor();
+                HairColor hairColor = editedTable.getAdminHairColor();
+                Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
+                Coordinates coordinates = new Coordinates(x1, y1);
+                LocalDateTime creatingData = createDateCreating();
+                StudyGroup studyGroup = new StudyGroup(id, name, coordinates, creatingData, studentCount, averageMark1, formOfEducation, semester1, admin);
+
+                try (DatagramChannel channel1 = DatagramChannel.open()) {
+                    channel1.configureBlocking(false);
+                    int port1 = 8932;
+                    ByteBuffer buffer1 = ByteBuffer.allocate(8192);
+                    InetSocketAddress serverAddress1 = new InetSocketAddress("192.168.10.80", port1);
+                    String line1 = "update " + id;
+                    StudyGroup element1 = studyGroup;
+                    Commands command1 = getCommand(line1, channel1, serverAddress1, buffer1, login, password, element1);
+                    sendCommand(command1, channel1, serverAddress1, buffer1);
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                updateTable();
+
+            });
+            averageMarkColumn.setOnEditCommit(event -> {
+                Table editedTable = event.getTableView().getItems().get(event.getTablePosition().getRow());
+                TableColumn<Table, ?> editedColumn = event.getTableColumn();
+                Object newValue = event.getNewValue();
+
+                // Добавьте код для сбора остальных данных из строки
+
+                // Отправить данные на сервер (замените эту строку на ваш реальный метод отправки данных на сервер)
+                Integer id = editedTable.getId();
+                String name = editedTable.getGroupName();
+                Double x1 = editedTable.getX();
+                Double y1 = editedTable.getY();
+                Integer studentCount = editedTable.getStudentsCount();
+                Double averageMark1 = (Double) newValue;
+                FormOfEducation formOfEducation = editedTable.getFormOfEducation();
+                Semester semester1 = editedTable.getSemester();
+                String adminName1 = editedTable.getAdminName();
+                java.time.LocalDate birthday1 = editedTable.getBirthday();
+                EyeColor eyeColor = editedTable.getAdminEyeColor();
+                HairColor hairColor = editedTable.getAdminHairColor();
+                Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
+                Coordinates coordinates = new Coordinates(x1, y1);
+                LocalDateTime creatingData = createDateCreating();
+                StudyGroup studyGroup = new StudyGroup(id, name, coordinates, creatingData, studentCount, averageMark1, formOfEducation, semester1, admin);
+
+                try (DatagramChannel channel1 = DatagramChannel.open()) {
+                    channel1.configureBlocking(false);
+                    int port1 = 8932;
+                    ByteBuffer buffer1 = ByteBuffer.allocate(8192);
+                    InetSocketAddress serverAddress1 = new InetSocketAddress("192.168.10.80", port1);
+                    String line1 = "update " + id;
+                    StudyGroup element1 = studyGroup;
+                    Commands command1 = getCommand(line1, channel1, serverAddress1, buffer1, login, password, element1);
+                    sendCommand(command1, channel1, serverAddress1, buffer1);
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                updateTable();
+
+            });
+            BithdayColumn.setOnEditCommit(event -> {
+                Table editedTable = event.getTableView().getItems().get(event.getTablePosition().getRow());
+                TableColumn<Table, ?> editedColumn = event.getTableColumn();
+                Object newValue = event.getNewValue();
+
+                // Добавьте код для сбора остальных данных из строки
+
+                // Отправить данные на сервер (замените эту строку на ваш реальный метод отправки данных на сервер)
+                Integer id = editedTable.getId();
+                String name = editedTable.getGroupName();
+                Double x1 = editedTable.getX();
+                Double y1 = editedTable.getY();
+                Integer studentCount = editedTable.getStudentsCount();
+                Double averageMark1 = editedTable.getAverageMark();
+                FormOfEducation formOfEducation = editedTable.getFormOfEducation();
+                Semester semester1 = editedTable.getSemester();
+                String adminName1 = editedTable.getAdminName();
+                java.time.LocalDate birthday1 = (LocalDate) newValue;
+                EyeColor eyeColor = editedTable.getAdminEyeColor();
+                HairColor hairColor = editedTable.getAdminHairColor();
+                Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
+                Coordinates coordinates = new Coordinates(x1, y1);
+                LocalDateTime creatingData = createDateCreating();
+                StudyGroup studyGroup = new StudyGroup(id, name, coordinates, creatingData, studentCount, averageMark1, formOfEducation, semester1, admin);
+
+                try (DatagramChannel channel1 = DatagramChannel.open()) {
+                    channel1.configureBlocking(false);
+                    int port1 = 8932;
+                    ByteBuffer buffer1 = ByteBuffer.allocate(8192);
+                    InetSocketAddress serverAddress1 = new InetSocketAddress("192.168.10.80", port1);
+                    String line1 = "update " + id;
+                    StudyGroup element1 = studyGroup;
+                    Commands command1 = getCommand(line1, channel1, serverAddress1, buffer1, login, password, element1);
+                    sendCommand(command1, channel1, serverAddress1, buffer1);
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                updateTable();
+
+            });
+            AdminNameColumn.setOnEditCommit(event -> {
+                Table editedTable = event.getTableView().getItems().get(event.getTablePosition().getRow());
+                TableColumn<Table, ?> editedColumn = event.getTableColumn();
+                Object newValue = event.getNewValue();
+
+                // Добавьте код для сбора остальных данных из строки
+
+                // Отправить данные на сервер (замените эту строку на ваш реальный метод отправки данных на сервер)
+                Integer id = editedTable.getId();
+                String name = editedTable.getGroupName();
+                Double x1 = editedTable.getX();
+                Double y1 = editedTable.getY();
+                Integer studentCount = editedTable.getStudentsCount();
+                Double averageMark1 = editedTable.getAverageMark();
+                FormOfEducation formOfEducation = editedTable.getFormOfEducation();
+                Semester semester1 = editedTable.getSemester();
+                String adminName1 = (String) newValue;
+                java.time.LocalDate birthday1 = editedTable.getBirthday();
+                EyeColor eyeColor = editedTable.getAdminEyeColor();
+                HairColor hairColor = editedTable.getAdminHairColor();
+                Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
+                Coordinates coordinates = new Coordinates(x1, y1);
+                LocalDateTime creatingData = createDateCreating();
+                StudyGroup studyGroup = new StudyGroup(id, name, coordinates, creatingData, studentCount, averageMark1, formOfEducation, semester1, admin);
+
+                try (DatagramChannel channel1 = DatagramChannel.open()) {
+                    channel1.configureBlocking(false);
+                    int port1 = 8932;
+                    ByteBuffer buffer1 = ByteBuffer.allocate(8192);
+                    InetSocketAddress serverAddress1 = new InetSocketAddress("192.168.10.80", port1);
+                    String line1 = "update " + id;
+                    StudyGroup element1 = studyGroup;
+                    Commands command1 = getCommand(line1, channel1, serverAddress1, buffer1, login, password, element1);
+                    sendCommand(command1, channel1, serverAddress1, buffer1);
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                updateTable();
+
+            });
 
 
 
@@ -183,15 +550,16 @@ public class Main {
 
     @FXML
     private void initialize() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        updateTable();
+
+        colorMap = new HashMap<>();
+        infoMap = new HashMap<>();
+        random = new Random();
+
         removeButton.setOnAction(event -> handleRemoveButtonClick());
         addIfMaxButton.setOnAction(event -> handleAddIfMaxButtonClick());
         addIfMinButton.setOnAction(event -> handleAddIfMinButtonClick());
-        updateTable();
+
         addButton.setOnAction(event -> handleAddButtonClick());
         filterButton.setOnAction(event -> handleFilterButtonClick());
         minBySemesterButton.setOnAction(event -> handleMinBySemButtonClick());
@@ -292,7 +660,7 @@ public class Main {
                 ObjectInputStream ois = new ObjectInputStream(bais);
                 Table receivedTable = (Table) ois.readObject();
                 ois.close();
-                int ownerID = receivedTable.getWhoCreatedId();
+                String ownerID = receivedTable.getWhoCreatedId();
                 int ID = receivedTable.getId();
                 String name = receivedTable.getGroupName();
                 Double x = receivedTable.getX();
@@ -352,8 +720,8 @@ public class Main {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }}
-        ;
+        }
+    }
     private void handleRemoveButtonClick() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Введите значение поля id:");
@@ -389,6 +757,7 @@ public class Main {
 
 
     }
+
     private void handleAddIfMaxButtonClick() {
         FXMLLoader loader = new FXMLLoader();
         // Создаем контроллер для первой сцены
@@ -414,10 +783,12 @@ public class Main {
 
     public void visualise(boolean refresh) {
         visualPane.getChildren().clear();
-        //infoMap.clear();
+        infoMap.clear();
 
         for (var group : tableTable.getItems()) {
-            var creatorName = "Danil";
+
+            Table table = (Table) group;
+            var creatorName = table.getWhoCreatedId();
 
             if (!colorMap.containsKey(creatorName)) {
                 var r = random.nextDouble();
@@ -430,87 +801,123 @@ public class Main {
                 }
                 colorMap.put(creatorName, Color.color(r, g, b));
             }
+            // Вычисляем размер куба в зависимости от studentsCount
+            var size = Math.min(100, Math.max(50, table.getStudentsCount() * 1.5) / 2);
 
-            var size = Math.min(125, Math.max(75, product.getPrice() * 2) / 2);
+// Создаем куб с вычисленным размером
 
-            var circle = new Circle(size, colorMap.get(creatorName));
-            double x = Math.abs(product.getCoordinates().getX());
+            var rectangle = new Rectangle(size, size, colorMap.get(creatorName));
+            double x = Math.abs(table.getX());
+            double y = Math.abs(table.getY());
             while (x >= 720) {
                 x = x / 10;
             }
-            double y = Math.abs(product.getCoordinates().getY());
-            while (y >= 370) {
-                y = y / 3;
+            while (y >= 370 || y < 100) {
+                y = y / 2;
             }
-            if (y < 100) y += 125;
 
-            var id = new Text('#' + String.valueOf(product.getId()));
-            var info = new Label(new ProductPresenter(localizator).describe(product));
+            var id = new Text('#' + String.valueOf(table.getId()));
+            String whoCreatedId = table.getWhoCreatedId();
+            String groupName = table.getGroupName();
+            Double xStr = table.getX();
+            Double yStr = table.getY();
+            java.time.LocalDateTime creationDate = table.getCreationDate();
+            int studentsCount = table.getStudentsCount();
+            Double averageMark = table.getAverageMark();
+            FormOfEducation formOfEducation = table.getFormOfEducation();
+            Semester semester = table.getSemester();
+            int adminId = table.getAdminId();
+            String adminName = table.getAdminName();
+            java.time.LocalDate birthday = table.getBirthday();
+            HairColor adminHairColor = table.getAdminHairColor();
+            EyeColor adminEyeColor = table.getAdminEyeColor();
+            String label = "whoCreatedID = " + whoCreatedId + "\n" + "groupName = " + groupName + "\n" + "x = " + xStr + "\n" + "y = " +yStr + "\n" + "creationDate = " + creationDate + "\n" + "studentsCount =" + studentsCount + "\n" + "averageMark = " + averageMark + "\n" + "formOfEducation =" + formOfEducation + "\n" + "semester = " + semester + "\n" + "adminId = " + adminId + "\n" + "adminName = " + adminName + "\n" + "birthday = " + birthday + "\n" + "adminHairColor =" + adminHairColor + "\n" + "adminEyeColor =" + adminEyeColor + "\n";
+
+            System.out.println(label);
+            var info = new Label(label);
 
             info.setVisible(false);
-            circle.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getClickCount() == 2) {
-                    doubleClickUpdate(product);
-                }
-            });
 
-            circle.setOnMouseEntered(mouseEvent -> {
+            rectangle.setOnMouseEntered(mouseEvent -> {
                 id.setVisible(false);
                 info.setVisible(true);
-                circle.setFill(colorMap.get(creatorName).brighter());
+                rectangle.setFill(colorMap.get(creatorName).brighter());
             });
 
-            circle.setOnMouseExited(mouseEvent -> {
+            rectangle.setOnMouseExited(mouseEvent -> {
                 id.setVisible(true);
                 info.setVisible(false);
-                circle.setFill(colorMap.get(creatorName));
+                rectangle.setFill(colorMap.get(creatorName));
             });
 
-            id.setFont(Font.font("Segoe UI", size / 1.4));
+            id.setFont(Font.font("Segoe UI", size / 5));
             info.setStyle("-fx-background-color: white; -fx-border-color: #c0c0c0; -fx-border-width: 2");
             info.setFont(Font.font("Segoe UI", 15));
 
-            visualPane.getChildren().add(circle);
+            visualPane.getChildren().add(rectangle);
             visualPane.getChildren().add(id);
 
-            infoMap.put(product.getId(), info);
+            infoMap.put(table.getId(), info);
+
             if (!refresh) {
-                var path = new Path();
-                path.getElements().add(new MoveTo(-500, -150));
+                RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1.5), rectangle);
+                rotateTransition.setByAngle(360);
+                rotateTransition.setCycleCount(Animation.INDEFINITE);
+                rotateTransition.setAutoReverse(false);
+                rotateTransition.play();
+
+                ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(1), rectangle);
+                scaleTransition.setByX(1.2);
+                scaleTransition.setByY(1.2);
+                scaleTransition.setCycleCount(2);
+                scaleTransition.setAutoReverse(true);
+                scaleTransition.play();
+
+                Path path = new Path();
+                path.getElements().add(new MoveTo(1500, 200));
                 path.getElements().add(new HLineTo(x));
                 path.getElements().add(new VLineTo(y));
-                id.translateXProperty().bind(circle.translateXProperty().subtract(id.getLayoutBounds().getWidth() / 2));
-                id.translateYProperty().bind(circle.translateYProperty().add(id.getLayoutBounds().getHeight() / 4));
-                info.translateXProperty().bind(circle.translateXProperty().add(circle.getRadius()));
-                info.translateYProperty().bind(circle.translateYProperty().subtract(120));
-                var transition = new PathTransition();
-                transition.setDuration(Duration.millis(750));
-                transition.setNode(circle);
-                transition.setPath(path);
-                transition.setOrientation(PathTransition.OrientationType.NONE);
-                transition.play();
+
+                PathTransition pathTransition = new PathTransition();
+                pathTransition.setDuration(Duration.seconds(1));
+                pathTransition.setNode(rectangle);
+                pathTransition.setPath(path);
+                pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+                pathTransition.play();
+
+                id.setLayoutX(x - id.getLayoutBounds().getWidth() / 2);
+                id.setLayoutY(y);
+
+                info.setLayoutX(x + size * 1.5);
+                info.setLayoutY(y - 50);
             } else {
-                circle.setCenterX(x);
-                circle.setCenterY(y);
-                info.translateXProperty().bind(circle.centerXProperty().add(circle.getRadius()));
-                info.translateYProperty().bind(circle.centerYProperty().subtract(120));
-                id.translateXProperty().bind(circle.centerXProperty().subtract(id.getLayoutBounds().getWidth() / 2));
-                id.translateYProperty().bind(circle.centerYProperty().add(id.getLayoutBounds().getHeight() / 4));
-                var darker = new FillTransition(Duration.millis(750), circle);
-                darker.setFromValue(colorMap.get(creatorName));
-                darker.setToValue(colorMap.get(creatorName).darker().darker());
-                var brighter = new FillTransition(Duration.millis(750), circle);
-                brighter.setFromValue(colorMap.get(creatorName).darker().darker());
-                brighter.setToValue(colorMap.get(creatorName));
-                var transition = new SequentialTransition(darker, brighter);
-                transition.play();
+                rectangle.setX(x);
+                rectangle.setY(y);
+                id.setLayoutX(x - id.getLayoutBounds().getWidth() / 2);
+                id.setLayoutY(y);
+                info.setLayoutX(x + size * 1.5);
+                info.setLayoutY(y - 50);
+
+                FillTransition darkTransition = new FillTransition(Duration.seconds(0.75), rectangle);
+                darkTransition.setToValue(colorMap.get(creatorName).darker().darker());
+
+                FillTransition brightTransition = new FillTransition(Duration.seconds(0.75), rectangle);
+                brightTransition.setToValue(colorMap.get(creatorName));
+
+                SequentialTransition sequentialTransition = new SequentialTransition(darkTransition, brightTransition);
+                sequentialTransition.setCycleCount(2);
+                sequentialTransition.setAutoReverse(true);
+                sequentialTransition.play();
             }
+
         }
 
         for (var id : infoMap.keySet()) {
             visualPane.getChildren().add(infoMap.get(id));
         }
     }
+
+
 
 
 
@@ -617,7 +1024,7 @@ public class Main {
                 ObjectInputStream ois = new ObjectInputStream(bais);
                 Table receivedTable = (Table) ois.readObject();
                 ois.close();
-                int ownerID = receivedTable.getWhoCreatedId();
+                String ownerID = receivedTable.getWhoCreatedId();
                 int ID = receivedTable.getId();
                 String name = receivedTable.getGroupName();
                 Double x = receivedTable.getX();
@@ -812,5 +1219,11 @@ public class Main {
 
 
         // Здесь вы можете выполнить другие действия, связанные с изменением языка
+    }
+    private LocalDateTime createDateCreating() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        return LocalDateTime.parse(formattedDateTime, formatter);
     }
 }
