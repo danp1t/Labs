@@ -94,9 +94,9 @@ public class RemoveCommand implements Command {
                     }
                 }
             if (newStudyGroups.size() == studyGroups.size()) throw new NotCollectionIDFound();
+            lock.writeLock().unlock();
             collectionManager.setStudyGroups(newStudyGroups);
             collectionManager.getHashSet();
-            lock.writeLock().unlock();
 
 
         }

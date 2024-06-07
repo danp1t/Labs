@@ -20,6 +20,8 @@ public class ServerCommandHandler {
             Command command = commands.getCommands().get(input_command.getName());
             commands.addCommandToHistory(command);
             command.execute(input_command.getName(), input_command.getArg(), input_command.getElement(), input_command.getLogin());
+            CollectionManager collectionManager = new CollectionManager();
+            collectionManager.getHashSet();
         }
         catch (NullPointerException | FileNotFoundException e) {
             System.out.println("Команда не найдена");

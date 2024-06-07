@@ -1,5 +1,6 @@
 package org.example.Client;
 
+import javafx.animation.PathTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -61,7 +62,13 @@ public class Main {
     @FXML
     private Button addButton;
     @FXML
+    private Button removeButton;
+    @FXML
     private Button minBySemesterButton;
+    @FXML
+    private Tab visualTab;
+    @FXML
+    private AnchorPane visualPane;
     @FXML
     private Button clearButton;
     @FXML
@@ -176,6 +183,12 @@ public class Main {
 
     @FXML
     private void initialize() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        removeButton.setOnAction(event -> handleRemoveButtonClick());
         addIfMaxButton.setOnAction(event -> handleAddIfMaxButtonClick());
         addIfMinButton.setOnAction(event -> handleAddIfMinButtonClick());
         updateTable();
@@ -187,6 +200,7 @@ public class Main {
         historyButton.setOnAction(event -> handleHistoryButtonClick());
         infoButton.setOnAction(event -> handleInfoButtonClick());
         helpButton.setOnAction(event -> handleHelpButtonClick());
+        visualTab.setOnSelectionChanged(event -> visualise(false));
         clearButton.setOnAction(event -> {
             try {
                 handleClearButtonClick();
@@ -340,6 +354,41 @@ public class Main {
             throw new RuntimeException(e);
         }}
         ;
+    private void handleRemoveButtonClick() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Введите значение поля id:");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Введите значение поля id:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(value -> {
+            String id = value;
+            try (DatagramChannel channel = DatagramChannel.open()) {
+                channel.configureBlocking(false);
+                int port = 8932;
+                ByteBuffer buffer = ByteBuffer.allocate(8192);
+                InetSocketAddress serverAddress = new InetSocketAddress("192.168.10.80", port);
+                System.out.println(id);
+                String line = "remove_by_id " + id;
+                StudyGroup element = new StudyGroup();
+                Commands command = getCommand(line, channel, serverAddress, buffer, login, password, element);
+                sendCommand(command, channel, serverAddress, buffer);
+                System.out.println(getRespond(buffer, channel));
+                Thread.sleep(500);
+
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            updateTable();
+
+        });
+
+
+    }
     private void handleAddIfMaxButtonClick() {
         FXMLLoader loader = new FXMLLoader();
         // Создаем контроллер для первой сцены
@@ -362,6 +411,118 @@ public class Main {
 
         primaryStage.show();
     }
+
+    public void visualise(boolean refresh) {
+        visualPane.getChildren().clear();
+        //infoMap.clear();
+
+        for (var group : tableTable.getItems()) {
+            var creatorName = "Danil";
+
+            if (!colorMap.containsKey(creatorName)) {
+                var r = random.nextDouble();
+                var g = random.nextDouble();
+                var b = random.nextDouble();
+                if (Math.abs(r - g) + Math.abs(r - b) + Math.abs(b - g) < 0.6) {
+                    r += (1 - r) / 1.4;
+                    g += (1 - g) / 1.4;
+                    b += (1 - b) / 1.4;
+                }
+                colorMap.put(creatorName, Color.color(r, g, b));
+            }
+
+            var size = Math.min(125, Math.max(75, product.getPrice() * 2) / 2);
+
+            var circle = new Circle(size, colorMap.get(creatorName));
+            double x = Math.abs(product.getCoordinates().getX());
+            while (x >= 720) {
+                x = x / 10;
+            }
+            double y = Math.abs(product.getCoordinates().getY());
+            while (y >= 370) {
+                y = y / 3;
+            }
+            if (y < 100) y += 125;
+
+            var id = new Text('#' + String.valueOf(product.getId()));
+            var info = new Label(new ProductPresenter(localizator).describe(product));
+
+            info.setVisible(false);
+            circle.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getClickCount() == 2) {
+                    doubleClickUpdate(product);
+                }
+            });
+
+            circle.setOnMouseEntered(mouseEvent -> {
+                id.setVisible(false);
+                info.setVisible(true);
+                circle.setFill(colorMap.get(creatorName).brighter());
+            });
+
+            circle.setOnMouseExited(mouseEvent -> {
+                id.setVisible(true);
+                info.setVisible(false);
+                circle.setFill(colorMap.get(creatorName));
+            });
+
+            id.setFont(Font.font("Segoe UI", size / 1.4));
+            info.setStyle("-fx-background-color: white; -fx-border-color: #c0c0c0; -fx-border-width: 2");
+            info.setFont(Font.font("Segoe UI", 15));
+
+            visualPane.getChildren().add(circle);
+            visualPane.getChildren().add(id);
+
+            infoMap.put(product.getId(), info);
+            if (!refresh) {
+                var path = new Path();
+                path.getElements().add(new MoveTo(-500, -150));
+                path.getElements().add(new HLineTo(x));
+                path.getElements().add(new VLineTo(y));
+                id.translateXProperty().bind(circle.translateXProperty().subtract(id.getLayoutBounds().getWidth() / 2));
+                id.translateYProperty().bind(circle.translateYProperty().add(id.getLayoutBounds().getHeight() / 4));
+                info.translateXProperty().bind(circle.translateXProperty().add(circle.getRadius()));
+                info.translateYProperty().bind(circle.translateYProperty().subtract(120));
+                var transition = new PathTransition();
+                transition.setDuration(Duration.millis(750));
+                transition.setNode(circle);
+                transition.setPath(path);
+                transition.setOrientation(PathTransition.OrientationType.NONE);
+                transition.play();
+            } else {
+                circle.setCenterX(x);
+                circle.setCenterY(y);
+                info.translateXProperty().bind(circle.centerXProperty().add(circle.getRadius()));
+                info.translateYProperty().bind(circle.centerYProperty().subtract(120));
+                id.translateXProperty().bind(circle.centerXProperty().subtract(id.getLayoutBounds().getWidth() / 2));
+                id.translateYProperty().bind(circle.centerYProperty().add(id.getLayoutBounds().getHeight() / 4));
+                var darker = new FillTransition(Duration.millis(750), circle);
+                darker.setFromValue(colorMap.get(creatorName));
+                darker.setToValue(colorMap.get(creatorName).darker().darker());
+                var brighter = new FillTransition(Duration.millis(750), circle);
+                brighter.setFromValue(colorMap.get(creatorName).darker().darker());
+                brighter.setToValue(colorMap.get(creatorName));
+                var transition = new SequentialTransition(darker, brighter);
+                transition.play();
+            }
+        }
+
+        for (var id : infoMap.keySet()) {
+            visualPane.getChildren().add(infoMap.get(id));
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     private void handleAddIfMinButtonClick() {
         FXMLLoader loader = new FXMLLoader();
         // Создаем контроллер для первой сцены

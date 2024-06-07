@@ -101,6 +101,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/org.example.Client" />
       <recent name="$PROJECT_DIR$/src/main/java/org/example/Client" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -217,7 +218,7 @@
       <workItem from="1717709589075" duration="2208000" />
       <workItem from="1717712104421" duration="2104000" />
       <workItem from="1717736576781" duration="9087000" />
-      <workItem from="1717745822967" duration="672000" />
+      <workItem from="1717745822967" duration="7688000" />
     </task>
     <servers />
   </component>
