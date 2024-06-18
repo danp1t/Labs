@@ -1,0 +1,29 @@
+<component name="ArtifactManager">
+  <artifact name="lab8:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/lab8_jar2</output-path>
+    <root id="root">
+      <element id="archive" name="lab8.jar">
+        <element id="module-output" name="lab8" />
+      </element>
+      <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0" />
+      <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.10.1" />
+      <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.4.14" />
+      <element id="library" level="project" name="Maven: org.controlsfx:controlsfx:11.1.2" />
+      <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.4.12" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:17.0.6" />
+      <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.7.3" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:17.0.6" />
+      <element id="library" level="project" name="Maven: junit:junit:4.10" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.42.0" />
+      <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:2.0.7" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:17.0.6" />
+    </root>
+  </artifact>
+</component>

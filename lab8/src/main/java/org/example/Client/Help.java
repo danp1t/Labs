@@ -8,6 +8,8 @@ import javafx.scene.text.Text;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static org.example.Client.Authorization.language;
+
 public class Help {
     @FXML
     private MenuButton TextLanguage;
@@ -56,6 +58,54 @@ public class Help {
 
     @FXML
     private void initialize() {
+        Locale locale = new Locale(language); // Создаем объект Locale для выбранного языка
+        ResourceBundle bundle = ResourceBundle.getBundle("locales/gui", locale); // Загружаем ресурсы для выбранного языка
+        String helpMainMessage = bundle.getString("main_help");
+        String addMessage = bundle.getString("add_help");
+        String addMin = bundle.getString("add_min_help");
+        String addMin2 = bundle.getString("add_min_help2");
+        String executeMessage = bundle.getString("execute_help");
+        String showMessage = bundle.getString("show_help");
+        String clearMessage = bundle.getString("clear_help");
+        String updateMessage = bundle.getString("update_help");
+        String removeMessage = bundle.getString("remove_help");
+        String addMax = bundle.getString("add_max_help");
+        String addMax2 = bundle.getString("add_max_help2");
+        String historyMessage = bundle.getString("history_help");
+        String countMessage = bundle.getString("count_help");
+        String count2Message = bundle.getString("count_help2");
+        String helpMessage = bundle.getString("help_help");
+        String exitMessage = bundle.getString("exit_help");
+        String filterMessage = bundle.getString("filter_help");
+        String filterMessage2 = bundle.getString("filter_help2");
+        String minSem = bundle.getString("min_sem_help");
+        String minSem2 = bundle.getString("min_sem_help2");
+        String infoMessage = bundle.getString("info_help");
+
+
+        // Здесь вы можете установить тексты согласно загруженным ресурсам
+        helpMain.setText(helpMainMessage);
+        add.setText(addMessage);
+        addIfMin.setText(addMin);
+        addIfMin2.setText(addMin2);
+        execute.setText(executeMessage);
+        show.setText(showMessage);
+        clear.setText(clearMessage);
+        update.setText(updateMessage);
+        remove.setText(removeMessage);
+        addIfMax.setText(addMax);
+        addIfMax2.setText(addMax2);
+        history.setText(historyMessage);
+        count.setText(countMessage);
+        count2.setText(count2Message);
+        help.setText(helpMessage);
+        exit.setText(exitMessage);
+        filter.setText(filterMessage);
+        filter2.setText(filterMessage2);
+        minBySem.setText(minSem);
+        minBySem2.setText(minSem2);
+        info.setText(infoMessage);
+
         MenuItem russianItem = new MenuItem("Русский");
         russianItem.setOnAction(event -> changeLanguage("Русский"));
 

@@ -2,13 +2,14 @@ package org.example.Client;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.example.Collections.*;
+import org.example.Exceptions.NotFoundEnum;
+import org.example.Exceptions.NotPositiveField;
 import org.example.Managers.ElementManager;
 import org.w3c.dom.Element;
 
@@ -19,8 +20,10 @@ import java.nio.channels.DatagramChannel;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static org.example.Client.Authorization.login;
@@ -167,17 +170,147 @@ public class AddMax {
 
     public StudyGroup getElement() {
         String name = groupName.getText();
-        Double x1 = Double.parseDouble(x.getText());
-        Double y1 = Double.parseDouble(y.getText());
-        Integer studentCount = Integer.parseInt(studentsCount.getText());
-        Double averageMark1 = Double.parseDouble(averageMark.getText());
+        Double x1 = null;
+        Double y1 = null;
+        Integer studentCount = null;
+        try {
+            x1 = Double.parseDouble(x.getText());
+        }
+        catch (NumberFormatException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Ошибка при вводе поля. Оно должно быть числом с плавающей точкой. Повторите попытку";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            x.setText("");
+        }
+        try {
+            y1 = Double.parseDouble(y.getText());
+        }
+        catch (NumberFormatException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Ошибка при вводе поля. Оно должно быть числом с плавающей точкой. Повторите попытку";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            y.setText("");
+        }
+
+        try {
+            studentCount = Integer.parseInt(studentsCount.getText());
+            if (studentCount <= 0) {
+                throw new NotPositiveField();
+            }
+        }
+        catch (NumberFormatException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Ошибка при вводе поля. Оно должно быть числом с плавающей точкой. Повторите попытку" + "\n" + "Значение этого поля должно быть положительным число. Попробуйте снова";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            studentsCount.setText("");
+        } catch (NotPositiveField e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = e.sendMessage();
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            studentsCount.setText("");
+        }
+        Double averageMark1 = Double.valueOf(0);
+        try {
+            averageMark1 = Double.parseDouble(averageMark.getText());
+            if (averageMark1 <= 0.0) {
+                throw new NotPositiveField();
+            }
+        }
+        catch (NumberFormatException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Введенное значение не соответствует целочисленному типу. Повторите ввод еще раз";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            averageMark.setText("");
+        }
+        catch (NotPositiveField e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = e.sendMessage();
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            averageMark.setText("");
+        }
         FormOfEducation formOfEducation = FormOfEducation.valueOf(formatEducation.getText());
+
         Semester semester1 = Semester.valueOf(semester.getText());
+
         String adminName1 = adminName.getText();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String bithdayStr = birthday.getText();
-        System.out.println(bithdayStr);
-        java.time.LocalDate birthday1 = LocalDate.parse(bithdayStr, formatter);
+        java.time.LocalDate birthday1 = null;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            String bithdayStr = birthday.getText();
+            birthday1 = LocalDate.parse(bithdayStr, formatter);
+        }
+        catch (DateTimeParseException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Неверный формат даты! Попробуйте еще раз";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            birthday.setText("");
+        }
+
+
+
         EyeColor eyeColor = EyeColor.valueOf(eye.getText());
         HairColor hairColor = HairColor.valueOf(hair.getText());
         Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
@@ -187,6 +320,161 @@ public class AddMax {
 
         return studyGroup;
     }
+    public StudyGroup getElement(int ID) {
+        String name = groupName.getText();
+        Double x1 = null;
+        Double y1 = null;
+        Integer studentCount = null;
+        try {
+            x1 = Double.parseDouble(x.getText());
+        }
+        catch (NumberFormatException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Ошибка при вводе поля. Оно должно быть числом с плавающей точкой. Повторите попытку";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            x.setText("");
+        }
+        try {
+            y1 = Double.parseDouble(y.getText());
+        }
+        catch (NumberFormatException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Ошибка при вводе поля. Оно должно быть числом с плавающей точкой. Повторите попытку";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            y.setText("");
+        }
+
+        try {
+            studentCount = Integer.parseInt(studentsCount.getText());
+            if (studentCount <= 0) {
+                throw new NotPositiveField();
+            }
+        }
+        catch (NumberFormatException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Ошибка при вводе поля. Оно должно быть числом с плавающей точкой. Повторите попытку" + "\n" + "Значение этого поля должно быть положительным число. Попробуйте снова";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            studentsCount.setText("");
+        } catch (NotPositiveField e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = e.sendMessage();
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            studentsCount.setText("");
+        }
+        Double averageMark1 = Double.valueOf(0);
+        try {
+            averageMark1 = Double.parseDouble(averageMark.getText());
+            if (averageMark1 <= 0.0) {
+                throw new NotPositiveField();
+            }
+        }
+        catch (NumberFormatException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Введенное значение не соответствует целочисленному типу. Повторите ввод еще раз";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            averageMark.setText("");
+        }
+        catch (NotPositiveField e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = e.sendMessage();
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            averageMark.setText("");
+        }
+        FormOfEducation formOfEducation = FormOfEducation.valueOf(formatEducation.getText());
+
+
+        Semester semester1 = Semester.valueOf(semester.getText());
+
+
+        String adminName1 = adminName.getText();
+        java.time.LocalDate birthday1 = null;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            String bithdayStr = birthday.getText();
+            birthday1 = LocalDate.parse(bithdayStr, formatter);
+        }
+        catch (DateTimeParseException e) {
+            Stage stage = new Stage();
+            TextArea textArea = new TextArea();
+
+            // Здесь можно добавить логику для получения информации из консоли
+            // Например, если у вас есть строка с информацией infoString, то можно добавить:
+            String infoString = "Неверный формат даты! Попробуйте еще раз";
+            textArea.setText(infoString);
+
+            Scene scene = new Scene(new Group(textArea), 400, 200);
+            stage.setScene(scene);
+            stage.setTitle("ERROR");
+            stage.show();
+            birthday.setText("");
+        }
+
+
+
+        EyeColor eyeColor = EyeColor.valueOf(eye.getText());
+        HairColor hairColor = HairColor.valueOf(hair.getText());
+        Person admin = new Person(adminName1, birthday1, eyeColor, hairColor);
+        Coordinates coordinates = new Coordinates(x1, y1);
+        LocalDateTime creatingData = createDateCreating();
+        StudyGroup studyGroup = new StudyGroup(ID, name, coordinates, creatingData, studentCount, averageMark1, formOfEducation, semester1, admin);
+
+        return studyGroup;
+    }
+
 
     private LocalDateTime createDateCreating() {
         LocalDateTime now = LocalDateTime.now();
@@ -197,6 +485,9 @@ public class AddMax {
 
     private void handleReadyButtonClick() {
         StudyGroup element = getElement();
+        if (Objects.isNull(element)) {
+            return;
+        }
         try (DatagramChannel channel = DatagramChannel.open()) {
             channel.configureBlocking(false);
             int port = 8932;

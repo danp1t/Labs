@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="lab8:jar" />
+      <artifact name="lab8:jar2" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,12 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe743a28-7490-4246-bb8d-bd8744dc20e4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Authorization.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Registration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org.example.Client/Client.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org.example.Client/authorization.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org.example.Client/registration.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/lab8_jar2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lab5/src/main/java/org/example/Files/Collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/../lab5/src/main/java/org/example/Files/Collection.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lab5/src/main/java/org/example/Files/create_script.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab5/src/main/java/org/example/Files/create_script.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lab5/src/main/java/org/example/Files/script.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab5/src/main/java/org/example/Files/script.txt" afterDir="false" />
@@ -30,13 +25,20 @@
       <change beforePath="$PROJECT_DIR$/../lab6/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../lab6/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lab6/target/classes/org/example/Commands/InfoCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/../lab6/target/classes/org/example/Commands/InfoCommand.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lab6/target/classes/org/example/Server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/../lab6/target/classes/org/example/Server/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/lab8_jar/lab8.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/lab8_jar/lab8.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/AddMax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/AddMax.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/AddMin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/AddMin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/Authorization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Authorization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/Client2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Client2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/Help.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Help.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/InputElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/InputElement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/lab8/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/lab8/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/Registration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Registration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Client/Wrongpassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Client/Wrongpassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Commands/RemoveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Commands/RemoveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,30 +77,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/danp1t/github/Labs/lab8/src/main/resources/org.example.Client&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App.executor": "Run",
+    "Application.Client.executor": "Run",
+    "Application.Client2.executor": "Run",
+    "Application.HelloApplication.executor": "Run",
+    "Application.Main (1).executor": "Run",
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/danp1t/github/auto-py-to-exe",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/org.example.Client" />
@@ -109,12 +112,12 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Client">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.App" />
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.Client.Client" />
       <module name="lab8" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.*" />
+          <option name="PATTERN" value="org.example.Client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -122,8 +125,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.Client.Client" />
+    <configuration name="Client2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.Client.Client2" />
       <module name="lab8" />
       <extension name="coverage">
         <pattern>
@@ -171,10 +174,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Client" />
+        <item itemvalue="Application.Client2" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.HelloApplication" />
-        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
@@ -220,7 +223,11 @@
       <workItem from="1717736576781" duration="9087000" />
       <workItem from="1717745822967" duration="10751000" />
       <workItem from="1717757064919" duration="7829000" />
-      <workItem from="1717765726275" duration="8202000" />
+      <workItem from="1717765726275" duration="15760000" />
+      <workItem from="1717781850237" duration="428000" />
+      <workItem from="1717782611630" duration="3369000" />
+      <workItem from="1717786264470" duration="357000" />
+      <workItem from="1717786815181" duration="1360000" />
     </task>
     <servers />
   </component>

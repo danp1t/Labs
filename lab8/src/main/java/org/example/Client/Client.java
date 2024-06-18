@@ -3,8 +3,10 @@ package org.example.Client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import org.example.Collections.StudyGroup;
 
@@ -58,12 +60,16 @@ public class Client extends Application {
 
 
     public static void main(String[] args) {
+
+
+
         launch(args);
 
         // Создаем и запускаем новый поток для сетевых операций
         Thread networkThread = new Thread(new NetworkThread());
         networkThread.start();
-    }
+        }
+
 }
 
 class NetworkThread implements Runnable {
@@ -120,7 +126,6 @@ class NetworkThread implements Runnable {
 
 
 }
-
 
 
 

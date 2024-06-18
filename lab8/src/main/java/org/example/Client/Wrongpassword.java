@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static org.example.Client.Authorization.language;
+
 public class Wrongpassword {
     @FXML
     private MenuButton TextLanguage;
@@ -26,6 +28,17 @@ public class Wrongpassword {
 
     @FXML
     private void initialize() {
+        Locale locale = new Locale(language); // Создаем объект Locale для выбранного языка
+        ResourceBundle bundle = ResourceBundle.getBundle("locales/gui", locale);
+        String message1 = bundle.getString("wrong_password_1");
+        String message2 = bundle.getString("wrong_password_2");
+        String textButton = bundle.getString("wrong_password_button");
+
+        // Здесь вы можете установить тексты согласно загруженным ресурсам
+        wrongPassword1.setText(message1);
+        wrongPassword2.setText(message2);
+        Ok.setText(textButton);
+
         Ok.setOnAction(event -> {
             try {
                 handleOkButtonClick();

@@ -76,6 +76,7 @@ public class RemoveCommand implements Command {
             ps = db.prepareStatement(query123);
             ps.setInt(1, loginID);
             ps.setInt(2, id);
+            ps.execute();
             lock.writeLock().unlock();
 
 
@@ -97,6 +98,7 @@ public class RemoveCommand implements Command {
             lock.writeLock().unlock();
             collectionManager.setStudyGroups(newStudyGroups);
             collectionManager.getHashSet();
+
 
 
         }

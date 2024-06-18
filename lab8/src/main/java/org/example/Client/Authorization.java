@@ -48,6 +48,19 @@ public class Authorization {
 
     @FXML
     private void initialize() {
+        Locale locale = new Locale(language); // Создаем объект Locale для выбранного языка
+        ResourceBundle bundle = ResourceBundle.getBundle("locales/gui", locale); // Загружаем ресурсы для выбранного языка
+        String auth = bundle.getString("auth");
+        String login_text = bundle.getString("login_text");
+        String password_text = bundle.getString("password_text");
+        String auth_button = bundle.getString("auth_button");
+
+        // Здесь вы можете установить тексты согласно загруженным ресурсам
+        authText.setText(auth);
+        Auth.setText(auth_button);
+        passwordText.setText(password_text);
+        loginText.setText(login_text);
+
         Auth.setOnAction(event -> handleLoginButtonClick());
         MenuItem russianItem = new MenuItem("Русский");
         russianItem.setOnAction(event -> changeLanguage("Русский"));

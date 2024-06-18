@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static org.example.Client.Authorization.language;
+
 public class Registration {
     @FXML
     private MenuButton TextLanguage;
@@ -33,6 +35,15 @@ public class Registration {
 
     @FXML
     private void initialize() {
+        Locale locale = new Locale(language); // Создаем объект Locale для выбранного языка
+        ResourceBundle bundle = ResourceBundle.getBundle("locales/gui", locale);
+        String message1 = bundle.getString("registation_message_1");
+        String message2 = bundle.getString("registation_message_2");
+        String message3 = bundle.getString("registation_message_3");
+
+        registationMessage1.setText(message1);
+        registationMessage2.setText(message2);
+        registationMessage3.setText(message3);
         Ok.setOnAction(event -> {
             try {
                 handleOkButtonClick();

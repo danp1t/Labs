@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.fxml.FXML;
@@ -46,8 +47,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static org.example.Client.Authorization.login;
-import static org.example.Client.Authorization.password;
+import static org.example.Client.Authorization.*;
+import static org.example.Client.Authorization.language;
 import static org.example.Client.Client.primaryStage;
 import static org.example.Client.ClientGetAnswer.getAnswer;
 import static org.example.Client.ClientResponds.getRespond;
@@ -75,6 +76,8 @@ public class Main {
     private Button addIfMinButton;
     @FXML
     private Button addButton;
+    public static int MAINID;
+    public static boolean MAINFLAG = false;
     @FXML
     private Button removeButton;
     @FXML
@@ -227,6 +230,28 @@ public class Main {
                             AdminNameColumn.setEditable(false);
                         }
                     }
+                    if (event.getButton() == MouseButton.SECONDARY) {
+                        if (event.getButton() == MouseButton.SECONDARY) {
+                            Table rowData = row.getItem();
+                            if (rowData.getWhoCreatedId().equals(login)) {
+                                try (DatagramChannel channel1 = DatagramChannel.open()) {
+                                    channel1.configureBlocking(false);
+                                    int port1 = 8932;
+                                    ByteBuffer buffer1 = ByteBuffer.allocate(8192);
+                                    InetSocketAddress serverAddress1 = new InetSocketAddress("192.168.10.80", port1);
+                                    String line1 = "remove_by_id " + rowData.getId();
+                                    StudyGroup element1 = new StudyGroup();
+                                    Commands command1 = getCommand(line1, channel1, serverAddress1, buffer1, login, password, element1);
+                                    sendCommand(command1, channel1, serverAddress1, buffer1);
+                                    System.out.println(getRespond(buffer1, channel1));
+                                    Thread.sleep(500);
+                                    updateTable();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                    }}}
                 });
                 return row;
             });
@@ -551,6 +576,12 @@ public class Main {
     @FXML
     private void initialize() {
         updateTable();
+        Locale locale = new Locale(language); // Создаем объект Locale для выбранного языка
+        ResourceBundle bundle = ResourceBundle.getBundle("locales/gui", locale);
+
+        String userLabel2 = bundle.getString("user_main_label");
+        userLabel.setText(userLabel2 + " " + login);
+
 
         colorMap = new HashMap<>();
         infoMap = new HashMap<>();
@@ -632,7 +663,10 @@ public class Main {
         });
 
         TextLanguage.getItems().addAll(russianItem, slovakItem, danishItem, englishItem);
-    }
+
+
+        }
+
     private void handleFilterButtonClick() {
         ObservableList<Table> tables = FXCollections.observableArrayList();
         try (DatagramChannel channel = DatagramChannel.open()) {
@@ -736,13 +770,13 @@ public class Main {
                 int port = 8932;
                 ByteBuffer buffer = ByteBuffer.allocate(8192);
                 InetSocketAddress serverAddress = new InetSocketAddress("192.168.10.80", port);
-                System.out.println(id);
                 String line = "remove_by_id " + id;
                 StudyGroup element = new StudyGroup();
                 Commands command = getCommand(line, channel, serverAddress, buffer, login, password, element);
                 sendCommand(command, channel, serverAddress, buffer);
                 System.out.println(getRespond(buffer, channel));
                 Thread.sleep(500);
+                updateTable();
 
 
 
@@ -821,14 +855,14 @@ public class Main {
             String groupName = table.getGroupName();
             Double xStr = table.getX();
             Double yStr = table.getY();
-            java.time.LocalDateTime creationDate = table.getCreationDate();
+            LocalDateTime creationDate = table.getCreationDate();
             int studentsCount = table.getStudentsCount();
             Double averageMark = table.getAverageMark();
             FormOfEducation formOfEducation = table.getFormOfEducation();
             Semester semester = table.getSemester();
             int adminId = table.getAdminId();
             String adminName = table.getAdminName();
-            java.time.LocalDate birthday = table.getBirthday();
+            LocalDate birthday = table.getBirthday();
             HairColor adminHairColor = table.getAdminHairColor();
             EyeColor adminEyeColor = table.getAdminEyeColor();
             String label = "whoCreatedID = " + whoCreatedId + "\n" + "groupName = " + groupName + "\n" + "x = " + xStr + "\n" + "y = " +yStr + "\n" + "creationDate = " + creationDate + "\n" + "studentsCount =" + studentsCount + "\n" + "averageMark = " + averageMark + "\n" + "formOfEducation =" + formOfEducation + "\n" + "semester = " + semester + "\n" + "adminId = " + adminId + "\n" + "adminName = " + adminName + "\n" + "birthday = " + birthday + "\n" + "adminHairColor =" + adminHairColor + "\n" + "adminEyeColor =" + adminEyeColor + "\n";
@@ -842,6 +876,42 @@ public class Main {
                 id.setVisible(false);
                 info.setVisible(true);
                 rectangle.setFill(colorMap.get(creatorName).brighter());
+            });
+
+            rectangle.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getClickCount() == 2) {
+
+
+                        MAINFLAG = true;
+                        MAINID = table.getId();
+
+
+                        FXMLLoader loader = new FXMLLoader();
+                        // Создаем контроллер для первой сцены
+
+
+                        Parent firstScene = null;
+                        try {
+                            firstScene = loader.load(getClass().getResource("/org.example.Client/inputElement.fxml"));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+
+                        InputElement SecondSceneController = new InputElement();
+
+                        // Устанавливаем контроллер для первой сцены
+                        loader.setController(SecondSceneController);
+                        primaryStage.setScene(new Scene(firstScene));
+                        // Устанавливаем позицию всплывающего окна относительно основного окна
+
+
+                        primaryStage.show();
+
+
+
+                }
+
             });
 
             rectangle.setOnMouseExited(mouseEvent -> {
@@ -1216,6 +1286,7 @@ public class Main {
 
         String userLabel2 = bundle.getString("user_main_label");
         userLabel.setText(userLabel2 + " " + login);
+
 
 
         // Здесь вы можете выполнить другие действия, связанные с изменением языка
